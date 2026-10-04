@@ -1,0 +1,18 @@
+# Uploaded to Expo's build servers: code only. Never secrets, local data or build output.
+node_modules/
+**/node_modules/
+.env
+**/.env
+**/.env.*
+!**/.env.example
+.expo/
+**/.expo/
+dist/
+*.log
+apps/server/.data/
+apps/server/.data-old-copy/
+apps/server/uploads/
+packages/emails/preview/
+apps/mobile/android/
+apps/mobile/ios/
+brand/png/*.svg

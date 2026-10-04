@@ -1,0 +1,22 @@
+{
+  "name": "@triverse/emails",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "scripts": {
+    "dev": "email dev --dir emails --port 3030",
+    "export": "email export --dir emails --outDir out",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@triverse/shared": "*",
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
+    "react-email": "^6.11.0"
+  },
+  "devDependencies": {
+    "@types/react": "~19.2.2"
+  }
+}

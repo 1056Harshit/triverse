@@ -1,0 +1,13 @@
+{
+  "name": "triverse",
+  "private": true,
+  "workspaces": ["apps/*", "packages/*"],
+  "scripts": {
+    "brand": "node brand/export.js",
+    "server": "npm run dev -w @triverse/server",
+    "mobile": "npm run start -w @triverse/mobile",
+    "emails": "npm run dev -w @triverse/emails",
+    "typecheck": "npm run typecheck --workspaces --if-present"
+  },
+  "devDependencies": { "sharp": "^0.34.0", "typescript": "^5.6.0" }
+}

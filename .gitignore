@@ -1,0 +1,16 @@
+node_modules/
+.expo/
+dist/
+*.log
+.env
+apps/server/.data/
+apps/server/.data-old-copy/
+apps/server/uploads/
+packages/emails/preview/*.html
+ios/
+android/
+
+# Local/test artefacts
+apps/server/.data-old-copy/
+.easignore.bak
+*.tsbuildinfo
