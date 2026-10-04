@@ -135,7 +135,8 @@ export default function Settings() {
         <Link label="Privacy policy" url="https://pvtfrnd.com/privacy" />
         <Link label="Terms of service" url="https://pvtfrnd.com/terms" />
         <Link label="Help & support" url="https://pvtfrnd.com/help" />
-        <P small muted>Maps data © OpenStreetMap contributors. Banner photos from Wikimedia Commons (credited on each photo). Prices shown in the app are estimates and not confirmed.</P>
+        <PhotoCredits />
+        <P small muted>Maps data © OpenStreetMap contributors. Prices shown in the app are estimates and not confirmed.</P>
         <P small muted>TriVerse 1.0.0 · by PvtFrnd</P>
       </Section>
 
@@ -143,6 +144,45 @@ export default function Settings() {
       <Button label="Delete my account" variant="danger" onPress={confirmDelete} />
       <View style={{ height: 20 }} />
     </Screen>
+  );
+}
+
+interface Credit { url: string; credit: string; license: string; page: string }
+
+/** Licence attribution for the banner photos (CC BY / CC BY-SA require crediting the author). */
+function PhotoCredits() {
+  const t = useTheme();
+  const [open, setOpen] = useState(false);
+  const [credits, setCredits] = useState<Credit[] | null>(null);
+  const toggle = async () => {
+    setOpen(!open);
+    if (!credits) {
+      const lists = await Promise.all(["farm", "ride", "travel"].map((s) => api<Credit[]>(`/media/hero/${s}`).catch(() => [])));
+      const seen = new Set<string>();
+      setCredits(lists.flat().filter((c) => !seen.has(c.page) && (seen.add(c.page), true)));
+    }
+  };
+  return (
+    <View>
+      <Pressable onPress={toggle} style={{ paddingVertical: 8, flexDirection: "row", justifyContent: "space-between" }}>
+        <Text style={{ color: t.text, fontWeight: "600" }}>Photo credits</Text>
+        <Text style={{ color: t.muted }}>{open ? "▾" : "›"}</Text>
+      </Pressable>
+      {open && (
+        <View style={{ gap: 6, paddingBottom: 6 }}>
+          <Text style={{ color: t.muted, fontSize: 12 }}>Dashboard photos from Wikimedia Commons, used under their licences:</Text>
+          {!credits && <Text style={{ color: t.muted, fontSize: 12 }}>Loading…</Text>}
+          {credits?.map((c) => (
+            <Pressable key={c.page} onPress={() => Linking.openURL(c.page)}>
+              <Text style={{ color: t.text, fontSize: 12 }}>
+                📷 {decodeURIComponent(c.page.split("File:")[1] ?? "").replace(/_/g, " ").replace(/\.[a-z]+$/i, "")}{"\n"}
+                <Text style={{ color: t.muted }}>{c.credit}{c.license ? ` · ${c.license}` : ""} ↗</Text>
+              </Text>
+            </Pressable>
+          ))}
+        </View>
+      )}
+    </View>
   );
 }
 

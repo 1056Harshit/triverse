@@ -54,7 +54,7 @@ export default function Welcome() {
             {SERVICE_IDS.map((s, i) => {
               const last = i === SERVICE_IDS.length - 1 && SERVICE_IDS.length % 2 === 1;
               return (
-                <Animated.View key={s} entering={FadeInUp.delay(2400 + i * 110).springify().damping(16)}
+                <Animated.View key={s} entering={FadeInUp.delay(800 + i * 70).springify().damping(16)}
                   style={{ width: last ? "100%" : tileW, flexDirection: "row", alignItems: "center", gap: 10, backgroundColor: "rgba(255,255,255,0.07)", borderRadius: 16, paddingVertical: 10, paddingHorizontal: 12, borderWidth: 1, borderColor: "rgba(255,255,255,0.12)", overflow: "hidden" }}>
                   <View style={{ position: "absolute", left: 0, top: 0, bottom: 0, width: 3, backgroundColor: SERVICES[s].primary }} />
                   <View style={{ width: 36, height: 36, borderRadius: 11, backgroundColor: SERVICES[s].tint, alignItems: "center", justifyContent: "center" }}>
@@ -72,7 +72,7 @@ export default function Welcome() {
           {/* Pushes the buttons to the bottom on tall screens */}
           <View style={{ flex: 1, minHeight: 4 }} />
 
-          <Animated.View entering={FadeInDown.delay(2900).springify()} style={{ gap: 10 }}>
+          <Animated.View entering={FadeInDown.delay(1150).springify()} style={{ gap: 10 }}>
             <Button label="Continue with phone" onPress={() => router.push({ pathname: "/login", params: { channel: "sms" } })} />
             <Button label="Continue with email" variant="secondary" onPress={() => router.push({ pathname: "/login", params: { channel: "email" } })} />
             {googleAvailable && <Button label="Continue with Google" variant="secondary" loading={busy === "google"} onPress={() => social("google")} icon={<Text style={{ fontSize: 18, fontWeight: "800", color: "#4285F4" }}>G</Text>} />}

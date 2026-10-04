@@ -27,7 +27,8 @@ export function Tilt3D({ children, onPress, style, depth = 10 }: { children: Rea
         }}
         onPressOut={() => { rx.set(withSpring(0)); ry.set(withSpring(0)); s.set(withSpring(1)); }}
         onPress={onPress}
-        style={{ flex: 1 }}>
+        // flexGrow (not flex: 1) keeps the content's natural height; inside a stretched row it simply fills it.
+        style={{ flexGrow: 1 }}>
         {children}
       </Pressable>
     </Animated.View>

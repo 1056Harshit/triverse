@@ -6,7 +6,6 @@ import { Haptics } from "@/lib/haptics";
 import { Button, H, P, useTheme } from "@/components/ui";
 import { api, ApiError } from "@/lib/api";
 import { useAuth } from "@/lib/auth";
-import { getDevCode } from "@/lib/devCode";
 
 const LEN = 6;
 
@@ -14,7 +13,6 @@ export default function Otp() {
   const t = useTheme();
   const { signIn } = useAuth();
   const { channel, target } = useLocalSearchParams<{ channel: "sms" | "email"; target: string }>();
-  const [devCode, setDevCode] = useState(() => getDevCode(target));
   const [code, setCode] = useState("");
   const [error, setError] = useState<string>();
   const [busy, setBusy] = useState(false);
@@ -43,8 +41,8 @@ export default function Otp() {
   const resend = async () => {
     setError(undefined);
     try {
-      const r = await api<{ devCode?: string }>("/auth/otp/send", { body: { channel, target } });
-      setDevCode(r.devCode); setWait(30);
+      await api("/auth/otp/send", { body: { channel, target } });
+      setWait(30);
     }
     catch (e) { setError(e instanceof ApiError ? e.message : "Couldn't resend."); }
   };
@@ -69,13 +67,6 @@ export default function Otp() {
         onChangeText={(v) => { const c = v.replace(/\D/g, ""); setCode(c); if (c.length === LEN) verify(c); }}
         style={{ position: "absolute", opacity: 0, height: 1, width: 1 }} />
       {error && <Text style={{ color: t.danger }}>{error}</Text>}
-      {devCode && (
-        <Pressable onPress={() => { setCode(devCode); verify(devCode); }}
-          style={{ backgroundColor: "#FEF3C7", borderRadius: 14, padding: 14, borderWidth: 1, borderColor: "#F59E0B" }}>
-          <Text style={{ color: "#92400E", fontWeight: "800" }}>🧪 Local test mode: your code is {devCode}</Text>
-          <Text style={{ color: "#92400E", fontSize: 12 }}>Tap to fill. Real {channel === "email" ? "emails" : "SMS"} are sent once a provider is configured.</Text>
-        </Pressable>
-      )}
 
       <Pressable disabled={wait > 0} onPress={resend}>
         <Text style={{ color: wait > 0 ? t.subtle : t.primary, fontWeight: "700" }}>{wait > 0 ? `Resend code in ${wait}s` : "Resend code"}</Text>

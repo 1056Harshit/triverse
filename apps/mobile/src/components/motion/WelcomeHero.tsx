@@ -2,13 +2,11 @@ import { useEffect } from "react";
 import { View, useWindowDimensions } from "react-native";
 import Svg, { Circle, Defs, Ellipse, Path, RadialGradient, Stop } from "react-native-svg";
 import Animated, {
-  Easing, FadeIn, interpolate, useAnimatedProps, useAnimatedStyle, useSharedValue, withDelay, withRepeat, withTiming,
+  Easing, FadeIn, interpolate, useAnimatedStyle, useSharedValue, withDelay, withRepeat, withTiming,
   type SharedValue,
 } from "react-native-reanimated";
 import { SERVICES } from "@triverse/shared";
-import { useTilt } from "./useTilt";
 
-const ACircle = Animated.createAnimatedComponent(Circle);
 
 const INK = "#060A18";
 const C = { farm: SERVICES.farm.primary, ride: SERVICES.ride.primary, dine: SERVICES.dine.primary };
@@ -27,55 +25,49 @@ function useLoop(duration: number, { delay = 0, bounce = false, easing = Easing.
 
 /* ───────────────────────── Aurora backdrop ───────────────────────── */
 
-/** Near-black ink with three soft colour glows drifting slowly; layers parallax with phone tilt. */
+/**
+ * Near-black ink with three soft colour glows and a few stars.
+ * Performance: the SVG is drawn once; only one View drifts (cheap native transform),
+ * and all stars twinkle together as one layer, so mid-range Android phones stay smooth.
+ */
 export function WelcomeBackdrop() {
   const { width: W, height: H } = useWindowDimensions();
-  const tilt = useTilt();
-  const drift = useLoop(14000, { bounce: true, easing: Easing.inOut(Easing.sin) });
+  const drift = useLoop(16000, { bounce: true, easing: Easing.inOut(Easing.sin) });
+  const twinkle = useLoop(2600, { bounce: true, easing: Easing.inOut(Easing.quad) });
+  const driftStyle = useAnimatedStyle(() => ({ transform: [{ translateX: interpolate(drift.get(), [0, 1], [-18, 18]) }, { translateY: interpolate(drift.get(), [0, 1], [12, -12]) }] }));
+  const starStyle = useAnimatedStyle(() => ({ opacity: interpolate(twinkle.get(), [0, 1], [0.25, 0.8]) }));
   return (
-    <View pointerEvents="none" style={{ position: "absolute", left: 0, right: 0, top: 0, bottom: 0, backgroundColor: INK }}>
-      <Svg width={W} height={H}>
-        <Defs>
-          {(["farm", "ride", "dine"] as const).map((k) => (
-            <RadialGradient key={k} id={`glow-${k}`} cx="50%" cy="50%" r="50%">
-              <Stop offset="0" stopColor={C[k]} stopOpacity={0.55} />
-              <Stop offset="0.45" stopColor={C[k]} stopOpacity={0.18} />
-              <Stop offset="1" stopColor={C[k]} stopOpacity={0} />
-            </RadialGradient>
-          ))}
-        </Defs>
-        <Glow id="glow-farm" r={W * 0.75} x={[W * 0.05, W * 0.25]} y={[H * 0.12, H * 0.2]} drift={drift} tilt={tilt} depth={24} />
-        <Glow id="glow-ride" r={W * 0.85} x={[W * 1.0, W * 0.8]} y={[H * 0.38, H * 0.3]} drift={drift} tilt={tilt} depth={14} />
-        <Glow id="glow-dine" r={W * 0.7} x={[W * 0.15, W * 0.35]} y={[H * 0.95, H * 0.82]} drift={drift} tilt={tilt} depth={30} />
-      </Svg>
-      {/* Fine grain of stars for depth */}
-      {Array.from({ length: 26 }, (_, i) => <Star key={i} x={(i * 137) % W} y={(i * 211) % H} delay={i * 170} tilt={tilt} />)}
+    <View pointerEvents="none" style={{ position: "absolute", left: 0, right: 0, top: 0, bottom: 0, backgroundColor: INK, overflow: "hidden" }}>
+      <Animated.View style={[{ position: "absolute", left: -30, top: -30, width: W + 60, height: H + 60 }, driftStyle]}>
+        <Svg width={W + 60} height={H + 60}>
+          <Defs>
+            {(["farm", "ride", "dine"] as const).map((k) => (
+              <RadialGradient key={k} id={`glow-${k}`} cx="50%" cy="50%" r="50%">
+                <Stop offset="0" stopColor={C[k]} stopOpacity={0.5} />
+                <Stop offset="0.45" stopColor={C[k]} stopOpacity={0.16} />
+                <Stop offset="1" stopColor={C[k]} stopOpacity={0} />
+              </RadialGradient>
+            ))}
+          </Defs>
+          <Circle cx={W * 0.12} cy={H * 0.15} r={W * 0.75} fill="url(#glow-farm)" />
+          <Circle cx={W * 0.95} cy={H * 0.36} r={W * 0.85} fill="url(#glow-ride)" />
+          <Circle cx={W * 0.25} cy={H * 0.9} r={W * 0.7} fill="url(#glow-dine)" />
+        </Svg>
+      </Animated.View>
+      <Animated.View style={[{ position: "absolute", left: 0, top: 0, width: W, height: H }, starStyle]}>
+        {Array.from({ length: 10 }, (_, i) => (
+          <View key={i} style={{ position: "absolute", left: (i * 137 + 23) % W, top: (i * 211 + 41) % H, width: 2, height: 2, borderRadius: 1, backgroundColor: "#fff" }} />
+        ))}
+      </Animated.View>
     </View>
   );
-}
-
-function Glow({ id, r, x, y, drift, tilt, depth }: { id: string; r: number; x: [number, number]; y: [number, number]; drift: SharedValue<number>; tilt: { x: SharedValue<number>; y: SharedValue<number> }; depth: number }) {
-  const props = useAnimatedProps(() => ({
-    cx: interpolate(drift.get(), [0, 1], x) + tilt.x.get() * depth,
-    cy: interpolate(drift.get(), [0, 1], y) + tilt.y.get() * depth,
-  }));
-  return <ACircle r={r} fill={`url(#${id})`} animatedProps={props} />;
-}
-
-function Star({ x, y, delay, tilt }: { x: number; y: number; delay: number; tilt: { x: SharedValue<number>; y: SharedValue<number> } }) {
-  const t = useLoop(2200 + (delay % 1300), { delay, bounce: true, easing: Easing.inOut(Easing.quad) });
-  const s = useAnimatedStyle(() => ({
-    opacity: interpolate(t.get(), [0, 1], [0.08, 0.7]),
-    transform: [{ translateX: tilt.x.get() * 36 }, { translateY: tilt.y.get() * 24 }],
-  }));
-  return <Animated.View style={[{ position: "absolute", left: x, top: y, width: 2, height: 2, borderRadius: 1, backgroundColor: "#fff" }, s]} />;
 }
 
 /* ───────────────────── Dot globe with landing pin ───────────────────── */
 
 const GLOBE_DOTS = (() => {
   // Fibonacci sphere: evenly spread points; colour by latitude band (Farm top, Ride middle, Dine bottom).
-  const n = 170, pts: { lat: number; lon: number; color: string }[] = [];
+  const n = 80, pts: { lat: number; lon: number; color: string }[] = [];
   const golden = Math.PI * (3 - Math.sqrt(5));
   for (let i = 0; i < n; i++) {
     const y = 1 - (i / (n - 1)) * 2;
@@ -130,12 +122,12 @@ function Orbit({ cx, cy, rx, ry, spark, size }: { cx: number; cy: number; rx: nu
 
 export function GlobeMark({ size = 260 }: { size?: number }) {
   const r = size * 0.31, cx = size / 2, cy = size * 0.6;
-  const appear = useOnce(1200, 100, Easing.out(Easing.back(1.4)));
+  const appear = useOnce(800, 0, Easing.out(Easing.back(1.4)));
   const spin = useLoop(16000, { delay: 0 });
-  const spark = useLoop(5000, { delay: 1400 });
-  const drop = useOnce(900, 1100, Easing.bounce);
-  const ripple = useLoop(2200, { delay: 1900, easing: Easing.out(Easing.quad) });
-  const float = useLoop(3200, { delay: 2100, bounce: true, easing: Easing.inOut(Easing.sin) });
+  const spark = useLoop(5000, { delay: 900 });
+  const drop = useOnce(700, 450, Easing.bounce);
+  const ripple = useLoop(2200, { delay: 1150, easing: Easing.out(Easing.quad) });
+  const float = useLoop(3200, { delay: 1300, bounce: true, easing: Easing.inOut(Easing.sin) });
 
   const pin = useAnimatedStyle(() => ({
     opacity: interpolate(drop.get(), [0, 0.15], [0, 1], "clamp"),
@@ -183,16 +175,16 @@ export function AnimatedWordmark({ size = 46 }: { size?: number }) {
 }
 
 function FlipLetter({ ch, i, size }: { ch: string; i: number; size: number }) {
-  const t = useOnce(650, 1500 + i * 70, Easing.out(Easing.back(1.8)));
+  const t = useOnce(500, 600 + i * 45, Easing.out(Easing.back(1.8)));
   const s = useAnimatedStyle(() => ({ opacity: t.get(), transform: [{ perspective: 400 }, { rotateX: `${interpolate(t.get(), [0, 1], [90, 0])}deg` }, { translateY: interpolate(t.get(), [0, 1], [10, 0]) }] }));
   return <Animated.Text style={[{ fontSize: size, fontWeight: "900", letterSpacing: -1, color: i < 3 ? "#FFFFFF" : "#9DB8FF" }, s]}>{ch}</Animated.Text>;
 }
 
 const WORDS: [string, string][] = [["Grow.", C.farm], ["Go.", C.ride], ["Dine.", C.dine]];
 function TaglineCycle() {
-  const t = useLoop(WORDS.length * 1600, { delay: 2300 });
+  const t = useLoop(WORDS.length * 1600, { delay: 1100 });
   return (
-    <Animated.View entering={FadeIn.delay(2300)} style={{ height: 30, width: 220, overflow: "hidden", flexDirection: "row", justifyContent: "center", alignItems: "center", gap: 8 }}>
+    <Animated.View entering={FadeIn.delay(1000)} style={{ height: 30, width: 220, overflow: "hidden", flexDirection: "row", justifyContent: "center", alignItems: "center", gap: 8 }}>
       <Animated.Text style={{ color: "rgba(255,255,255,0.7)", fontSize: 17, fontWeight: "600" }}>One app to</Animated.Text>
       <View style={{ width: 70, height: 30 }}>
         {WORDS.map(([w, c], i) => <CycleWord key={w} word={w} color={c} i={i} t={t} />)}

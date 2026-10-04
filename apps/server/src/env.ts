@@ -13,7 +13,7 @@ const Env = z.object({
   JWT_SECRET: z.string().min(32).default("dev-only-secret-change-me-dev-only-secret"),
   OTP_PEPPER: z.string().min(16).default("dev-only-otp-pepper"),
   /** When true, OTPs are logged instead of sent (local development only). */
-  OTP_DEV_ECHO: z.coerce.boolean().default(false),
+  OTP_DEV_ECHO: z.enum(["true", "false"]).default("false").transform((v) => v === "true"),
 
   ANTHROPIC_API_KEY: z.string().optional(),
   CLAUDE_MODEL: z.string().default("claude-opus-5-5"),

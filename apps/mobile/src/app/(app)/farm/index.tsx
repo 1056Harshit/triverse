@@ -69,7 +69,7 @@ function Farm() {
         ) : <P muted>{denied ? "Allow location to see local weather and spray windows." : "Loading local forecast…"}</P>}
       </Card></Stagger>
 
-      <Stagger index={2}><Row style={{ flexWrap: "wrap" }}>
+      <Stagger index={2}><Row style={{ flexWrap: "wrap", alignItems: "stretch" }}>
         <Tile emoji="💬" title="Ask Krishi Mitra" subtitle="Any crop question, any language" onPress={() => ask("")} />
         <Tile emoji="🧪" title="Find pesticide" subtitle="Registered only, best price" onPress={() => ask("I need a pesticide for my crop. Where can I buy it online, at what price, and how do I use it safely?")} />
         <Tile emoji="🗓" title="Crop calendar" subtitle={`${s.name} season plan`} onPress={() => ask(`Give me a ${s.name} season crop calendar for my area with sowing, fertiliser and spray dates.`)} />

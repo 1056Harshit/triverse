@@ -5,7 +5,6 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { PinMark } from "@/components/Logo";
 import { Button, Field, H, P, useTheme } from "@/components/ui";
 import { api, ApiError } from "@/lib/api";
-import { setDevCode } from "@/lib/devCode";
 
 export default function Login() {
   const t = useTheme();
@@ -20,8 +19,7 @@ export default function Login() {
   const send = async () => {
     setBusy(true); setError(undefined);
     try {
-      const r = await api<{ target: string; devCode?: string }>("/auth/otp/send", { body: { channel, target: channel === "sms" ? value : value.trim() } });
-      setDevCode(r.target, r.devCode);
+      const r = await api<{ target: string }>("/auth/otp/send", { body: { channel, target: channel === "sms" ? value : value.trim() } });
       router.push({ pathname: "/otp", params: { channel, target: r.target } });
     } catch (e) {
       setError(e instanceof ApiError ? e.message : "Couldn't send the code. Check your connection.");

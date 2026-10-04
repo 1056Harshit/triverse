@@ -41,7 +41,7 @@ function Scene({ colors, children, title, subtitle, dark = true }: { colors: [st
       <LinearGradient pointerEvents="none" colors={["transparent", "rgba(0,0,0,0.45)"]} style={{ position: "absolute", left: 0, right: 0, bottom: 0, height: 90 }} />
       <View style={{ position: "absolute", left: 20, bottom: 18, right: 20 }}>
         <Text style={{ color: "#FFFFFF", fontSize: 26, fontWeight: "900", letterSpacing: -0.5, textShadowColor: "rgba(0,0,0,0.35)", textShadowRadius: 8 }}>{title}</Text>
-        <Text style={{ color: dark ? "rgba(255,255,255,0.9)" : "#fff", fontSize: 14, fontWeight: "600" }}>{subtitle}</Text>
+        <Text numberOfLines={2} style={{ color: dark ? "rgba(255,255,255,0.9)" : "#fff", fontSize: 14, fontWeight: "600" }}>{subtitle}</Text>
       </View>
     </Animated.View>
   );
@@ -497,14 +497,9 @@ function PhotoHero({ service, title, subtitle, custom }: { service: ServiceId; t
       {!still && !custom && <Overlay service={service} w={w} />}
       <LinearGradient pointerEvents="none" colors={["rgba(0,0,0,0.05)", "rgba(0,0,0,0.6)"]} style={{ position: "absolute", left: 0, right: 0, bottom: 0, height: 120 }} />
       <View style={{ position: "absolute", left: 20, bottom: 18, right: 20 }}>
-        <Text style={{ color: "#FFFFFF", fontSize: 26, fontWeight: "900", letterSpacing: -0.5, textShadowColor: "rgba(0,0,0,0.45)", textShadowRadius: 10 }}>{title}</Text>
-        <Text style={{ color: "rgba(255,255,255,0.92)", fontSize: 14, fontWeight: "600", textShadowColor: "rgba(0,0,0,0.4)", textShadowRadius: 6 }}>{subtitle}</Text>
+        <Text numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.7} style={{ color: "#FFFFFF", fontSize: 26, fontWeight: "900", letterSpacing: -0.5, textShadowColor: "rgba(0,0,0,0.45)", textShadowRadius: 10 }}>{title}</Text>
+        <Text numberOfLines={2} style={{ color: "rgba(255,255,255,0.92)", fontSize: 14, fontWeight: "600", textShadowColor: "rgba(0,0,0,0.4)", textShadowRadius: 6 }}>{subtitle}</Text>
       </View>
-      {current && !custom && (
-        <Text numberOfLines={1} style={{ position: "absolute", right: 10, top: 8, maxWidth: "60%", color: "rgba(255,255,255,0.75)", fontSize: 10, textShadowColor: "rgba(0,0,0,0.6)", textShadowRadius: 4 }}>
-          📷 {current.credit}{current.license ? ` · ${current.license}` : ""}
-        </Text>
-      )}
     </Animated.View>
   );
 }
@@ -516,8 +511,8 @@ function StillHero({ service, title, subtitle }: { service: ServiceId; title: st
     <View style={{ height: H, borderRadius: 26, overflow: "hidden" }}>
       <LinearGradient colors={[svc.deep, svc.primary]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={{ flex: 1, padding: 20, justifyContent: "flex-end" }}>
         <Text style={{ position: "absolute", right: 24, top: 18, fontSize: 64, opacity: 0.85 }}>{service === "health" ? "🩺" : "🍽"}</Text>
-        <Text style={{ color: "#fff", fontSize: 26, fontWeight: "900" }}>{title}</Text>
-        <Text style={{ color: "rgba(255,255,255,0.9)", fontSize: 14, fontWeight: "600" }}>{subtitle}</Text>
+        <Text numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.7} style={{ color: "#fff", fontSize: 26, fontWeight: "900" }}>{title}</Text>
+        <Text numberOfLines={2} style={{ color: "rgba(255,255,255,0.9)", fontSize: 14, fontWeight: "600" }}>{subtitle}</Text>
       </LinearGradient>
     </View>
   );

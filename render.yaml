@@ -1,0 +1,24 @@
+# Render Blueprint: TriVerse API on the free plan (Singapore, close to the Supabase Mumbai database).
+# Secrets are not in this file — add them in Render → triverse-api → Environment → "Add from .env".
+services:
+  - type: web
+    name: triverse-api
+    runtime: docker
+    plan: free
+    region: singapore
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: SUPABASE_BUCKET
+        value: triverse
+      # whisper-small needs ~1 GB RAM; base fits the free plan's 512 MB.
+      - key: WHISPER_MODEL
+        value: onnx-community/whisper-base
+      - key: SMS_ENABLED
+        value: "true"
+      - key: OTP_DEV_ECHO
+        value: "false"

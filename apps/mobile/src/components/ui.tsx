@@ -93,11 +93,12 @@ export function Row({ children, gap = 3, style }: { children: ReactNode; gap?: n
 export function Tile({ emoji, title, subtitle, onPress }: { emoji: string; title: string; subtitle: string; onPress: () => void }) {
   const t = useTheme();
   return (
-    <Tilt3D onPress={onPress} depth={14} style={{ flex: 1, minWidth: "45%" }}>
-     <View style={{ flex: 1, backgroundColor: t.card, borderRadius: radius.md, padding: space(4), gap: 6, borderWidth: 1, borderColor: t.border, shadowColor: t.primary, shadowOpacity: 0.12, shadowRadius: 12, shadowOffset: { width: 0, height: 6 }, elevation: 3 }}>
+    // Half the row each (two per row); height comes from the content, equalised by the row's "stretch".
+    <Tilt3D onPress={onPress} depth={14} style={{ flexBasis: "46%", flexGrow: 1 }}>
+     <View style={{ flexGrow: 1, minHeight: 124, backgroundColor: t.card, borderRadius: radius.md, padding: space(4), gap: 6, borderWidth: 1, borderColor: t.border }}>
       <View style={{ width: 44, height: 44, borderRadius: 14, backgroundColor: t.tint, alignItems: "center", justifyContent: "center" }}><Text style={{ fontSize: 22 }}>{emoji}</Text></View>
-      <Text style={{ fontSize: 15, fontWeight: "700", color: t.text }}>{title}</Text>
-      <Text style={{ fontSize: 12, color: t.muted }}>{subtitle}</Text>
+      <ScaledText style={{ fontSize: 15, fontWeight: "700", color: t.text }}>{title}</ScaledText>
+      <ScaledText style={{ fontSize: 12, lineHeight: 17, color: t.muted }}>{subtitle}</ScaledText>
      </View>
     </Tilt3D>
   );
