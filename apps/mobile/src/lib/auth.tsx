@@ -1,12 +1,14 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 import { DEFAULT_SETTINGS, type ServiceId, type UserProfile, type UserSettings } from "@triverse/shared";
 import { setHapticsEnabled } from "./haptics";
-import { api, loadSession, saveSession, setSignedOutHandler, type Session } from "./api";
+import { ApiError, api, cacheUser, loadCachedUser, loadSession, saveSession, setSignedOutHandler, wakeServer, type Session } from "./api";
 
 interface AuthResult extends Session { user: UserProfile; isNew: boolean }
 
 interface AuthState {
   ready: boolean;
+  /** True once the saved session has been read (the native splash can go away). */
+  booted: boolean;
   user: UserProfile | null;
   /** Called with the result of any login endpoint (OTP, Google, Apple). */
   signIn: (r: AuthResult) => Promise<void>;
@@ -25,15 +27,26 @@ const Ctx = createContext<AuthState | null>(null);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [ready, setReady] = useState(false);
+  const [booted, setBooted] = useState(false);
   const [user, setUser] = useState<UserProfile | null>(null);
 
   useEffect(() => {
     setSignedOutHandler(() => setUser(null));
+    wakeServer();
     (async () => {
-      try { if (await loadSession()) setUser(await api<UserProfile>("/me")); } catch { await saveSession(null); }
+      const s = await loadSession().catch(() => null);
+      setBooted(true);
+      if (!s) return setReady(true);
+      // Open straight away with the last known profile; refresh it from the server in the background.
+      const cached = await loadCachedUser<UserProfile>();
+      if (cached) { setUser(cached); setReady(true); }
+      try { setUser(await api<UserProfile>("/me")); }
+      catch (e) { if (e instanceof ApiError && e.status === 401) { await saveSession(null); setUser(null); } }
       setReady(true);
     })();
   }, []);
+
+  useEffect(() => { if (ready) cacheUser(user); }, [ready, user]);
 
   const signIn = useCallback(async (r: AuthResult) => {
     await saveSession({ accessToken: r.accessToken, refreshToken: r.refreshToken });
@@ -78,8 +91,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setUser(null);
   }, []);
 
-  const value = useMemo(() => ({ ready, user, signIn, signOut, setServices, switchService, refreshUser, settings, updateSettings, uploadBanner, removeBanner, deleteAccount }),
-    [ready, user, signIn, signOut, setServices, switchService, refreshUser, settings, updateSettings, uploadBanner, removeBanner, deleteAccount]);
+  const value = useMemo(() => ({ ready, booted, user, signIn, signOut, setServices, switchService, refreshUser, settings, updateSettings, uploadBanner, removeBanner, deleteAccount }),
+    [ready, booted, user, signIn, signOut, setServices, switchService, refreshUser, settings, updateSettings, uploadBanner, removeBanner, deleteAccount]);
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;
 }
 

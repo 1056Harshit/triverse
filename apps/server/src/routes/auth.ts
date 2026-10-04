@@ -40,14 +40,15 @@ export async function authRoutes(app: FastifyInstance) {
     } else {
       await sendSmsOtp(target, code);
     } };
-    let delivered = true;
-    try { await deliver(); } catch (e) {
-      delivered = false;
-      req.log.error({ err: (e as Error).message, channel: body.channel }, "OTP delivery failed");
-      if (!env.OTP_DEV_ECHO) throw new HttpError(502, body.channel === "email" ? "We couldn't send the email right now. Try phone instead." : "We couldn't send the SMS right now. Try email instead.");
-    }
+    // Don't keep the user waiting on slow providers: answer after at most 4 s and let delivery finish in the background.
+    const sending = deliver().then(() => true, (e: Error) => {
+      req.log.error({ err: e.message, channel: body.channel }, "OTP delivery failed");
+      return false;
+    });
+    const delivered = await Promise.race([sending, new Promise<null>((r) => setTimeout(() => r(null), 4000))]);
+    if (delivered === false && !env.OTP_DEV_ECHO) throw new HttpError(502, body.channel === "email" ? "We couldn't send the email right now. Try phone instead." : "We couldn't send the SMS right now. Try email instead.");
     // Local testing only: hand the code back so the app can show it (refused in production by env.ts).
-    return { sent: delivered, target, expiresInMin: OTP_TTL_MIN, ...(env.OTP_DEV_ECHO ? { devCode: code } : {}) };
+    return { sent: delivered !== false, target, expiresInMin: OTP_TTL_MIN, ...(env.OTP_DEV_ECHO ? { devCode: code } : {}) };
   });
 
   app.post("/auth/otp/verify", { config: { rateLimit: { max: 10, timeWindow: "1 minute" } } }, async (req) => {

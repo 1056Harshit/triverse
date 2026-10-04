@@ -2,7 +2,7 @@
   "expo": {
     "name": "TriVerse",
     "slug": "triverse",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "triverse",
@@ -47,7 +47,7 @@
         }
       ],
       "predictiveBackGestureEnabled": false,
-      "versionCode": 2,
+      "versionCode": 3,
       "permissions": [
         "android.permission.RECORD_AUDIO",
         "android.permission.ACCESS_COARSE_LOCATION",

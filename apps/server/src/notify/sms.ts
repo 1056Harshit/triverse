@@ -14,7 +14,7 @@ export async function sendSmsOtp(phoneE164: string, code: string): Promise<void>
 
   if (env.TWILIO_ACCOUNT_SID && env.TWILIO_AUTH_TOKEN && env.TWILIO_FROM_NUMBER) {
     const r = await fetch(`https://api.twilio.com/2010-04-01/Accounts/${env.TWILIO_ACCOUNT_SID}/Messages.json`, {
-      method: "POST",
+      method: "POST", signal: AbortSignal.timeout(10_000),
       headers: { authorization: "Basic " + Buffer.from(`${env.TWILIO_ACCOUNT_SID}:${env.TWILIO_AUTH_TOKEN}`).toString("base64"), "content-type": "application/x-www-form-urlencoded" },
       body: new URLSearchParams({ To: phoneE164, From: env.TWILIO_FROM_NUMBER, Body: body }),
     });
@@ -23,7 +23,7 @@ export async function sendSmsOtp(phoneE164: string, code: string): Promise<void>
   }
   if (env.TWOFACTOR_API_KEY && phoneE164.startsWith("+91")) {
     const tpl = env.TWOFACTOR_TEMPLATE ? `/${encodeURIComponent(env.TWOFACTOR_TEMPLATE)}` : "";
-    const r = await fetch(`https://2factor.in/API/V1/${encodeURIComponent(env.TWOFACTOR_API_KEY)}/SMS/${phoneE164.slice(1)}/${code}${tpl}`);
+    const r = await fetch(`https://2factor.in/API/V1/${encodeURIComponent(env.TWOFACTOR_API_KEY)}/SMS/${phoneE164.slice(1)}/${code}${tpl}`, { signal: AbortSignal.timeout(10_000) });
     const j = (await r.json().catch(() => ({}))) as { Status?: string; Details?: string };
     if (!r.ok || j.Status !== "Success") throw new Error(`2Factor: ${j.Details ?? r.status}`);
     return;
@@ -33,7 +33,7 @@ export async function sendSmsOtp(phoneE164: string, code: string): Promise<void>
     url.searchParams.set("template_id", env.MSG91_OTP_TEMPLATE_ID);
     url.searchParams.set("mobile", phoneE164.replace("+", ""));
     url.searchParams.set("otp", code);
-    const r = await fetch(url, { method: "POST", headers: { authkey: env.MSG91_AUTH_KEY, "content-type": "application/json" }, body: "{}" });
+    const r = await fetch(url, { method: "POST", signal: AbortSignal.timeout(10_000), headers: { authkey: env.MSG91_AUTH_KEY, "content-type": "application/json" }, body: "{}" });
     if (!r.ok) throw new Error(`MSG91 ${r.status}`);
     return;
   }
