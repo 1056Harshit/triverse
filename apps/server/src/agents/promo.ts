@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { env } from "../env.ts";
 import { db, schema } from "../db/index.ts";
 import { renderPoster } from "../posters/render.ts";
 import { json, tool, type AgentDefinition } from "./base.ts";
@@ -33,8 +32,7 @@ Brand voice: warm, local, trustworthy; a friend, not a salesman. Colours and log
         footnote: z.string().max(60).optional(),
       }),
       run: async (spec) => {
-        const { key } = await renderPoster(spec);
-        const url = `${env.APP_URL}/uploads/posters/${key}`;
+        const { key, url } = await renderPoster(spec);
         ctx.card({ kind: "poster", url, headline: spec.headline });
         return json({ key, url });
       },

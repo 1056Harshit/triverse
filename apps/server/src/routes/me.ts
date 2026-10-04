@@ -1,12 +1,10 @@
 import type { FastifyInstance } from "fastify";
 import { eq } from "drizzle-orm";
-import { mkdir, writeFile } from "node:fs/promises";
-import path from "node:path";
 import sharp from "sharp";
 import { env } from "../env.ts";
 import { z } from "zod";
 import { DEFAULT_SETTINGS, SERVICE_IDS, type ServiceId, type UserProfile, type UserSettings } from "@triverse/shared";
-import { unlink } from "node:fs/promises";
+import { deleteObject, putObject } from "../storage/index.ts";
 import { db, schema } from "../db/index.ts";
 import { sendEmail } from "../notify/email.ts";
 import { HttpError, parse, requireAuth } from "../lib/http.ts";
@@ -62,10 +60,10 @@ export async function meRoutes(app: FastifyInstance) {
     const { data } = parse(z.object({ data: z.string().min(1000) }), req.body);
     const img = await sharp(Buffer.from(data, "base64")).rotate().resize(512, 512, { fit: "cover" }).jpeg({ quality: 82 }).toBuffer()
       .catch(() => { throw new HttpError(400, "That image couldn't be read. Try another photo."); });
-    await mkdir(AVATAR_DIR, { recursive: true });
-    const key = `${req.auth.id}-${Date.now()}.jpg`;
-    await writeFile(path.join(AVATAR_DIR, key), img);
-    const [updated] = await db.update(schema.users).set({ avatarUrl: `${env.APP_URL}/uploads/avatars/${key}` }).where(eq(schema.users.id, req.auth.id)).returning();
+    const prev = (await loadUser(req.auth.id)).avatarUrl;
+    const url = await putObject(`avatars/${req.auth.id}-${Date.now()}.jpg`, img, "image/jpeg");
+    const [updated] = await db.update(schema.users).set({ avatarUrl: url }).where(eq(schema.users.id, req.auth.id)).returning();
+    if (prev) await deleteObject(prev);
     return toProfile(updated);
   });
 
@@ -87,15 +85,13 @@ export async function meRoutes(app: FastifyInstance) {
     if (animated && raw.length > 8 * 1024 * 1024) throw new HttpError(400, "Animated banners must be under 8 MB.");
     const ext = animated ? (meta.format === "webp" ? "webp" : "gif") : "jpg";
     const out = animated ? raw : await sharp(raw).rotate().resize(1600, 900, { fit: "cover" }).jpeg({ quality: 84 }).toBuffer();
-    await mkdir(BANNER_DIR, { recursive: true });
-    const key = `${req.auth.id}-${b.service}-${Date.now()}.${ext}`;
-    await writeFile(path.join(BANNER_DIR, key), out);
+    const url = await putObject(`banners/${req.auth.id}-${b.service}-${Date.now()}.${ext}`, out, animated ? `image/${ext}` : "image/jpeg");
     const user = await loadUser(req.auth.id);
     const prev = (user.settings as Partial<UserSettings>).banners ?? {};
     const old = prev[b.service];
-    const banners = { ...prev, [b.service]: `${env.APP_URL}/uploads/banners/${key}` };
+    const banners = { ...prev, [b.service]: url };
     const [updated] = await db.update(schema.users).set({ settings: { ...user.settings, banners } }).where(eq(schema.users.id, user.id)).returning();
-    if (old) await unlink(path.join(BANNER_DIR, old.split("/").pop()!)).catch(() => {});
+    if (old) await deleteObject(old);
     return toProfile(updated);
   });
 
@@ -106,13 +102,14 @@ export async function meRoutes(app: FastifyInstance) {
     const old = banners[service];
     delete banners[service];
     const [updated] = await db.update(schema.users).set({ settings: { ...user.settings, banners } }).where(eq(schema.users.id, user.id)).returning();
-    if (old) await unlink(path.join(BANNER_DIR, old.split("/").pop()!)).catch(() => {});
+    if (old) await deleteObject(old);
     return toProfile(updated);
   });
 
   /** Deletes the account and personal data (DPDP right to erasure). Ride/booking records are anonymised by FK rules. */
   app.delete("/me", async (req) => {
     const user = await loadUser(req.auth.id);
+    const files = [user.avatarUrl, ...Object.values((user.settings as Partial<UserSettings>).banners ?? {})].filter((f): f is string => !!f);
     await db.transaction(async (tx) => {
       await tx.delete(schema.refreshTokens).where(eq(schema.refreshTokens.userId, user.id));
       await tx.delete(schema.favorites).where(eq(schema.favorites.userId, user.id));
@@ -125,6 +122,7 @@ export async function meRoutes(app: FastifyInstance) {
       }).where(eq(schema.users.id, user.id));
       await tx.delete(schema.identities).where(eq(schema.identities.userId, user.id));
     });
+    await Promise.all(files.map(deleteObject));
     return { deleted: true };
   });
 
@@ -138,8 +136,6 @@ export async function meRoutes(app: FastifyInstance) {
   });
 }
 
-export const AVATAR_DIR = path.resolve("uploads/avatars");
-export const BANNER_DIR = path.resolve("uploads/banners");
 
 const SettingsPatch = z.object({
   theme: z.enum(["system", "light", "dark", "auto"]),

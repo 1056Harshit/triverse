@@ -13,6 +13,7 @@ import { agentRoutes } from "./routes/agents.ts";
 import { campaignRoutes } from "./routes/campaigns.ts";
 import { lifeRoutes } from "./routes/life.ts";
 import { warmUpSpeech } from "./speech/transcribe.ts";
+import { ensureBucket } from "./storage/index.ts";
 
 export async function buildServer() {
   const app = Fastify({
@@ -47,6 +48,7 @@ export async function buildServer() {
 
 if (import.meta.url === `file://${process.argv[1]}`) {
   const app = await buildServer();
+  await ensureBucket();
   await app.listen({ port: env.PORT, host: "0.0.0.0" });
   if (env.NODE_ENV !== "test") warmUpSpeech();
   if (!env.ANTHROPIC_API_KEY && !env.GEMINI_API_KEY && !env.GROQ_API_KEY && !env.LLM_BASE_URL) {

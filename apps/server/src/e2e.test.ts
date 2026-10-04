@@ -211,7 +211,7 @@ test("settings, custom banners and account deletion", async () => {
   const png = await sharp({ create: { width: 1200, height: 600, channels: 3, background: "#22A35A" } }).png().toBuffer();
   const b = await call("POST", "/me/banner", { service: "farm", data: png.toString("base64") }, u.accessToken);
   assert.equal(b.status, 200, JSON.stringify(b.body));
-  assert.match(b.body.settings.banners.farm, /\/uploads\/banners\/.+-farm-\d+\.jpg$/);
+  assert.match(b.body.settings.banners.farm, /banners\/.+-farm-\d+\.jpg$/);
   const del = await app.inject({ method: "DELETE", url: "/me/banner/farm", headers: { authorization: `Bearer ${u.accessToken}` } });
   assert.equal(del.json().settings.banners.farm, undefined);
 

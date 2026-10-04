@@ -1,10 +1,8 @@
-import { mkdir, writeFile } from "node:fs/promises";
 import { randomUUID } from "node:crypto";
-import path from "node:path";
 import sharp from "sharp";
 import { BRAND, SERVICES, type ServiceId } from "@triverse/shared";
 
-export const POSTER_DIR = path.resolve("uploads/posters");
+import { putObject } from "../storage/index.ts";
 
 export type PosterStyle = "spotlight" | "minimal" | "festive";
 export type PosterFormat = "portrait" | "square" | "landscape" | "story";
@@ -113,10 +111,8 @@ export function posterSvg(s: PosterSpec): string {
   </svg>`;
 }
 
-export async function renderPoster(s: PosterSpec): Promise<{ file: string; key: string }> {
-  await mkdir(POSTER_DIR, { recursive: true });
+export async function renderPoster(s: PosterSpec): Promise<{ url: string; key: string }> {
   const key = `${s.service}-${s.style}-${s.format}-${randomUUID().slice(0, 8)}.png`;
-  const file = path.join(POSTER_DIR, key);
-  await writeFile(file, await sharp(Buffer.from(posterSvg(s))).png().toBuffer());
-  return { file, key };
+  const url = await putObject(`posters/${key}`, await sharp(Buffer.from(posterSvg(s))).png().toBuffer(), "image/png");
+  return { url, key };
 }

@@ -4,7 +4,12 @@ const Env = z.object({
   NODE_ENV: z.enum(["development", "production", "test"]).default("development"),
   PORT: z.coerce.number().default(4000),
   APP_URL: z.string().url().default("https://pvtfrnd.com"),
+  /** Supabase Postgres (Session pooler URI). Tests use "pglite:memory" (in-memory, never on disk). */
   DATABASE_URL: z.string().default("postgres://triverse:triverse@localhost:5432/triverse"),
+  /** Supabase Storage for avatars, banners and posters. */
+  SUPABASE_URL: z.string().url().optional(),
+  SUPABASE_SERVICE_ROLE_KEY: z.string().optional(),
+  SUPABASE_BUCKET: z.string().default("triverse"),
   JWT_SECRET: z.string().min(32).default("dev-only-secret-change-me-dev-only-secret"),
   OTP_PEPPER: z.string().min(16).default("dev-only-otp-pepper"),
   /** When true, OTPs are logged instead of sent (local development only). */

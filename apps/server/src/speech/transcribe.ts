@@ -1,6 +1,6 @@
 import { spawn } from "node:child_process";
 import { randomUUID } from "node:crypto";
-import { unlink, writeFile } from "node:fs/promises";
+import { access, unlink, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import ffmpegPath from "ffmpeg-static";
@@ -39,7 +39,9 @@ async function sarvam(audio: Buffer, mimeType: string, language: SpeechLanguage)
  */
 async function decodeToPcm(audio: Buffer): Promise<Float32Array> {
   if (!ffmpegPath) throw new Error("ffmpeg binary not available");
-  const file = path.join(tmpdir(), `triverse-voice-${randomUUID()}`);
+  // /dev/shm is RAM-backed on Linux, so the recording never touches the disk; it's deleted right after.
+  const dir = await access("/dev/shm").then(() => "/dev/shm", () => tmpdir());
+  const file = path.join(dir, `triverse-voice-${randomUUID()}`);
   await writeFile(file, audio);
   try {
     return await new Promise((resolve, reject) => {
