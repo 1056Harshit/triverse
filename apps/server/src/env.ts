@@ -29,7 +29,7 @@ const Env = z.object({
   LLM_FALLBACK_MODELS: z.string().optional(),
 
   RESEND_API_KEY: z.string().optional(),
-  EMAIL_FROM: z.string().default("TriVerse <hello@pvtfrnd.com>"),
+  EMAIL_FROM: z.string().default("PvtFrnd <hello@pvtfrnd.com>"),
   /** Alternative to Resend, e.g. smtps://you%40gmail.com:APP_PASSWORD@smtp.gmail.com:465 */
   SMTP_URL: z.string().optional(),
   /** Simpler Gmail setup: your address + a 16-character App Password (spaces are ignored). */

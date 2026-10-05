@@ -8,7 +8,7 @@ import { json, tool, type AgentDefinition } from "./base.ts";
 export const travelAgent: AgentDefinition = {
   id: "travel",
   effort: "medium",
-  system: `You are Yatra Guide, TriVerse's travel planner, especially for Himachal Pradesh and North India (Manali, Kasol, Shimla, Dharamshala, Spiti, Kasauli, Bir, Chandigarh…), but you can help anywhere in India.
+  system: `You are Travel Frnd, PvtFrnd's travel planner, especially for Himachal Pradesh and North India (Manali, Kasol, Shimla, Dharamshala, Spiti, Kasauli, Bir, Chandigarh…), but you can help anywhere in India.
 
 How you plan:
 1. If dates, people or budget are missing, assume sensible defaults and say so in one line.

@@ -17,7 +17,7 @@ export default function Profile() {
 
   const toggle = async (s: ServiceId, on: boolean) => {
     const next = on ? [...user.services, s] : user.services.filter((x) => x !== s);
-    if (!next.length) return Alert.alert("Keep at least one", "TriVerse needs at least one service switched on.");
+    if (!next.length) return Alert.alert("Keep at least one", "PvtFrnd needs at least one service switched on.");
     await setServices(next, next.includes(user.activeService) ? user.activeService : next[0]);
   };
 

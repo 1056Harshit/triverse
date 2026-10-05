@@ -40,7 +40,7 @@ function Connecting() {
     <View style={{ flex: 1, backgroundColor: "#060A18", alignItems: "center", justifyContent: "center", gap: 14, padding: 32 }}>
       <PinMark size={64} onDark />
       <ActivityIndicator color="#FFFFFF" />
-      <Text style={{ color: "#FFFFFF", fontWeight: "700", fontSize: 16 }}>Connecting to TriVerse…</Text>
+      <Text style={{ color: "#FFFFFF", fontWeight: "700", fontSize: 16 }}>Connecting to PvtFrnd…</Text>
       <Text style={{ color: "rgba(255,255,255,0.65)", textAlign: "center", fontSize: 13 }}>The first start can take up to a minute.</Text>
     </View>
   );

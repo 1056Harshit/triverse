@@ -45,7 +45,7 @@ export async function rideRoutes(app: FastifyInstance) {
     const route = await computeRoute(b.origin, b.destination, b.stops);
     const fare = { distanceKm: route.distanceKm, tollsInr: route.tollsInr, seats: b.seats, hillRoute: route.hillRoute };
     const check = validateSeatPrice(fare, b.seatPrice);
-    if (!check.ok) throw new HttpError(400, `TriVerse is cost-sharing only. The maximum for this route is ₹${check.max} per seat.`, "price_cap");
+    if (!check.ok) throw new HttpError(400, `PvtFrnd is cost-sharing only. The maximum for this route is ₹${check.max} per seat.`, "price_cap");
 
     const [ride] = await db.insert(schema.rides).values({
       driverId: driver.id, originName: b.origin.name, originLat: b.origin.lat, originLng: b.origin.lng,

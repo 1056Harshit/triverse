@@ -77,7 +77,7 @@ export async function api<T>(path: string, init: { method?: string; body?: unkno
     body: init.body ? JSON.stringify(init.body) : undefined,
     });
   } catch {
-    throw new ApiError(0, "Can't reach TriVerse right now. Check your internet and try again.", "network");
+    throw new ApiError(0, "Can't reach PvtFrnd right now. Check your internet and try again.", "network");
   } finally { t.done(); }
   if (res.status === 401 && retry && session && (await refresh())) return api<T>(path, init, false);
   const data = (await res.json().catch(() => ({}))) as { error?: string; code?: string };

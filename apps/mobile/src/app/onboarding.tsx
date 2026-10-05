@@ -42,7 +42,7 @@ export default function Onboarding() {
     <SafeAreaView style={{ flex: 1, backgroundColor: t.bg }}>
       <ScrollView contentContainerStyle={{ flexGrow: 1, padding: 24, gap: 18 }} keyboardShouldPersistTaps="handled">
       <PinMark size={56} animate="intro" />
-      <H level="hero">What brings you to TriVerse?</H>
+      <H level="hero">What brings you to PvtFrnd?</H>
       <P muted>Pick one or more. Only what you choose shows up, and you can switch any time from the pin at the top.</P>
       {!user?.name && <Field label="Your name" value={name} onChangeText={setName} placeholder="Harshit Gupta" autoComplete="name" />}
       <View style={{ gap: 12 }}>
@@ -68,7 +68,7 @@ export default function Onboarding() {
         })}
       </View>
       <View style={{ flex: 1, minHeight: 8 }} />
-      <Button label={picked.length ? `Enter ${picked.length === 1 ? SERVICES[picked[0]].name : "TriVerse"}` : "Choose at least one"} onPress={go} loading={busy} disabled={!picked.length || (!user?.name && name.trim().length < 2)} />
+      <Button label={picked.length ? `Enter ${picked.length === 1 ? SERVICES[picked[0]].name : "PvtFrnd"}` : "Choose at least one"} onPress={go} loading={busy} disabled={!picked.length || (!user?.name && name.trim().length < 2)} />
       </ScrollView>
     </SafeAreaView>
   );

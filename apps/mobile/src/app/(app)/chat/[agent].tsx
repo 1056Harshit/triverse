@@ -20,7 +20,7 @@ const SUGGESTIONS: Record<AgentId, string[]> = {
 
 export default function Chat() {
   const { agent, prompt, scan, voice } = useLocalSearchParams<{ agent: AgentId; prompt?: string; scan?: string; voice?: string }>();
-  const title = agent === "promo" ? "Campaign Studio" : agent === "triverse" ? "Ask TriVerse" : SERVICES[agent]?.agentName;
+  const title = agent === "promo" ? "Campaign Studio" : agent === "triverse" ? "Ask Frnd" : SERVICES[agent]?.agentName;
   return (
     <>
       <Stack.Screen options={{ title }} />

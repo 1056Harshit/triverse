@@ -1,12 +1,12 @@
-# TriVerse: Grow · Go · Dine
+# PvtFrnd: Your friend for everything
 
 One app, three worlds, each with its own AI agent, dashboard and theme:
 
 | Service | Agent | What it does |
 |---|---|---|
-| 🌾 **Farm** | Krishi Mitra | Photo diagnosis of crop diseases and pests, safe treatment plans, registered pesticides with real online prices, spray-window weather, crop calendars, schemes |
-| 🚗 **Ride** | Safar Saathi | Verified cost-sharing carpools (a safer, fairer BlaBlaCar), Google Maps distance and tolls, fair seat price vs Volvo bus fare, escrow payments, ride PIN, SOS |
-| 🍽 **Dine & Stay** | Swad Guide | Restaurants, cafés and hotels near you ranked by **TriScore**, a review-weighted blend of ratings across sites |
+| 🌾 **Farm** | Farm Frnd | Photo diagnosis of crop diseases and pests, safe treatment plans, registered pesticides with real online prices, spray-window weather, crop calendars, schemes |
+| 🚗 **Ride** | Ride Frnd | Verified cost-sharing carpools (a safer, fairer BlaBlaCar), Google Maps distance and tolls, fair seat price vs Volvo bus fare, escrow payments, ride PIN, SOS |
+| 🍽 **Dine & Stay** | Dine Frnd | Restaurants, cafés and hotels near you ranked by **TriScore**, a review-weighted blend of ratings across sites |
 | 📣 *(internal)* | Campaign Studio | Turns a brief into copy for push/WhatsApp/Instagram/email plus branded posters |
 
 New users choose the services they want at sign-up and only see those. They can switch any time from the pin in the header. Sign-in works with phone OTP, email OTP, Google and Apple, and a themed welcome email goes out for the service they picked.

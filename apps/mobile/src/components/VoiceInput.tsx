@@ -75,7 +75,7 @@ export function VoiceInput({ onText, onPhase, disabled, autoStart }: { onText: (
     }
   };
 
-  // Opened from the "Ask TriVerse" mic button: start listening straight away.
+  // Opened from the "Ask Frnd" mic button: start listening straight away.
   const autoStarted = useRef(false);
   useEffect(() => {
     if (autoStart && !autoStarted.current) { autoStarted.current = true; start(); }

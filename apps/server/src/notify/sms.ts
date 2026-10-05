@@ -10,7 +10,7 @@ export async function sendSmsOtp(phoneE164: string, code: string): Promise<void>
     console.info(`[sms:dev] to=${phoneE164} (SMS_ENABLED=false: local test mode, code shown in the app)`);
     return;
   }
-  const body = `${code} is your TriVerse code. Valid 10 min. Never share it.`;
+  const body = `${code} is your PvtFrnd code. Valid 10 min. Never share it.`;
 
   if (env.TWILIO_ACCOUNT_SID && env.TWILIO_AUTH_TOKEN && env.TWILIO_FROM_NUMBER) {
     const r = await fetch(`https://api.twilio.com/2010-04-01/Accounts/${env.TWILIO_ACCOUNT_SID}/Messages.json`, {

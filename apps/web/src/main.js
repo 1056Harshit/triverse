@@ -1,4 +1,4 @@
-// TriVerse website: 3D solar system of worlds, the animated world pointer, 3D tilt/parallax and scroll reveals.
+// PvtFrnd website: 3D solar system of worlds, the animated world pointer, 3D tilt/parallax and scroll reveals.
 import { createWorldPointer } from "/world-pointer.js";
 const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
 const finePointer = matchMedia("(hover: hover) and (pointer: fine)").matches;
@@ -8,11 +8,26 @@ const WORLDS = {
 };
 
 /* ---------- Split the hero title into letters for the 3D entrance ---------- */
+// Letters in a .grad-text line are coloured one by one along the brand gradient (green → blue → orange),
+// because a clipped background gradient can't follow letters that animate on their own.
+const GRAD = [[0x22, 0xa3, 0x5a], [0x2f, 0x6f, 0xeb], [0xf2, 0x64, 0x3d]];
+const gradAt = (t) => {
+  const seg = t < 0.5 ? 0 : 1, k = t < 0.5 ? t / 0.5 : (t - 0.5) / 0.5;
+  const [a, b] = [GRAD[seg], GRAD[seg + 1]];
+  return `rgb(${a.map((v, j) => Math.round(v + (b[j] - v) * k)).join(",")})`;
+};
+let letter = 0;
 document.querySelectorAll(".split").forEach((el) => {
-  let i = 0;
-  el.innerHTML = el.innerHTML.split(/(<br\s*\/?>)/).map((part) =>
-    part.startsWith("<br") ? part : [...part].map((c) => c === " " ? " " : `<span class="ch" style="--i:${i++}">${c}</span>`).join(""),
-  ).join("");
+  const grad = el.classList.contains("grad-text");
+  if (grad) el.classList.remove("grad-text");
+  const chars = [...el.textContent];
+  const n = chars.filter((c) => c !== " ").length;
+  let k = 0;
+  el.innerHTML = chars.map((c) => {
+    if (c === " ") return " ";
+    const color = grad ? `;color:${gradAt(k++ / Math.max(n - 1, 1))}` : "";
+    return `<span class="ch" style="--i:${letter++}${color}">${c}</span>`;
+  }).join("");
 });
 
 /* ---------- Reveal on scroll ---------- */
@@ -79,8 +94,8 @@ document.querySelectorAll(".typed").forEach((el) => {
   io.observe(el);
 });
 
-/* ---------- Hero: the TriVerse solar system ---------- */
-// The TriVerse pin glows at the centre; the five worlds orbit it as planets. Hover a planet to
+/* ---------- Hero: the PvtFrnd solar system ---------- */
+// The PvtFrnd pin glows at the centre; the five worlds orbit it as planets. Hover a planet to
 // enlarge it (the pointer takes on that world), click it to jump to its section.
 startUniverse().catch(() => { /* no WebGL: the CSS glow behind the hero still looks fine */ });
 
@@ -117,7 +132,7 @@ async function startUniverse() {
     s.scale.setScalar(size); return s;
   };
 
-  // --- The TriVerse pin (the "sun") ---
+  // --- The PvtFrnd pin (the "sun") ---
   const pin = new THREE.Group();
   const shape = new THREE.Shape();
   shape.moveTo(0, -1.25);

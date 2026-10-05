@@ -1,4 +1,4 @@
-# Render Blueprint: TriVerse API on the free plan (Singapore, close to the Supabase Mumbai database).
+# Render Blueprint: PvtFrnd API on the free plan (Singapore, close to the Supabase Mumbai database).
 # Secrets are not in this file — add them in Render → triverse-api → Environment → "Add from .env".
 services:
   - type: web

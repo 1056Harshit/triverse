@@ -10,7 +10,7 @@ const QUERIES: Record<string, string[]> = {
   travel: ["Key Monastery Spiti", "Solang Valley", "Parvati Valley Kasol", "McLeod Ganj Dharamshala"],
 };
 
-const UA = "TriVerse/1.0 (https://pvtfrnd.com)";
+const UA = "PvtFrnd/1.0 (https://pvtfrnd.com)";
 const cache = new Map<string, { at: number; photos: HeroPhoto[] }>();
 
 export async function heroPhotos(service: string): Promise<HeroPhoto[]> {

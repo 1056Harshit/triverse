@@ -162,31 +162,33 @@ export function GlobeMark({ size = 260 }: { size?: number }) {
 
 /* ─────────────────────────── Wordmark ─────────────────────────── */
 
-/** Letters flip up in 3D one by one; the tagline cycles Grow. → Go. → Dine. in each world's colour. */
+/** Letters flip up in 3D one by one in the brand gradient; the tagline cycles through every world in its colour. */
 export function AnimatedWordmark({ size = 46 }: { size?: number }) {
   return (
     <View style={{ alignItems: "center", gap: 10 }}>
       <View style={{ flexDirection: "row" }}>
-        {"TriVerse".split("").map((ch, i) => <FlipLetter key={i} ch={ch} i={i} size={size} />)}
+        {"PvtFrnd".split("").map((ch, i, all) => <FlipLetter key={i} ch={ch} i={i} n={all.length} size={size} />)}
       </View>
       <TaglineCycle />
     </View>
   );
 }
 
-function FlipLetter({ ch, i, size }: { ch: string; i: number; size: number }) {
+// Letters walk through the brand gradient: green → blue → orange.
+const LETTER_COLORS = ["#34C474", "#2FB79A", "#4D8DF7", "#6B8CFF", "#9B7BF0", "#F27D5A", "#F7825F"];
+function FlipLetter({ ch, i, n, size }: { ch: string; i: number; n: number; size: number }) {
   const t = useOnce(500, 600 + i * 45, Easing.out(Easing.back(1.8)));
   const s = useAnimatedStyle(() => ({ opacity: t.get(), transform: [{ perspective: 400 }, { rotateX: `${interpolate(t.get(), [0, 1], [90, 0])}deg` }, { translateY: interpolate(t.get(), [0, 1], [10, 0]) }] }));
-  return <Animated.Text style={[{ fontSize: size, fontWeight: "900", letterSpacing: -1, color: i < 3 ? "#FFFFFF" : "#9DB8FF" }, s]}>{ch}</Animated.Text>;
+  return <Animated.Text style={[{ fontSize: size, fontWeight: "900", letterSpacing: -1, color: LETTER_COLORS[Math.round((i / Math.max(n - 1, 1)) * (LETTER_COLORS.length - 1))] }, s]}>{ch}</Animated.Text>;
 }
 
-const WORDS: [string, string][] = [["Grow.", C.farm], ["Go.", C.ride], ["Dine.", C.dine]];
+const WORDS: [string, string][] = [["Grow.", C.farm], ["Ride.", C.ride], ["Dine.", C.dine], ["Heal.", "#2DD4BF"], ["Explore.", "#A78BFA"]];
 function TaglineCycle() {
   const t = useLoop(WORDS.length * 1600, { delay: 1100 });
   return (
-    <Animated.View entering={FadeIn.delay(1000)} style={{ height: 30, width: 220, overflow: "hidden", flexDirection: "row", justifyContent: "center", alignItems: "center", gap: 8 }}>
-      <Animated.Text style={{ color: "rgba(255,255,255,0.7)", fontSize: 17, fontWeight: "600" }}>One app to</Animated.Text>
-      <View style={{ width: 70, height: 30 }}>
+    <Animated.View entering={FadeIn.delay(1000)} style={{ height: 30, width: 250, overflow: "hidden", flexDirection: "row", justifyContent: "center", alignItems: "center", gap: 8 }}>
+      <Animated.Text style={{ color: "rgba(255,255,255,0.7)", fontSize: 17, fontWeight: "600" }}>Your friend to</Animated.Text>
+      <View style={{ width: 92, height: 30 }}>
         {WORDS.map(([w, c], i) => <CycleWord key={w} word={w} color={c} i={i} t={t} />)}
       </View>
     </Animated.View>

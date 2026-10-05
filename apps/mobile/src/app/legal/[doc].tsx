@@ -51,7 +51,7 @@ export default function LegalPage() {
           </Animated.View>
         ))}
 
-        <Pressable onPress={() => Linking.openURL(`mailto:${LEGAL_CONTACT}?subject=${encodeURIComponent(`TriVerse — ${d.title}`)}`)}
+        <Pressable onPress={() => Linking.openURL(`mailto:${LEGAL_CONTACT}?subject=${encodeURIComponent(`PvtFrnd — ${d.title}`)}`)}
           style={{ alignSelf: "flex-start", paddingVertical: 12, paddingHorizontal: 18, borderRadius: 999, backgroundColor: t.tint }}>
           <Text style={{ color: t.deep, fontWeight: "700" }}>✉️  Contact us</Text>
         </Pressable>

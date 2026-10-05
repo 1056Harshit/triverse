@@ -58,7 +58,7 @@ export default function RideDetail() {
           <Card style={{ flex: 1 }}><P small muted>Per seat</P><Text style={{ fontSize: 26, fontWeight: "800", color: t.deep }}>₹{ride.seatPrice}</Text><P small muted>fair cost-share</P></Card>
           <Card style={{ flex: 1 }}><P small muted>Volvo bus ≈</P><Text style={{ fontSize: 26, fontWeight: "800", color: t.muted, textDecorationLine: "line-through" }}>₹{ride.busEstimate}</Text><P small muted>estimate</P></Card>
         </Row>
-        <P small muted>⚠️ Bus fares are estimates and not confirmed. The seat price is set by the driver within TriVerse's cost-share limit.</P>
+        <P small muted>⚠️ Bus fares are estimates and not confirmed. The seat price is set by the driver within PvtFrnd's cost-share limit.</P>
 
         <Card>
           <Row>
@@ -89,7 +89,7 @@ export default function RideDetail() {
             </View>
             <P small>Tell this PIN to the driver only after you've checked their face and number plate and are seated.</P>
             <Row>
-              <Button style={{ flex: 1 }} label="Share trip" variant="secondary" onPress={() => Share.share({ message: `I'm riding ${ride.origin.name} → ${ride.destination.name} with ${ride.driver.name} on TriVerse (booking ${booked.code}). Track: https://pvtfrnd.com/t/${booked.code}` })} />
+              <Button style={{ flex: 1 }} label="Share trip" variant="secondary" onPress={() => Share.share({ message: `I'm riding ${ride.origin.name} → ${ride.destination.name} with ${ride.driver.name} on PvtFrnd (booking ${booked.code}). Track: https://pvtfrnd.com/t/${booked.code}` })} />
               <Button style={{ flex: 1 }} label="SOS" variant="danger" onPress={sos} />
             </Row>
           </Card>

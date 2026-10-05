@@ -14,7 +14,7 @@ import { Button, Card, Chip, H, P, Row, Screen, useTheme } from "@/components/ui
 import { api, ApiError } from "@/lib/api";
 import { useHere } from "@/lib/location";
 
-/** Popular Himachal trips; tapping one asks Yatra Guide for a full plan. */
+/** Popular Himachal trips; tapping one asks Travel Frnd for a full plan. */
 const DESTINATIONS: Array<{ name: string; emoji: string; line: string; season: string; colors: [string, string] }> = [
   { name: "Manali", emoji: "🏔", line: "Solang, Old Manali, Atal Tunnel", season: "Oct–Jun", colors: ["#1E3A8A", "#60A5FA"] },
   { name: "Kasol", emoji: "🌲", line: "Parvati valley, cafés, Kheerganga", season: "Mar–Jun, Sep–Nov", colors: ["#14532D", "#4ADE80"] },
@@ -69,7 +69,7 @@ function Travel() {
             style={{ backgroundColor: t.bg, borderRadius: 12, padding: 13, fontSize: 16, color: t.text, borderWidth: 1, borderColor: t.border }} />
           <Row gap={2}>{[2, 3, 5, 7].map((d) => <Chip key={d} label={`${d} days`} selected={days === d} onPress={() => setDays(d)} />)}</Row>
           <P small muted>Costs in plans are estimates and not confirmed.</P>
-          <Button label="Plan it with Yatra Guide" disabled={dest.trim().length < 2} onPress={() => plan(`Plan a ${days}-day trip to ${dest.trim()}${from} for 2 people: route, stays, food, sights, weather and a budget.`)} />
+          <Button label="Plan it with Travel Frnd" disabled={dest.trim().length < 2} onPress={() => plan(`Plan a ${days}-day trip to ${dest.trim()}${from} for 2 people: route, stays, food, sights, weather and a budget.`)} />
         </Card>
       </Stagger>
 
@@ -103,7 +103,7 @@ function Travel() {
       {denied && <Card><P muted>Allow location to see sights and stays near you.</P></Card>}
       {here && !current && <><SkeletonCard image={false} /><SkeletonCard image={false} /></>}
       {current?.error && <Card><P muted>{current.error}</P><Button label="Try again" variant="secondary" onPress={load} /></Card>}
-      {current?.list?.length === 0 && <Card><P muted>Nothing listed within 20 km yet. Ask Yatra Guide for ideas.</P></Card>}
+      {current?.list?.length === 0 && <Card><P muted>Nothing listed within 20 km yet. Ask Travel Frnd for ideas.</P></Card>}
       {current?.list?.map((f, i) => <Stagger key={f.id} index={i}><FacilityCard f={f} service="travel" /></Stagger>)}
 
       <Stagger index={3}>

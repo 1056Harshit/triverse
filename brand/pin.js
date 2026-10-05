@@ -1,4 +1,4 @@
-// Single source of truth for the TriVerse pin mark. Used by the export script.
+// Single source of truth for the PvtFrnd pin mark. Used by the export script.
 const PIN = "M70 145 C50 115 28 100 28 75 A42 42 0 1 1 112 75 C112 100 90 115 70 145 Z";
 const C = { navy: "#1E3A8A", blue: "#2F6FEB", green: "#22A35A", coral: "#F2643D", ink: "#0F172A", line: "#CBD5E1" };
 const MODES = {
@@ -37,10 +37,12 @@ function iconSvg({ mode = "all", dark = false, size = 1024, padding = 0.18, roun
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 ${size} ${size}"><rect width="${size}" height="${size}" rx="${r}" fill="${bg}"/><g transform="translate(${tx},${ty}) scale(${s})">${mark({ mode, dark })}</g></svg>`;
 }
 function lockupSvg({ dark = false } = {}) {
-  const tri = dark ? "#E8ECF5" : C.navy, verse = dark ? "#7FA6F5" : C.blue, sub = dark ? "#94A3B8" : "#64748B";
+  // "Pvt" in ink, "Frnd" in the 3-colour brand gradient (green → blue → orange).
+  const pvt = dark ? "#E8ECF5" : C.navy, sub = dark ? "#94A3B8" : "#64748B";
   return `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="360" viewBox="0 0 600 180">
+<defs><linearGradient id="g" gradientUnits="userSpaceOnUse" x1="252" y1="0" x2="388" y2="0"><stop offset="0" stop-color="#22A35A"/><stop offset=".5" stop-color="#2F6FEB"/><stop offset="1" stop-color="#F2643D"/></linearGradient></defs>
 <g transform="translate(10,8) scale(1.1)">${mark({ dark })}</g>
-<text x="150" y="98" font-family="Poppins, 'Segoe UI', Arial, sans-serif" font-size="64" font-weight="600" letter-spacing="-1"><tspan fill="${tri}">Tri</tspan><tspan fill="${verse}">Verse</tspan></text>
-<text x="154" y="134" font-family="Poppins, 'Segoe UI', Arial, sans-serif" font-size="20" fill="${sub}" letter-spacing="2">GROW · GO · DINE</text></svg>`;
+<text x="150" y="98" font-family="Poppins, 'Segoe UI', Arial, sans-serif" font-size="64" font-weight="700" letter-spacing="-1"><tspan fill="${pvt}">Pvt</tspan><tspan fill="url(#g)">Frnd</tspan></text>
+<text x="154" y="134" font-family="Poppins, 'Segoe UI', Arial, sans-serif" font-size="20" fill="${sub}" letter-spacing="2">YOUR FRIEND FOR EVERYTHING</text></svg>`;
 }
 module.exports = { C, MODES, mark, markSvg, iconSvg, lockupSvg, PIN };

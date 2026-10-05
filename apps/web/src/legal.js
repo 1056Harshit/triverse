@@ -11,7 +11,7 @@ try {
     const d = await res.json();
     const main = document.querySelector("main.doc");
     const links = main.querySelector(".doc-links")?.outerHTML ?? "";
-    document.title = `${d.title} — TriVerse`;
+    document.title = `${d.title} — PvtFrnd`;
     main.innerHTML = `<div class="doc-icon">${esc(d.icon)}</div><h1>${esc(d.title)}</h1><p class="updated">Last updated ${esc(d.updated)}</p>`
       + (d.intro ? `<p class="intro">${rich(d.intro)}</p>` : "")
       + (d.sections ?? []).map((s) => `<section class="doc-card"><h2>${esc(s.heading)}</h2>`

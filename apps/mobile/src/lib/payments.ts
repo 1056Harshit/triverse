@@ -3,7 +3,7 @@
  * (money is held, not taken, until the trip completes).
  *
  * Production: install `react-native-razorpay` (needs a development build) and
- * open checkout with { key: keyId, order_id: orderId, amount, name: "TriVerse" };
+ * open checkout with { key: keyId, order_id: orderId, amount, name: "PvtFrnd" };
  * it resolves with razorpay_payment_id + razorpay_signature for /confirm-payment.
  */
 export async function authorisePayment(order: { orderId: string; keyId?: string }, _amount: number) {

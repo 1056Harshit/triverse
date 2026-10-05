@@ -118,7 +118,7 @@ type UserRow = typeof schema.users.$inferSelect;
 
 /**
  * Sign-in emails (only when the account has an email address):
- *   first sign-in → "Welcome to TriVerse"; every later sign-in → "Welcome back" with device and time.
+ *   first sign-in → "Welcome to PvtFrnd"; every later sign-in → "Welcome back" with device and time.
  */
 function sendLoginEmail(app: FastifyInstance, user: UserRow, isNew: boolean, method: "email" | "phone" | "google" | "apple", ua?: string) {
   if (!user.email) return;
@@ -130,6 +130,6 @@ function sendLoginEmail(app: FastifyInstance, user: UserRow, isNew: boolean, met
 
 function deviceLabel(ua = ""): string {
   const os = /Android/i.test(ua) ? "Android" : /iPhone|iPad|iOS/i.test(ua) ? "iPhone" : /Mac/i.test(ua) ? "Mac" : /Windows/i.test(ua) ? "Windows" : "a device";
-  const app = /TriVerse|okhttp|CFNetwork|Expo/i.test(ua) ? "TriVerse app" : /Chrome/i.test(ua) ? "Chrome" : /Safari/i.test(ua) ? "Safari" : "browser";
+  const app = /PvtFrnd|okhttp|CFNetwork|Expo/i.test(ua) ? "PvtFrnd app" : /Chrome/i.test(ua) ? "Chrome" : /Safari/i.test(ua) ? "Safari" : "browser";
   return `${app} on ${os}`;
 }

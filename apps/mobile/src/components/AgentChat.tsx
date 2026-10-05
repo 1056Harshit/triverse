@@ -56,7 +56,7 @@ export function AgentChat({ agent, suggestions, initialPrompt, autoCamera, autoV
   const convo = useRef<string | undefined>(undefined);
   const stop = useRef<(() => void) | null>(null);
   const list = useRef<FlatList<Msg>>(null);
-  const name = agent === "promo" ? "Campaign Studio" : agent === "triverse" ? "Ask TriVerse" : SERVICES[agent].agentName;
+  const name = agent === "promo" ? "Campaign Studio" : agent === "triverse" ? "Ask Frnd" : SERVICES[agent].agentName;
   const pinFor = agent === "promo" || agent === "triverse" ? "brand" : agent;
 
   useEffect(() => () => stop.current?.(), []);

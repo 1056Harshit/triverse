@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { Text, View } from "react-native";
 import Svg, { Circle, Path, Polygon } from "react-native-svg";
 import Animated, { useAnimatedProps, useSharedValue, withDelay, withRepeat, withSequence, withSpring, withTiming, Easing } from "react-native-reanimated";
+import { GradientText } from "./BrandGradient";
 import { BRAND, CORE_SERVICES, SERVICES, type ServiceId } from "@triverse/shared";
 
 const PIN = "M70 145 C50 115 28 100 28 75 A42 42 0 1 1 112 75 C112 100 90 115 70 145 Z";
@@ -52,10 +53,12 @@ export function PinMark({ size = 48, active, animate = "none", onDark }: Props) 
 }
 
 export function Wordmark({ size = 28, onDark }: { size?: number; onDark?: boolean }) {
+  // "Pvt" in solid ink, "Frnd" in the 3-colour brand gradient.
   return (
-    <Text style={{ fontSize: size, fontWeight: "800", letterSpacing: -0.8, color: onDark ? "#FFFFFF" : BRAND.navy }}>
-      Tri<Text style={{ color: onDark ? "#9DB8FF" : BRAND.blue }}>Verse</Text>
-    </Text>
+    <View style={{ flexDirection: "row", alignItems: "center" }}>
+      <Text style={{ fontSize: size, fontWeight: "800", letterSpacing: -0.8, color: onDark ? "#FFFFFF" : BRAND.navy }}>Pvt</Text>
+      <GradientText text="Frnd" size={size} />
+    </View>
   );
 }
 
@@ -65,7 +68,7 @@ export function Lockup({ size = 40, tagline = true }: { size?: number; tagline?:
       <PinMark size={size * 1.4} animate="intro" />
       <View>
         <Wordmark size={size * 0.8} />
-        {tagline && <Text style={{ fontSize: size * 0.28, letterSpacing: 2, color: "#64748B", fontWeight: "600" }}>GROW · GO · DINE</Text>}
+        {tagline && <Text style={{ fontSize: size * 0.28, letterSpacing: 2, color: "#64748B", fontWeight: "600" }}>YOUR FRIEND FOR EVERYTHING</Text>}
       </View>
     </View>
   );

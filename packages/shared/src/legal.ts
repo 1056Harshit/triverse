@@ -14,7 +14,7 @@ export const LEGAL_DOCS: Record<LegalDocId, LegalDoc> = {
   privacy: {
     id: "privacy", title: "Privacy Policy", icon: "🔐", updated: UPDATED,
     summary: "What we collect, why, and your rights",
-    intro: "TriVerse (\"we\") runs the TriVerse app and pvtfrnd.com. This policy explains what personal data we collect, why we use it, and the choices you have under India's Digital Personal Data Protection Act, 2023 (DPDP Act).",
+    intro: "PvtFrnd (\"we\") runs the PvtFrnd app and pvtfrnd.com. This policy explains what personal data we collect, why we use it, and the choices you have under India's Digital Personal Data Protection Act, 2023 (DPDP Act).",
     sections: [
       { heading: "What we collect", bullets: [
         "**Account:** your phone number or email, your name, and a profile photo if you add one.",
@@ -29,7 +29,7 @@ export const LEGAL_DOCS: Record<LegalDocId, LegalDoc> = {
       ] },
       { heading: "Who processes it for us", bullets: [
         "**Supabase** — database and file storage",
-        "**Render** — servers that run TriVerse",
+        "**Render** — servers that run PvtFrnd",
         "**Google Gemini** — AI answers, from the text, photos or voice you send",
         "**2Factor** — SMS and phone-call sign-in codes",
         "**Google (Gmail)** — sign-in and account emails",
@@ -45,18 +45,18 @@ export const LEGAL_DOCS: Record<LegalDocId, LegalDoc> = {
         "Withdraw consent — e.g. turn off location or microphone in your phone's settings",
         "Raise a complaint with us, and if unresolved, with the Data Protection Board of India",
       ] },
-      { heading: "Children", body: ["TriVerse is for people aged 18 and over. We don't knowingly collect data from children."] },
+      { heading: "Children", body: ["PvtFrnd is for people aged 18 and over. We don't knowingly collect data from children."] },
       { heading: "Contact & grievance officer", body: [`Email **${LEGAL_CONTACT}**. We reply within 7 days.`] },
     ],
   },
 
   terms: {
     id: "terms", title: "Terms of Use", icon: "📜", updated: UPDATED,
-    summary: "The rules for using TriVerse",
-    intro: "By using TriVerse you agree to these terms. Please read them — they're short.",
+    summary: "The rules for using PvtFrnd",
+    intro: "By using PvtFrnd you agree to these terms. Please read them — they're short.",
     sections: [
       { heading: "The service", body: [
-        "TriVerse brings together farming help, ride sharing, food and stay listings, health facility listings and trip planning, with AI assistants.",
+        "PvtFrnd brings together farming help, ride sharing, food and stay listings, health facility listings and trip planning, with AI assistants.",
         "Prices, ratings, timings and availability come from public and third-party sources and are **estimates, not confirmed**. Always check before you rely on them.",
       ] },
       { heading: "Advice is guidance only", body: [
@@ -64,7 +64,7 @@ export const LEGAL_DOCS: Record<LegalDocId, LegalDoc> = {
         "**In a medical emergency call 112** or go to the nearest hospital. Always read pesticide labels and follow local rules.",
       ] },
       { heading: "Ride sharing", bullets: [
-        "Rides are shared between private individuals to split travel costs; TriVerse is not a taxi operator.",
+        "Rides are shared between private individuals to split travel costs; PvtFrnd is not a taxi operator.",
         "Drivers must hold a valid driving licence, vehicle registration and insurance.",
         "Seat prices are capped at a fair cost-share — no profit-making rides.",
         "Be on time, respectful and safe. We may suspend accounts that put others at risk.",
@@ -72,10 +72,10 @@ export const LEGAL_DOCS: Record<LegalDocId, LegalDoc> = {
       { heading: "Your account", bullets: [
         "You must be 18 or older and give accurate details.",
         "Keep your phone and email secure — sign-in codes are sent there.",
-        "Don't misuse TriVerse: no fake listings, spam, harassment or illegal content.",
+        "Don't misuse PvtFrnd: no fake listings, spam, harassment or illegal content.",
       ] },
-      { heading: "Your content", body: ["You own what you upload. You give us permission to store and process it to run TriVerse. Only upload what you have the right to share."] },
-      { heading: "Liability", body: ["We work hard to keep TriVerse accurate and available, but provide it \"as is\". To the extent the law allows, we are not liable for indirect losses or for the actions of other users."] },
+      { heading: "Your content", body: ["You own what you upload. You give us permission to store and process it to run PvtFrnd. Only upload what you have the right to share."] },
+      { heading: "Liability", body: ["We work hard to keep PvtFrnd accurate and available, but provide it \"as is\". To the extent the law allows, we are not liable for indirect losses or for the actions of other users."] },
       { heading: "Changes and law", body: ["We may update these terms and will tell you in the app when we do. These terms are governed by the laws of India."] },
       { heading: "Contact", body: [`**${LEGAL_CONTACT}**`] },
     ],
@@ -84,12 +84,12 @@ export const LEGAL_DOCS: Record<LegalDocId, LegalDoc> = {
   safety: {
     id: "safety", title: "Safety & Security", icon: "🛡️", updated: UPDATED,
     summary: "How we protect you and your account",
-    intro: "Your safety and your data come first. Here's what TriVerse does — and what you can do — to stay safe.",
+    intro: "Your safety and your data come first. Here's what PvtFrnd does — and what you can do — to stay safe.",
     sections: [
       { heading: "Your account", bullets: [
         "**No passwords to steal** — you sign in with a one-time code sent to your phone or email.",
         "Codes expire in 10 minutes and are locked after too many wrong tries.",
-        "**Never share your code.** TriVerse staff will never ask for it. Only an automated call reads it out to you.",
+        "**Never share your code.** PvtFrnd staff will never ask for it. Only an automated call reads it out to you.",
         "You stay signed in with secure tokens stored in your phone's protected storage (Keychain / Keystore).",
       ] },
       { heading: "Your data", bullets: [
@@ -120,9 +120,9 @@ export const LEGAL_DOCS: Record<LegalDocId, LegalDoc> = {
   "delete-account": {
     id: "delete-account", title: "Delete your account", icon: "🗑️", updated: UPDATED,
     summary: "How to delete your account and data",
-    intro: "You can delete your TriVerse account and data at any time.",
+    intro: "You can delete your PvtFrnd account and data at any time.",
     sections: [
-      { heading: "Quickest way", body: ["Open the TriVerse app → **Settings** → **Delete my account**. It takes effect immediately."] },
+      { heading: "Quickest way", body: ["Open the PvtFrnd app → **Settings** → **Delete my account**. It takes effect immediately."] },
       { heading: "Can't open the app?", body: [`Email **${LEGAL_CONTACT}** from the email on your account, or include the phone number you sign in with. We'll confirm and delete your account within 7 days.`] },
       { heading: "What gets deleted", bullets: [
         "Your profile, photos, banners and settings",

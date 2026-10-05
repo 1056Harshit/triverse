@@ -96,7 +96,7 @@ export default function Verify() {
         <View style={{ width: 24, height: 24, borderRadius: 6, borderWidth: 2, borderColor: t.primary, backgroundColor: consent ? t.primary : "transparent", alignItems: "center", justifyContent: "center" }}>
           {consent && <Text style={{ color: "#fff", fontWeight: "900" }}>✓</Text>}
         </View>
-        <View style={{ flex: 1 }}><P small>I consent to TriVerse verifying my licence, RC and selfie with government databases through its KYC partner. My selfie isn't stored, and I can delete my data any time (DPDP Act 2023).</P></View>
+        <View style={{ flex: 1 }}><P small>I consent to PvtFrnd verifying my licence, RC and selfie with government databases through its KYC partner. My selfie isn't stored, and I can delete my data any time (DPDP Act 2023).</P></View>
       </Pressable>
       {error && <P>{error}</P>}
       <Button label="Verify me" onPress={submit} loading={busy} disabled={!ready} />

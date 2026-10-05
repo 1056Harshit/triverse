@@ -86,7 +86,7 @@ export default function RideBookedEmail({
       </Section>
 
       <Section className="tv-pad" style={{ padding: "8px 32px 8px" }}>
-        <Text style={{ fontSize: 14, fontWeight: 600, color: "#0F172A", margin: "0 0 6px" }}>Ride safe with TriVerse</Text>
+        <Text style={{ fontSize: 14, fontWeight: 600, color: "#0F172A", margin: "0 0 6px" }}>Ride safe with PvtFrnd</Text>
         <Text style={{ fontSize: 13, lineHeight: "21px", color: "#475569", margin: 0 }}>
           📡 Share your live trip with family in one tap<br />
           🆘 SOS button connects to 112 and our safety desk<br />

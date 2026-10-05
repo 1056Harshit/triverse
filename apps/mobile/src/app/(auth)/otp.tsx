@@ -75,7 +75,7 @@ export default function Otp() {
         <Text style={{ color: wait > 0 ? t.subtle : t.primary, fontWeight: "700" }}>{wait > 0 ? `Resend code in ${wait}s` : "Resend code"}</Text>
       </Pressable>
       <View style={{ flex: 1 }} />
-      <P small muted center>🛡 Only the automated call reads out your code. A real person from TriVerse will never ask you for it.</P>
+      <P small muted center>🛡 Only the automated call reads out your code. A real person from PvtFrnd will never ask you for it.</P>
       <Button label="Verify" onPress={() => verify()} loading={busy} disabled={code.length !== LEN} />
       </View>
     </SafeAreaView>

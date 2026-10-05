@@ -41,7 +41,7 @@ function NotSelected({ service }: { service: ServiceId }) {
           You haven't selected {svc.name}
         </Animated.Text>
         <Animated.Text entering={FadeInUp.delay(180)} style={{ fontSize: 15, color: t.muted, textAlign: "center", lineHeight: 22 }}>
-          {svc.tagline}. Do you want to add {svc.name} to your TriVerse?
+          {svc.tagline}. Do you want to add {svc.name} to your PvtFrnd?
         </Animated.Text>
       </View>
       <Animated.View entering={FadeInUp.delay(260)} style={{ gap: 10, marginTop: 10 }}>

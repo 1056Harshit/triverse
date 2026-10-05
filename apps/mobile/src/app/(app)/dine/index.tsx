@@ -51,7 +51,7 @@ function Dine() {
       <Row gap={2} style={{ flexWrap: "wrap" }}>{KINDS.map(([id, label]) => <Chip key={id} label={id === "saved" && favs?.length ? `${label} (${favs.length})` : label} selected={kind === id} onPress={() => setKind(id)} />)}</Row>
 
       <Card tinted onPress={() => router.push({ pathname: "/chat/[agent]", params: { agent: "dine" } })}>
-        <Text style={{ fontWeight: "800", color: t.deep }}>💬 Ask Swad Guide</Text>
+        <Text style={{ fontWeight: "800", color: t.deep }}>💬 Ask Dine Frnd</Text>
         <P small>"Best momos within 2 km that are open now?"</P>
       </Card>
 

@@ -1,4 +1,4 @@
-# TriVerse API (apps/server) — runs on Render, Railway, Fly.io, Koyeb or any Docker host.
+# PvtFrnd API (apps/server) — runs on Render, Railway, Fly.io, Koyeb or any Docker host.
 FROM node:22-slim
 WORKDIR /app
 ENV NODE_ENV=production PORT=4000

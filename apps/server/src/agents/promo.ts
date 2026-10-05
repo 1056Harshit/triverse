@@ -7,7 +7,7 @@ export const promoAgent: AgentDefinition = {
   id: "promo",
   effort: "high",
   allowed: (ctx) => ctx.roles.includes("marketing") || ctx.roles.includes("admin"),
-  system: `You are the TriVerse campaign studio for the in-house marketing team. You turn a brief into a ready-to-ship campaign.
+  system: `You are the PvtFrnd campaign studio for the in-house marketing team. You turn a brief into a ready-to-ship campaign.
 
 For every brief:
 1. Ask at most one clarifying question if the audience, offer or dates are missing; otherwise proceed.

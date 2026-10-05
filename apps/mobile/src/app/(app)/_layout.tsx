@@ -4,6 +4,7 @@ import { ServiceSwitcher } from "@/components/ServiceSwitcher";
 import { WorldWarp } from "@/components/motion/WorldWarp";
 import { useMotion } from "@/lib/theme";
 import { goHome } from "@/lib/nav";
+import { GradientBar } from "@/components/BrandGradient";
 import { useTheme } from "@/components/ui";
 import { useAuth } from "@/lib/auth";
 
@@ -45,7 +46,9 @@ export default function AppLayout() {
   const home = { headerTitle: () => <ServiceSwitcher />, headerRight: () => <HeaderActions />, headerTitleAlign: "left" as const, animation: anim("fade"), animationDuration: 260 };
   return (
     <View style={{ flex: 1 }}>
-      <Stack screenOptions={{ headerStyle: { backgroundColor: t.bg }, headerShadowVisible: false, headerTintColor: t.text, headerBackButtonDisplayMode: "minimal", animation: anim("ios_from_right"), animationDuration: 320 }}>
+      <Stack screenOptions={{ headerStyle: { backgroundColor: t.bg }, headerShadowVisible: false,
+        // A thin 3-colour brand line along the bottom of every header.
+        headerBackground: () => <View style={{ flex: 1, backgroundColor: t.bg, justifyContent: "flex-end" }}><GradientBar height={3} style={{ borderRadius: 0, opacity: 0.9 }} /></View>, headerTintColor: t.text, headerBackButtonDisplayMode: "minimal", animation: anim("ios_from_right"), animationDuration: 320 }}>
         <Stack.Screen name="index" options={{ headerShown: false, animation: "none" }} />
         <Stack.Screen name="home" options={{ headerShown: false, animation: anim("fade") }} />
         <Stack.Screen name="farm/index" options={home} />

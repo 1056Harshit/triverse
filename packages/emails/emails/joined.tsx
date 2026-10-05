@@ -18,17 +18,17 @@ const BLURB: Record<ServiceId, [string, string]> = {
 export default function JoinedEmail({ name, sentAt }: JoinedEmailProps) {
   const first = name?.split(" ")[0];
   return (
-    <Layout preview={`Welcome to TriVerse${first ? `, ${first}` : ""}! Five worlds, one friendly app.`}>
+    <Layout preview={`Welcome to PvtFrnd${first ? `, ${first}` : ""}! Five worlds, one friendly app.`}>
       <Section style={{ backgroundColor: "#EEF3FF", padding: "40px 32px 28px", textAlign: "center" }}>
         <Text className="tv-float" style={{ fontSize: 54, margin: 0, lineHeight: "60px" }}>🎉</Text>
         <Text style={{ fontSize: 14, color: "#1E3A8A", fontWeight: 600, letterSpacing: 1.5, margin: "12px 0 6px" }}>
           {greeting(sentAt).toUpperCase()}{first ? `, ${first.toUpperCase()}` : ""} 👋
         </Text>
-        <Text style={{ fontSize: 28, lineHeight: "36px", color: "#0F172A", fontWeight: 700, margin: "0 0 10px" }}>Welcome to TriVerse</Text>
+        <Text style={{ fontSize: 28, lineHeight: "36px", color: "#0F172A", fontWeight: 700, margin: "0 0 10px" }}>Welcome to PvtFrnd</Text>
         <Text style={{ fontSize: 16, lineHeight: "24px", color: "#334155", margin: "0 auto 24px", maxWidth: 440 }}>
           One app for your farm, your rides, your meals, your health and your trips, with a friendly AI helper in each.
         </Text>
-        <CTA href={`${APP_URL}/open`} label="Open TriVerse" color="#2F6FEB" />
+        <CTA href={`${APP_URL}/open`} label="Open PvtFrnd" color="#2F6FEB" />
       </Section>
 
       <Section className="tv-pad" style={{ padding: "26px 32px 6px" }}>
@@ -50,9 +50,9 @@ export default function JoinedEmail({ name, sentAt }: JoinedEmailProps) {
           <Row>
             <Column style={{ width: 52 }}><Img src={`${ASSET_BASE}/email-mark.png`} width={36} height={45} alt="" /></Column>
             <Column>
-              <Text style={{ margin: 0, fontSize: 16, color: "#FFFFFF", fontWeight: 700 }}>🎤 Just say it: "Ask TriVerse"</Text>
+              <Text style={{ margin: 0, fontSize: 16, color: "#FFFFFF", fontWeight: 700 }}>🎤 Just say it: "Ask Frnd"</Text>
               <Text style={{ margin: "4px 0 0", fontSize: 13, lineHeight: "20px", color: "#CBD5E1" }}>
-                Tap the mic button and speak in Hindi, Punjabi or English. TriVerse figures out the rest.
+                Tap the mic button and speak in Hindi, Punjabi or English. PvtFrnd figures out the rest.
               </Text>
             </Column>
           </Row>

@@ -21,7 +21,7 @@ export default function DriverVerifiedEmail({
   const a = accent("ride");
   const ok = status === "verified";
   return (
-    <Layout preview={ok ? "You're a verified TriVerse driver" : "Action needed on your driver verification"} accentKey="ride">
+    <Layout preview={ok ? "You're a verified PvtFrnd driver" : "Action needed on your driver verification"} accentKey="ride">
       <Section style={{ backgroundColor: ok ? "#ECFDF5" : "#FEF2F2", padding: "36px 32px", textAlign: "center" }}>
         <Text className="tv-pop" style={{ fontSize: 54, margin: 0 }}>{ok ? "🏅" : "📄"}</Text>
         <Text style={{ fontSize: 26, fontWeight: 700, color: "#0F172A", margin: "8px 0 6px" }}>

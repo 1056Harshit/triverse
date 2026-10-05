@@ -53,7 +53,7 @@ export function ServiceSwitcher() {
                   <PinMark size={46} active={confirm} />
                 </View>
                 <Text style={{ fontSize: 20, fontWeight: "800", color: t.text, textAlign: "center" }}>You haven't selected {SERVICES[confirm].name}</Text>
-                <Text style={{ fontSize: 14, color: t.muted, textAlign: "center" }}>Do you want to add {SERVICES[confirm].name} to your TriVerse?</Text>
+                <Text style={{ fontSize: 14, color: t.muted, textAlign: "center" }}>Do you want to add {SERVICES[confirm].name} to your PvtFrnd?</Text>
                 <View style={{ flexDirection: "row", gap: 10, alignSelf: "stretch" }}>
                   <Pressable onPress={() => setConfirm(null)} style={{ flex: 1, paddingVertical: 14, borderRadius: 999, borderWidth: 1.5, borderColor: t.border, alignItems: "center" }}>
                     <Text style={{ fontWeight: "700", color: t.text }}>No</Text>

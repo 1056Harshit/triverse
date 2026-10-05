@@ -39,7 +39,7 @@ export function Layout({ preview, accentKey = "brand", children, marketing = fal
           <Section style={{ backgroundColor: BRAND.navy, borderRadius: "20px 20px 0 0", padding: "20px 28px" }}>
             <Row>
               <Column style={{ width: 44 }}>
-                <Img src={`${ASSET_BASE}/email-mark.png`} width={34} height={42} alt="TriVerse" className="tv-float" />
+                <Img src={`${ASSET_BASE}/email-mark.png`} width={34} height={42} alt="PvtFrnd" className="tv-float" />
               </Column>
               <Column>
                 <Text style={{ margin: 0, fontSize: 22, fontWeight: 600, color: "#FFFFFF", letterSpacing: -0.5 }}>
@@ -47,7 +47,7 @@ export function Layout({ preview, accentKey = "brand", children, marketing = fal
                 </Text>
               </Column>
               <Column align="right">
-                <Text style={{ margin: 0, fontSize: 11, letterSpacing: 2, color: "#A5B4FC" }}>GROW · GO · DINE</Text>
+                <Text style={{ margin: 0, fontSize: 11, letterSpacing: 2, color: "#A5B4FC" }}>YOUR FRIEND FOR EVERYTHING</Text>
               </Column>
             </Row>
           </Section>
@@ -66,7 +66,7 @@ export function Layout({ preview, accentKey = "brand", children, marketing = fal
               </Column>
             </Row>
             <Text style={{ fontSize: 12, color: "#64748B", margin: "14px 0 4px" }}>
-              TriVerse by PvtFrnd · Your private friend for farm, ride and food
+              PvtFrnd · Your private friend for farming, rides, food, health and travel
             </Text>
             <Text style={{ fontSize: 11, color: "#94A3B8", margin: 0 }}>
               <Link href={`${APP_URL}/help`} style={{ color: "#94A3B8" }}>Help centre</Link> ·{" "}

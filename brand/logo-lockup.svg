@@ -1,4 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="360" viewBox="0 0 600 180">
+<defs><linearGradient id="g" gradientUnits="userSpaceOnUse" x1="252" y1="0" x2="388" y2="0"><stop offset="0" stop-color="#22A35A"/><stop offset=".5" stop-color="#2F6FEB"/><stop offset="1" stop-color="#F2643D"/></linearGradient></defs>
 <g transform="translate(10,8) scale(1.1)"><path d="M70 145 C50 115 28 100 28 75 A42 42 0 1 1 112 75 C112 100 90 115 70 145 Z" fill="#1E3A8A"/><circle cx="70" cy="75" r="30" fill="#FFFFFF"/><polygon points="70,62 58,84 82,84" fill="none" stroke="#CBD5E1" stroke-width="3" stroke-linejoin="round"/><circle cx="70" cy="62" r="9" fill="#22A35A"/><circle cx="58" cy="84" r="9" fill="#2F6FEB"/><circle cx="82" cy="84" r="9" fill="#F2643D"/></g>
-<text x="150" y="98" font-family="Poppins, 'Segoe UI', Arial, sans-serif" font-size="64" font-weight="600" letter-spacing="-1"><tspan fill="#1E3A8A">Tri</tspan><tspan fill="#2F6FEB">Verse</tspan></text>
-<text x="154" y="134" font-family="Poppins, 'Segoe UI', Arial, sans-serif" font-size="20" fill="#64748B" letter-spacing="2">GROW · GO · DINE</text></svg>
+<text x="150" y="98" font-family="Poppins, 'Segoe UI', Arial, sans-serif" font-size="64" font-weight="700" letter-spacing="-1"><tspan fill="#1E3A8A">Pvt</tspan><tspan fill="url(#g)">Frnd</tspan></text>
+<text x="154" y="134" font-family="Poppins, 'Segoe UI', Arial, sans-serif" font-size="20" fill="#64748B" letter-spacing="2">YOUR FRIEND FOR EVERYTHING</text></svg>

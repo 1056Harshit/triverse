@@ -14,6 +14,7 @@ import Animated, {
 const APath = Animated.createAnimatedComponent(Path);
 import type { ServiceId } from "@triverse/shared";
 import { ParallaxHeader } from "./scroll";
+import { GradientBar } from "@/components/BrandGradient";
 import { useTilt } from "./useTilt";
 
 const H = 210;
@@ -520,7 +521,13 @@ function StillHero({ service, title, subtitle }: { service: ServiceId; title: st
 }
 
 export function HeroScene(props: { service: ServiceId; title: string; subtitle: string }) {
-  return <ParallaxHeader><HeroBody {...props} /></ParallaxHeader>;
+  return (
+    <ParallaxHeader>
+      <HeroBody {...props} />
+      {/* Brand underline: the 3-colour gradient beneath every world banner */}
+      <View style={{ alignItems: "center", marginTop: 10 }}><GradientBar height={4} style={{ width: "34%" }} /></View>
+    </ParallaxHeader>
+  );
 }
 
 function HeroBody({ service, title, subtitle }: { service: ServiceId; title: string; subtitle: string }) {

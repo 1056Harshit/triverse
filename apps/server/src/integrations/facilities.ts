@@ -12,7 +12,7 @@ export type FacilityKind = "health" | "hospital" | "pharmacy" | "sights" | "stay
 
 // Public Overpass servers are sometimes overloaded; try the main one twice, then a mirror.
 const OVERPASS = ["https://overpass-api.de/api/interpreter", "https://overpass-api.de/api/interpreter"];
-const UA = "TriVerse/1.0 (pvtfrnd.com)";
+const UA = "PvtFrnd/1.0 (pvtfrnd.com)";
 
 /** Each entry is one Overpass request; parts run one after another (unions of them are slow on Overpass). */
 const QUERIES: Record<FacilityKind, (a: string) => string | string[]> = {

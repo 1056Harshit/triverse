@@ -49,7 +49,7 @@ export default function Settings() {
 
   const confirmDelete = () => {
     const go = () => deleteAccount().catch((e) => Alert.alert("Couldn't delete", e instanceof Error ? e.message : "Try again"));
-    if (Platform.OS === "web") { if (globalThis.confirm?.("Delete your TriVerse account and personal data? This can't be undone.")) go(); return; }
+    if (Platform.OS === "web") { if (globalThis.confirm?.("Delete your PvtFrnd account and personal data? This can't be undone.")) go(); return; }
     Alert.alert("Delete account?", "Your profile, saved places, reminders and chats will be erased. This can't be undone.", [
       { text: "Cancel", style: "cancel" }, { text: "Delete", style: "destructive", onPress: go },
     ]);
@@ -146,7 +146,7 @@ export default function Settings() {
         <Link label="Help & support" url={`mailto:${LEGAL_CONTACT}`} />
         <PhotoCredits />
         <P small muted>Maps data © OpenStreetMap contributors. Prices shown in the app are estimates and not confirmed.</P>
-        <P small muted>TriVerse 1.0.5 · by PvtFrnd</P>
+        <P small muted>PvtFrnd 1.0.6</P>
       </Section>
 
       <Button label="Sign out" variant="secondary" onPress={signOut} />

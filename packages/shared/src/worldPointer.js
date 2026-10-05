@@ -1,4 +1,4 @@
-// TriVerse world pointer: replaces the mouse arrow with a precise glowing dot plus a themed "buddy"
+// PvtFrnd world pointer: replaces the mouse arrow with a precise glowing dot plus a themed "buddy"
 // (leaf, car, plate, heart, plane) that follows it, turns with your movement and leaves a trail.
 // Plain ES module with no dependencies — used by the website and by the web app.
 

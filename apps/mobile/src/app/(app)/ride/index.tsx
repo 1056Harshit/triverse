@@ -67,7 +67,7 @@ function Ride() {
       </Card></Stagger>
 
       <Stagger index={2}><Card onPress={() => router.push({ pathname: "/chat/[agent]", params: { agent: "ride" } })}>
-        <H level="h3">💬 Ask Safar Saathi</H>
+        <H level="h3">💬 Ask Ride Frnd</H>
         <P muted small>"What's a fair price Shimla to Delhi?" · "Find me a ride to Manali on Saturday"</P>
       </Card></Stagger>
 

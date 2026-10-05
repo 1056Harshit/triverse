@@ -28,9 +28,9 @@ const SERVICE_LIST = (Object.keys(SERVICES) as ServiceId[]).map((s) => `- ${s}: 
 export const triverseAgent: AgentDefinition = {
   id: "triverse",
   effort: "medium",
-  system: `You are "Ask TriVerse", the one assistant for the whole TriVerse app. Many users are elderly or new to smartphones and speak by voice, so reply in short, simple sentences in their language and script.
+  system: `You are "Ask Frnd", the one assistant for the whole PvtFrnd app. Many users are elderly or new to smartphones and speak by voice, so reply in short, simple sentences in their language and script.
 
-TriVerse has these specialist assistants:
+PvtFrnd has these specialist assistants:
 ${SERVICE_LIST}
 
 How to work:

@@ -12,15 +12,15 @@ export interface OtpEmailProps {
 }
 
 const PURPOSE = {
-  login: "sign in to TriVerse",
-  signup: "finish creating your TriVerse account",
+  login: "sign in to PvtFrnd",
+  signup: "finish creating your PvtFrnd account",
   verify_email: "verify this email address",
 };
 
 export default function OtpEmail({ code = "482916", minutesValid = 10, purpose = "login", requestedFrom = { device: "Chrome on Android", city: "Shimla, HP", at: "3 Oct 2026, 9:41 AM IST" } }: OtpEmailProps) {
   const a = accent("brand");
   return (
-    <Layout preview={`${code} is your TriVerse code. It expires in ${minutesValid} minutes.`}>
+    <Layout preview={`${code} is your PvtFrnd code. It expires in ${minutesValid} minutes.`}>
       <Section className="tv-pad" style={{ padding: "36px 40px 8px", textAlign: "center" }}>
         <Text style={{ fontSize: 40, margin: 0 }}>🔐</Text>
         <Text className="tv-text" style={{ fontSize: 24, fontWeight: 600, color: "#0F172A", margin: "8px 0 4px" }}>Your one-time code</Text>
@@ -57,7 +57,7 @@ export default function OtpEmail({ code = "482916", minutesValid = 10, purpose =
       )}
       <Section className="tv-pad" style={{ padding: "20px 40px 36px" }}>
         <Text style={{ fontSize: 13, color: "#B91C1C", backgroundColor: "#FEF2F2", borderRadius: 12, padding: "12px 16px", margin: 0 }}>
-          🛡 Never share this code. TriVerse staff, drivers and sellers will <b>never</b> ask for it.
+          🛡 Never share this code. PvtFrnd staff, drivers and sellers will <b>never</b> ask for it.
           If you didn't request it, you can ignore this email; your account is safe.
         </Text>
       </Section>

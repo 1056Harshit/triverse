@@ -44,7 +44,7 @@ function Farm() {
         <Text style={{ fontSize: 44 }}>📸</Text>
         <View style={{ flex: 1 }}>
           <Text style={{ fontSize: 18, fontWeight: "800", color: t.deep }}>Scan a sick plant</Text>
-          <Text style={{ color: t.deep, opacity: 0.85 }}>Take a photo. Krishi Mitra tells you what's wrong and what to do.</Text>
+          <Text style={{ color: t.deep, opacity: 0.85 }}>Take a photo. Farm Frnd tells you what's wrong and what to do.</Text>
         </View>
       </Card></Stagger>
 
@@ -70,7 +70,7 @@ function Farm() {
       </Card></Stagger>
 
       <Stagger index={2}><Row style={{ flexWrap: "wrap", alignItems: "stretch" }}>
-        <Tile emoji="💬" title="Ask Krishi Mitra" subtitle="Any crop question, any language" onPress={() => ask("")} />
+        <Tile emoji="💬" title="Ask Farm Frnd" subtitle="Any crop question, any language" onPress={() => ask("")} />
         <Tile emoji="🧪" title="Find pesticide" subtitle="Registered only, best price" onPress={() => ask("I need a pesticide for my crop. Where can I buy it online, at what price, and how do I use it safely?")} />
         <Tile emoji="🗓" title="Crop calendar" subtitle={`${s.name} season plan`} onPress={() => ask(`Give me a ${s.name} season crop calendar for my area with sowing, fertiliser and spray dates.`)} />
         <Tile emoji="🏛" title="Schemes" subtitle="PM-KISAN, PMFBY, subsidies" onPress={() => ask("Which government schemes and subsidies can I apply for as a farmer in my state, and how?")} />

@@ -25,7 +25,7 @@ async function call(method: "GET" | "POST" | "PUT" | "PATCH", url: string, body?
 
 async function login(email: string, name: string) {
   assert.equal((await call("POST", "/auth/otp/send", { channel: "email", target: email })).status, 200);
-  const line = sent.findLast((l) => l.includes(`to=${email}`) && l.includes("is your TriVerse code"))!;
+  const line = sent.findLast((l) => l.includes(`to=${email}`) && l.includes("is your PvtFrnd code"))!;
   const code = /subject="(\d{6})/.exec(line)![1];
   const wrong = await call("POST", "/auth/otp/verify", { channel: "email", target: email, code: code === "000000" ? "111111" : "000000" });
   assert.equal(wrong.status, 400);
@@ -45,7 +45,7 @@ test("full ride-sharing flow", async () => {
   const svc = await call("PUT", "/me/services", { services: ["ride", "farm"], active: "ride" }, d.accessToken);
   assert.equal(svc.body.activeService, "ride");
   await new Promise((r) => setTimeout(r, 400));
-  assert.ok(sent.some((l) => l.includes("to=driver@example.com") && l.includes("Welcome to TriVerse, Rohit")), "welcome email sent at sign-up");
+  assert.ok(sent.some((l) => l.includes("to=driver@example.com") && l.includes("Welcome to PvtFrnd, Rohit")), "welcome email sent at sign-up");
 
   // Offering a ride is blocked until verified
   const ride = { origin: shimla, destination: chd, stops: [solan], departAt: new Date(Date.now() + 86_400_000).toISOString(), seats: 3, seatPrice: 280, rules: { smoking: false, pets: false, luggage: "medium" } };
@@ -179,7 +179,7 @@ test("sign-in emails: welcome on first sign-in, welcome back after", async () =>
   const before = sent.length;
   await login("newbie@example.com", "Ravi Kumar");
   await new Promise((r) => setTimeout(r, 400));
-  assert.ok(sent.slice(before).some((l) => l.includes("to=newbie@example.com") && l.includes("Welcome to TriVerse, Ravi")), "joined email");
+  assert.ok(sent.slice(before).some((l) => l.includes("to=newbie@example.com") && l.includes("Welcome to PvtFrnd, Ravi")), "joined email");
 
   // Onboarding must not send a second welcome
   const mid = sent.length;
@@ -187,11 +187,11 @@ test("sign-in emails: welcome on first sign-in, welcome back after", async () =>
   await db.delete(schema.otpCodes).where(eq(schema.otpCodes.target, "newbie@example.com"));
   const again = await login("newbie@example.com", "Ravi Kumar");
   await new Promise((r) => setTimeout(r, 400));
-  assert.ok(sent.slice(mid).some((l) => l.includes("to=newbie@example.com") && l.includes("Welcome back to TriVerse")), "welcome-back email");
+  assert.ok(sent.slice(mid).some((l) => l.includes("to=newbie@example.com") && l.includes("Welcome back to PvtFrnd")), "welcome-back email");
   const onb = sent.length;
   await call("PUT", "/me/services", { services: ["farm"] }, again.accessToken);
   await new Promise((r) => setTimeout(r, 400));
-  assert.ok(!sent.slice(onb).some((l) => l.includes("to=newbie@example.com") && l.includes("Welcome to TriVerse Farm")), "no duplicate onboarding welcome");
+  assert.ok(!sent.slice(onb).some((l) => l.includes("to=newbie@example.com") && l.includes("Welcome to PvtFrnd Farm")), "no duplicate onboarding welcome");
 });
 
 test("settings, custom banners and account deletion", async () => {

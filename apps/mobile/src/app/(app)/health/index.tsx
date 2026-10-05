@@ -57,7 +57,7 @@ function Health() {
 
       <Stagger index={1}>
         <Row style={{ flexWrap: "wrap", alignItems: "stretch" }}>
-          <Tile emoji="💬" title="Ask Sehat Saathi" subtitle="Symptoms, medicines, advice" onPress={() => ask("")} />
+          <Tile emoji="💬" title="Ask Health Frnd" subtitle="Symptoms, medicines, advice" onPress={() => ask("")} />
           <Tile emoji="🧾" title="Explain my report" subtitle="Photo of lab report or prescription" onPress={() => ask("Please explain this report in simple words.", true)} />
         </Row>
       </Stagger>

@@ -29,19 +29,19 @@ export async function renderEmail(e: EmailTemplate): Promise<RenderedEmail> {
 function build(e: EmailTemplate): [string, React.ReactElement] {
   switch (e.template) {
     case "otp":
-      return [`${e.props.code} is your TriVerse code`, React.createElement(OtpEmail, e.props)];
+      return [`${e.props.code} is your PvtFrnd code`, React.createElement(OtpEmail, e.props)];
     case "welcome":
-      return [`Welcome to TriVerse ${SERVICES[e.props.service].name}, ${e.props.name.split(" ")[0]}!`, React.createElement(WelcomeEmail, e.props)];
+      return [`Welcome to PvtFrnd ${SERVICES[e.props.service].name}, ${e.props.name.split(" ")[0]}!`, React.createElement(WelcomeEmail, e.props)];
     case "ride-booked":
       return [`Booking ${e.props.bookingId}: ${e.props.from} → ${e.props.to}`, React.createElement(RideBookedEmail, e.props)];
     case "driver-verified":
-      return [e.props.status === "verified" ? "You're a verified TriVerse driver 🏅" : "Action needed: driver verification", React.createElement(DriverVerifiedEmail, e.props)];
+      return [e.props.status === "verified" ? "You're a verified PvtFrnd driver 🏅" : "Action needed: driver verification", React.createElement(DriverVerifiedEmail, e.props)];
     case "campaign":
       return [e.props.headline, React.createElement(CampaignEmail, e.props)];
     case "joined":
-      return [`Welcome to TriVerse${e.props.name ? `, ${e.props.name.split(" ")[0]}` : ""}! 🎉`, React.createElement(JoinedEmail, e.props)];
+      return [`Welcome to PvtFrnd${e.props.name ? `, ${e.props.name.split(" ")[0]}` : ""}! 🎉`, React.createElement(JoinedEmail, e.props)];
     case "signin":
-      return [`Welcome back to TriVerse: new sign-in`, React.createElement(SigninEmail, e.props)];
+      return [`Welcome back to PvtFrnd: new sign-in`, React.createElement(SigninEmail, e.props)];
   }
 }
 

@@ -14,7 +14,7 @@ import { useAuth } from "@/lib/auth";
 
 const ART: Record<ServiceId, string> = { farm: "🌾", ride: "🚗", dine: "🍽️", health: "🏥", travel: "✈️" };
 
-/** The TriVerse home: your logo, every world as a big card, and quick actions. */
+/** The PvtFrnd home: your logo, every world as a big card, and quick actions. */
 export default function HomeScreen() {
   return <View style={{ flex: 1 }}><Home /><AskFab /></View>;
 }
@@ -44,7 +44,7 @@ function Home() {
       {/* Logo + greeting */}
       <ParallaxHeader>
         <View style={{ borderRadius: 28, overflow: "hidden" }}>
-          <LinearGradient colors={["#060A18", "#13204A", "#1E3A8A"]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={{ padding: 20, paddingBottom: 22 }}>
+          <LinearGradient colors={["#0B3D23", "#14306E", "#6E2612"]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={{ padding: 20, paddingBottom: 22 }}>
             <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
               <Wordmark size={24} onDark />
               <View style={{ flexDirection: "row", gap: 8 }}>
@@ -92,7 +92,7 @@ function Home() {
       {/* Quick actions */}
       <Stagger index={mine.length + 1}>
         <View style={{ flexDirection: "row", gap: 10 }}>
-          <Quick icon="🎙️" label="Ask TriVerse" onPress={() => router.push({ pathname: "/chat/[agent]", params: { agent: "triverse" } })} />
+          <Quick icon="🎙️" label="Ask Frnd" onPress={() => router.push({ pathname: "/chat/[agent]", params: { agent: "triverse" } })} />
           <Quick icon="☀️" label="Your day" onPress={() => router.push("/today")} />
           <Quick icon="⚙️" label="Settings" onPress={() => router.push("/settings")} />
         </View>

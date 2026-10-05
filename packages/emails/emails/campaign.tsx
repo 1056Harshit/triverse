@@ -17,7 +17,7 @@ export interface CampaignEmailProps {
 
 export default function CampaignEmail({
   service = "dine", preview = "This weekend: 20% off at Shimla's top-rated cafés", posterUrl = "https://pvtfrnd.com/brand/logo-lockup.png",
-  headline = "Weekend café trail ☕", body = "Five TriScore 4.7+ cafés on the Mall Road, hand-picked by Swad Guide. Show this code at the counter.",
+  headline = "Weekend café trail ☕", body = "Five TriScore 4.7+ cafés on the Mall Road, hand-picked by Dine Frnd. Show this code at the counter.",
   offer = { code: "SWAD20", detail: "20% off up to ₹150 · till Sunday" }, cta = { label: "See the trail", path: "/open/dine" },
 }: CampaignEmailProps) {
   const a = accent(service);

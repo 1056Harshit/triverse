@@ -34,7 +34,7 @@ export async function meRoutes(app: FastifyInstance) {
     const active = body.active && body.services.includes(body.active) ? body.active : body.services[0];
     const [updated] = await db.update(schema.users).set({ services: body.services, activeService: active }).where(eq(schema.users.id, user.id)).returning();
     const fresh = body.services.filter((s) => !user.welcomeSentFor.includes(s));
-    // First onboarding: the "Welcome to TriVerse" email already went out at sign-in, so don't send another.
+    // First onboarding: the "Welcome to PvtFrnd" email already went out at sign-in, so don't send another.
     if (user.services.length === 0) {
       await db.update(schema.users).set({ welcomeSentFor: body.services }).where(eq(schema.users.id, user.id));
     } else if (user.email && fresh.length) {

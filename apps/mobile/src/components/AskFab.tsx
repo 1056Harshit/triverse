@@ -8,7 +8,7 @@ import Animated, { Easing, FadeInUp, interpolate, useAnimatedStyle, useSharedVal
 import { BRAND } from "@triverse/shared";
 
 /**
- * Floating "Ask TriVerse" button on every dashboard.
+ * Floating "Ask Frnd" button on every dashboard.
  * Tap → opens the all-in-one assistant listening by voice. Long-press → type instead.
  */
 export function AskFab() {
@@ -20,12 +20,12 @@ export function AskFab() {
   return (
     <Animated.View entering={FadeInUp.delay(600).springify()} style={{ position: "absolute", right: 16, bottom: Math.max(insets.bottom, 12) + 10, alignItems: "flex-end" }} pointerEvents="box-none">
       <Pressable
-        accessibilityRole="button" accessibilityLabel="Ask TriVerse by voice"
+        accessibilityRole="button" accessibilityLabel="Ask Frnd by voice"
         onPress={() => { Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium); router.push({ pathname: "/chat/[agent]", params: { agent: "triverse", voice: "1" } }); }}
         onLongPress={() => router.push({ pathname: "/chat/[agent]", params: { agent: "triverse" } })}
         style={({ pressed }) => ({ flexDirection: "row", alignItems: "center", transform: [{ scale: pressed ? 0.94 : 1 }] })}>
         <View style={{ backgroundColor: "rgba(15,23,42,0.88)", paddingVertical: 8, paddingLeft: 14, paddingRight: 26, borderRadius: 999, marginRight: -18 }}>
-          <Text style={{ color: "#fff", fontWeight: "800", fontSize: 14 }}>Ask TriVerse</Text>
+          <Text style={{ color: "#fff", fontWeight: "800", fontSize: 14 }}>Ask Frnd</Text>
         </View>
         <View style={{ width: 62, height: 62, alignItems: "center", justifyContent: "center" }}>
           <Animated.View style={[{ position: "absolute", width: 62, height: 62, borderRadius: 31, backgroundColor: BRAND.blue }, ringStyle]} />

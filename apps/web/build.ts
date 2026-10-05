@@ -19,7 +19,7 @@ const legalPage = (d: LegalDoc) => `<!doctype html>
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>${esc(d.title)} — TriVerse</title>
+  <title>${esc(d.title)} — PvtFrnd</title>
   <meta name="description" content="${esc(d.summary)}" />
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700;800&family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
@@ -27,7 +27,7 @@ const legalPage = (d: LegalDoc) => `<!doctype html>
 </head>
 <body data-world="brand">
   <header class="nav">
-    <a class="logo" href="/"><img src="/favicon.svg" alt="" width="26" height="32" /><span>TriVerse</span></a>
+    <a class="logo" href="/"><img src="/favicon.svg" alt="" width="26" height="32" /><span>PvtFrnd</span></a>
     <a class="btn btn-small" style="margin-left:auto" href="/app/">Open app</a>
   </header>
   <main class="doc">
@@ -43,7 +43,7 @@ ${(s.bullets ?? []).length ? `      <ul>${s.bullets!.map((b) => `<li>${rich(b)}<
   </main>
   <footer class="footer">
     <nav aria-label="Legal"><a href="/">Home</a>${LEGAL_ORDER.map((id) => `<a href="/${id}.html">${esc(LEGAL_DOCS[id].title)}</a>`).join("")}</nav>
-    <small>© 2026 TriVerse · pvtfrnd.com</small>
+    <small>© 2026 PvtFrnd · pvtfrnd.com</small>
   </footer>
   <script type="module">import { createWorldPointer } from "/world-pointer.js"; createWorldPointer();</script>
   <script type="module" src="/legal.js" data-doc="${d.id}" data-api="${API_URL}"></script>
@@ -59,7 +59,7 @@ cpSync(`${root}../../brand/png`, `${dist}/brand`, { recursive: true });
 cpSync(`${root}../../packages/shared/src/worldPointer.js`, `${dist}/world-pointer.js`);
 
 if (!process.argv.includes("--site-only")) {
-  // The full TriVerse app for the browser, served at /app.
+  // The full PvtFrnd app for the browser, served at /app.
   execSync(`npx expo export -p web --output-dir ${dist}/app`, {
     cwd: `${root}../mobile`, stdio: "inherit",
     env: { ...process.env, EXPO_BASE_URL: "/app", EXPO_PUBLIC_API_URL: process.env.EXPO_PUBLIC_API_URL ?? "https://api.pvtfrnd.com",

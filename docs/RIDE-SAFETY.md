@@ -1,6 +1,6 @@
 # Ride: what we do better than BlaBlaCar
 
-| Gap in BlaBlaCar (India) | TriVerse design | Where |
+| Gap in BlaBlaCar (India) | PvtFrnd design | Where |
 |---|---|---|
 | Phone/email is often the only check on drivers | **Mandatory** profile photo + DL via Sarathi + RC, insurance and status via Vahan + selfie face-match before a driver can publish | `routes/kyc.ts`, `integrations/kyc.ts`, `POST /rides` guard |
 | Passengers aren't verified | DigiLocker identity + profile photo required to book | `POST /rides/:id/book` guard |

@@ -20,7 +20,7 @@ const COPY: Record<ServiceId, {
   farm: {
     emoji: "🌾",
     headline: "Your farm just got a smart friend",
-    sub: "Snap a photo of any leaf and Krishi Mitra tells you what's wrong, and exactly what to do next.",
+    sub: "Snap a photo of any leaf and Farm Frnd tells you what's wrong, and exactly what to do next.",
     cta: "Scan my first crop",
     features: [
       ["📸", "Photo diagnosis", "Disease, pest or deficiency, identified in seconds"],
@@ -44,7 +44,7 @@ const COPY: Record<ServiceId, {
   dine: {
     emoji: "🍽",
     headline: "Never eat a bad meal again",
-    sub: "Swad Guide blends ratings from multiple sites into one honest TriScore, so you always know where to go.",
+    sub: "Dine Frnd blends ratings from multiple sites into one honest TriScore, so you always know where to go.",
     cta: "Explore nearby",
     features: [
       ["⭐", "TriScore", "One trusted score from many review sources"],
@@ -56,7 +56,7 @@ const COPY: Record<ServiceId, {
   health: {
     emoji: "🩺",
     headline: "Care that's always close by",
-    sub: "Sehat Saathi finds the nearest hospital, explains your reports in simple words, and reminds you to take your medicines.",
+    sub: "Health Frnd finds the nearest hospital, explains your reports in simple words, and reminds you to take your medicines.",
     cta: "Find care near me",
     features: [
       ["🏥", "Hospitals nearby", "Government and private, with call, website and directions"],
@@ -68,7 +68,7 @@ const COPY: Record<ServiceId, {
   travel: {
     emoji: "🏔",
     headline: "Your next trip, planned in a minute",
-    sub: "Yatra Guide plans routes, stays, food and sights, checks the weather, and adds it all up into one budget.",
+    sub: "Travel Frnd plans routes, stays, food and sights, checks the weather, and adds it all up into one budget.",
     cta: "Plan a trip",
     features: [
       ["🗺", "Day-by-day plans", "Routes, timings and costs in one place"],
@@ -146,7 +146,7 @@ export default function WelcomeEmail({ name = "Harshit", service = "farm", city 
       {/* Cross-sell the other two worlds */}
       <Section className="tv-pad" style={{ padding: "16px 40px 36px" }}>
         <Text className="tv-muted" style={{ fontSize: 13, color: "#64748B", margin: "0 0 10px" }}>
-          Your TriVerse has two more worlds. Switch any time from the pin at the top of the app:
+          Your PvtFrnd has two more worlds. Switch any time from the pin at the top of the app:
         </Text>
         <Row>
           {others.map((o) => (

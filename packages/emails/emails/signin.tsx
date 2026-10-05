@@ -14,17 +14,17 @@ export interface SigninEmailProps {
 const METHOD = { email: "an email code", phone: "a phone code", google: "Google", apple: "Apple" };
 
 /** Sent on every sign-in after the first: a friendly welcome back that doubles as a security alert. */
-export default function SigninEmail({ name, method = "email", device = "TriVerse app on Android", at = "4 Oct 2026, 9:41 AM IST", sentAt }: SigninEmailProps) {
+export default function SigninEmail({ name, method = "email", device = "PvtFrnd app on Android", at = "4 Oct 2026, 9:41 AM IST", sentAt }: SigninEmailProps) {
   const first = name?.split(" ")[0];
   return (
-    <Layout preview={`${greeting(sentAt)}${first ? `, ${first}` : ""}: you just signed in to TriVerse.`}>
+    <Layout preview={`${greeting(sentAt)}${first ? `, ${first}` : ""}: you just signed in to PvtFrnd.`}>
       <Section className="tv-pad" style={{ padding: "36px 40px 10px", textAlign: "center" }}>
         <Text className="tv-pop" style={{ fontSize: 48, margin: 0 }}>👋</Text>
         <Text className="tv-text" style={{ fontSize: 26, fontWeight: 700, color: "#0F172A", margin: "8px 0 6px" }}>
           Welcome back{first ? `, ${first}` : ""}!
         </Text>
         <Text className="tv-muted" style={{ fontSize: 15, color: "#475569", margin: 0 }}>
-          You just signed in to TriVerse with {METHOD[method]}.
+          You just signed in to PvtFrnd with {METHOD[method]}.
         </Text>
       </Section>
       <Section style={{ padding: "16px 40px" }}>
@@ -35,7 +35,7 @@ export default function SigninEmail({ name, method = "email", device = "TriVerse
         </Section>
       </Section>
       <Section style={{ padding: "8px 40px 8px", textAlign: "center" }}>
-        <CTA href={`${APP_URL}/open`} label="Continue in TriVerse" color="#2F6FEB" />
+        <CTA href={`${APP_URL}/open`} label="Continue in PvtFrnd" color="#2F6FEB" />
       </Section>
       <Section className="tv-pad" style={{ padding: "18px 40px 34px" }}>
         <Text style={{ fontSize: 13, color: "#991B1B", backgroundColor: "#FEF2F2", borderRadius: 12, padding: "12px 16px", margin: 0 }}>

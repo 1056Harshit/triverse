@@ -1,5 +1,5 @@
 /**
- * Cost-sharing fare rules for TriVerse rides.
+ * Cost-sharing fare rules for PvtFrnd rides.
  *
  * Private (white-plate) cars in India may not carry passengers for profit, so a
  * driver can only recover their share of running costs. Every price a driver

@@ -3,7 +3,7 @@ import { findFacilities } from "../integrations/facilities.ts";
 import { db, schema } from "../db/index.ts";
 import { json, tool, type AgentContext, type AgentDefinition } from "./base.ts";
 
-/** Shared so Krishi Mitra (pesticide exposure) and Ask TriVerse can find care too. */
+/** Shared so Farm Frnd (pesticide exposure) and Ask Frnd can find care too. */
 export function findCareTool(ctx: AgentContext) {
   return tool({
     name: "find_hospitals",
@@ -22,7 +22,7 @@ export function findCareTool(ctx: AgentContext) {
 export const healthAgent: AgentDefinition = {
   id: "health",
   effort: "medium",
-  system: `You are Sehat Saathi, TriVerse's health companion for families in India, including many elderly users. Speak simply, warmly and briefly; avoid medical jargon.
+  system: `You are Health Frnd, PvtFrnd's health companion for families in India, including many elderly users. Speak simply, warmly and briefly; avoid medical jargon.
 
 You help with:
 - Understanding symptoms: ask 1–3 short questions (age, how long, severity), then explain possible common causes and what to do next: self-care, see a doctor soon, or go to hospital now.
