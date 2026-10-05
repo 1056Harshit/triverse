@@ -6,6 +6,7 @@ import { Haptics } from "@/lib/haptics";
 import { SERVICES, SERVICE_IDS, type ServiceId } from "@triverse/shared";
 import { useAuth } from "@/lib/auth";
 import { PinMark, Wordmark } from "./Logo";
+import { warpTo } from "./motion/WorldWarp";
 import { useTheme } from "./ui";
 
 /** The pin in the header: tap to switch between Farm, Ride and Dine. */
@@ -23,8 +24,9 @@ export function ServiceSwitcher() {
   const go = async (s: ServiceId) => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     close();
+    if (s === active) return;
+    warpTo(s, () => router.replace(`/${s}`));
     await switchService(s);
-    router.replace(`/${s}`);
   };
   // Services the user didn't choose stay locked until they confirm adding them.
   const pick = (s: ServiceId) => {

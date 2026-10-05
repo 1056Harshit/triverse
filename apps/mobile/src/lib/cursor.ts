@@ -1,28 +1,32 @@
 import { useEffect } from "react";
 import { Platform } from "react-native";
 import { usePathname } from "expo-router";
-import { cursorStylesheet, SERVICE_IDS, type CursorWorld, type ServiceId } from "@triverse/shared";
+import { SERVICE_IDS, type ServiceId } from "@triverse/shared";
+import type { PointerWorld, WorldPointer } from "@triverse/shared/src/worldPointer";
 import { useAuth } from "./auth";
 
 const AGENT_WORLD: Record<string, ServiceId> = { farm: "farm", ride: "ride", dine: "dine", health: "health", travel: "travel", promo: "farm" };
+let pointer: WorldPointer | null = null;
 
-/** Web only: swaps the mouse cursor to match the world on screen (Farm leaf, Ride car, Dine fork…). */
+/** Web only: the mouse becomes a glowing dot with a buddy that matches the world on screen (leaf, car, plate…). */
 export function useWorldCursor() {
   const path = usePathname();
   const { user } = useAuth();
   const first = path.split("/").filter(Boolean)[0] ?? "";
   const agent = path.startsWith("/chat/") ? path.split("/")[2] : undefined;
-  const world: CursorWorld = !user ? "brand"
+  const world: PointerWorld = !user ? "brand"
     : (SERVICE_IDS as readonly string[]).includes(first) ? (first as ServiceId)
     : agent && AGENT_WORLD[agent] ? AGENT_WORLD[agent]
     : first === "place" ? "dine"
+    : first === "legal" || first === "settings" || first === "profile" ? "brand"
     : user.activeService ?? "brand";
 
   useEffect(() => {
-    if (Platform.OS !== "web" || typeof document === "undefined") return;
-    if (!window.matchMedia?.("(pointer: fine)").matches) return; // touch screens have no cursor
-    let el = document.getElementById("tv-cursor") as HTMLStyleElement | null;
-    if (!el) { el = document.createElement("style"); el.id = "tv-cursor"; document.head.appendChild(el); }
-    el.textContent = cursorStylesheet(world);
+    if (Platform.OS !== "web" || typeof window === "undefined") return;
+    if (!pointer) {
+      const { createWorldPointer } = require("@triverse/shared/src/worldPointer.js") as typeof import("@triverse/shared/src/worldPointer");
+      pointer = createWorldPointer({ world });
+    }
+    pointer.setWorld(world);
   }, [world]);
 }

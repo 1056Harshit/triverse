@@ -29,6 +29,7 @@ function Gate() {
       <Stack.Protected guard={onboarded}>
         <Stack.Screen name="(app)" />
       </Stack.Protected>
+      <Stack.Screen name="legal/[doc]" options={{ animation: "slide_from_bottom" }} />
     </Stack>
   );
 }

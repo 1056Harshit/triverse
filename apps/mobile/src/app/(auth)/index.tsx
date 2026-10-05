@@ -83,7 +83,10 @@ export default function Welcome() {
                 cornerRadius={999} style={{ height: 52 }} onPress={() => social("apple")} />
             )}
             <Text style={{ textAlign: "center", color: "rgba(255,255,255,0.55)", fontSize: 12, marginTop: 2 }}>
-              By continuing you agree to the Terms and Privacy Policy.
+              By continuing you agree to the{" "}
+              <Text onPress={() => router.push({ pathname: "/legal/[doc]", params: { doc: "terms" } })} style={{ color: "#FFFFFF", textDecorationLine: "underline" }}>Terms</Text>
+              {" "}and{" "}
+              <Text onPress={() => router.push({ pathname: "/legal/[doc]", params: { doc: "privacy" } })} style={{ color: "#FFFFFF", textDecorationLine: "underline" }}>Privacy Policy</Text>.
             </Text>
           </Animated.View>
         </ScrollView>

@@ -5,7 +5,7 @@ import { Image as ExpoImage } from "expo-image";
 import * as ImagePicker from "expo-image-picker";
 import { LinearGradient } from "expo-linear-gradient";
 import Animated, { FadeInDown } from "react-native-reanimated";
-import { ACCENTS, SERVICES, type AccentMode, type MotionLevel, type ServiceId, type ThemeMode } from "@triverse/shared";
+import { ACCENTS, LEGAL_CONTACT, LEGAL_DOCS, LEGAL_ORDER, SERVICES, type AccentMode, type MotionLevel, type ServiceId, type ThemeMode } from "@triverse/shared";
 import { PinMark } from "@/components/Logo";
 import { Button, Card, P, Row, Screen, useTheme } from "@/components/ui";
 import { api } from "@/lib/api";
@@ -132,12 +132,21 @@ export default function Settings() {
 
       {/* About */}
       <Section title="About" icon="ℹ️" index={5}>
-        <Link label="Privacy policy" url="https://pvtfrnd.com/privacy" />
-        <Link label="Terms of service" url="https://pvtfrnd.com/terms" />
-        <Link label="Help & support" url="https://pvtfrnd.com/help" />
+        {LEGAL_ORDER.map((id) => (
+          <Pressable key={id} onPress={() => router.push({ pathname: "/legal/[doc]", params: { doc: id } })}
+            style={{ paddingVertical: 10, flexDirection: "row", alignItems: "center", gap: 12 }}>
+            <Text style={{ fontSize: 18 }}>{LEGAL_DOCS[id].icon}</Text>
+            <View style={{ flex: 1 }}>
+              <Text style={{ color: t.text, fontWeight: "600" }}>{LEGAL_DOCS[id].title}</Text>
+              <Text style={{ color: t.muted, fontSize: 12 }}>{LEGAL_DOCS[id].summary}</Text>
+            </View>
+            <Text style={{ color: t.muted }}>›</Text>
+          </Pressable>
+        ))}
+        <Link label="Help & support" url={`mailto:${LEGAL_CONTACT}`} />
         <PhotoCredits />
         <P small muted>Maps data © OpenStreetMap contributors. Prices shown in the app are estimates and not confirmed.</P>
-        <P small muted>TriVerse 1.0.0 · by PvtFrnd</P>
+        <P small muted>TriVerse 1.0.4 · by PvtFrnd</P>
       </Section>
 
       <Button label="Sign out" variant="secondary" onPress={signOut} />

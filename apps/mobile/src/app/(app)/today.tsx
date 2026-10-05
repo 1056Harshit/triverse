@@ -11,6 +11,7 @@ import { Card, H, P, Row, Screen, useTheme } from "@/components/ui";
 import { api } from "@/lib/api";
 import { useAuth } from "@/lib/auth";
 import { useHere } from "@/lib/location";
+import { warpTo } from "@/components/motion/WorldWarp";
 
 interface Brief {
   greeting: string; name: string | null; services: ServiceId[]; spoken: string;
@@ -45,7 +46,7 @@ export default function Today() {
     Speech.speak(b.spoken, { language: "en-IN", rate: 0.9, onDone: () => setSpeaking(false), onStopped: () => setSpeaking(false) });
   };
   const fmt = (iso: string) => new Date(iso).toLocaleTimeString("en-IN", { hour: "numeric" });
-  const open = async (s: ServiceId) => { await switchService(s); router.replace(`/${s}`); };
+  const open = async (s: ServiceId) => { warpTo(s, () => router.replace(`/${s}`)); await switchService(s); };
 
   return (
     <Screen>

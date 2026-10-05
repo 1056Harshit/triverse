@@ -196,3 +196,10 @@ export const reminders = pgTable("reminders", {
   active: boolean("active").default(true).notNull(),
   createdAt: ts("created_at").defaultNow().notNull(),
 });
+
+/** Editable Privacy / Terms / Safety / Delete-account pages (seeded from @triverse/shared; edit `doc` in Supabase). */
+export const legalDocs = pgTable("legal_docs", {
+  id: text("id").primaryKey(), // privacy | terms | safety | delete-account
+  doc: jsonb("doc").notNull(),
+  updatedAt: ts("updated_at").defaultNow().notNull(),
+});

@@ -12,6 +12,7 @@ import { placeRoutes } from "./routes/places.ts";
 import { agentRoutes } from "./routes/agents.ts";
 import { campaignRoutes } from "./routes/campaigns.ts";
 import { lifeRoutes } from "./routes/life.ts";
+import { legalRoutes, seedLegalDocs } from "./routes/legal.ts";
 import { warmUpSpeech } from "./speech/transcribe.ts";
 import { ensureBucket } from "./storage/index.ts";
 
@@ -43,6 +44,8 @@ export async function buildServer() {
   await app.register(agentRoutes);
   await app.register(campaignRoutes);
   await app.register(lifeRoutes);
+  await app.register(legalRoutes);
+  await seedLegalDocs();
   return app;
 }
 

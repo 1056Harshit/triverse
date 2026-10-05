@@ -1,4 +1,5 @@
-// TriVerse website: WebGL globe, world-aware cursors, 3D tilt/parallax and scroll reveals.
+// TriVerse website: 3D solar system of worlds, the animated world pointer, 3D tilt/parallax and scroll reveals.
+import { createWorldPointer } from "/world-pointer.js";
 const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
 const finePointer = matchMedia("(hover: hover) and (pointer: fine)").matches;
 
@@ -24,7 +25,10 @@ document.querySelectorAll(".reveal").forEach((el) => {
   revealer.observe(el);
 });
 
-/* ---------- Current world: drives colours and the cursor ---------- */
+/* ---------- The mouse becomes a glowing dot with a themed buddy (leaf, car, plate, heart, plane) ---------- */
+const pointer = createWorldPointer({ world: "brand" });
+
+/* ---------- Current world: drives colours and the pointer ---------- */
 let currentWorld = "brand";
 const onWorld = new Set();
 const worldWatcher = new IntersectionObserver((entries) => {
@@ -32,25 +36,12 @@ const worldWatcher = new IntersectionObserver((entries) => {
     if (e.isIntersecting) {
       currentWorld = e.target.dataset.world || "brand";
       document.body.dataset.world = currentWorld;
+      pointer.setWorld(currentWorld);
       onWorld.forEach((fn) => fn(currentWorld));
     }
   }
 }, { rootMargin: "-45% 0px -45% 0px" });
 document.querySelectorAll("main > section[data-world], footer[data-world]").forEach((s) => worldWatcher.observe(s));
-
-/* ---------- Cursor follower ring (the arrow itself is the per-world CSS cursor) ---------- */
-if (finePointer && !reduceMotion) {
-  const ring = document.querySelector(".cursor-ring");
-  let x = innerWidth / 2, y = innerHeight / 2, rx = x, ry = y;
-  addEventListener("pointermove", (e) => { x = e.clientX; y = e.clientY; ring.classList.add("on"); }, { passive: true });
-  document.addEventListener("pointerleave", () => ring.classList.remove("on"));
-  addEventListener("pointerover", (e) => ring.classList.toggle("hover", !!e.target.closest("a, button, .card, .world-chips li")));
-  (function follow() {
-    rx += (x - rx) * 0.18; ry += (y - ry) * 0.18;
-    ring.style.transform = `translate3d(${rx}px, ${ry}px, 0)`;
-    requestAnimationFrame(follow);
-  })();
-}
 
 /* ---------- 3D tilt + depth parallax on stages and cards ---------- */
 if (finePointer && !reduceMotion) {
@@ -88,132 +79,214 @@ document.querySelectorAll(".typed").forEach((el) => {
   io.observe(el);
 });
 
-/* ---------- WebGL globe ---------- */
-startGlobe().catch(() => { /* no WebGL: the CSS glow behind the hero still looks fine */ });
+/* ---------- Hero: the TriVerse solar system ---------- */
+// The TriVerse pin glows at the centre; the five worlds orbit it as planets. Hover a planet to
+// enlarge it (the pointer takes on that world), click it to jump to its section.
+startUniverse().catch(() => { /* no WebGL: the CSS glow behind the hero still looks fine */ });
 
-async function startGlobe() {
+async function startUniverse() {
   const canvas = document.getElementById("globe");
+  const labels = document.getElementById("planet-labels");
   const THREE = await import("three");
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: "high-performance" });
   renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+  renderer.outputColorSpace = THREE.SRGBColorSpace;
   const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(42, 1, 0.1, 100);
-  camera.position.set(0, 0, 7.2);
+  const camera = new THREE.PerspectiveCamera(40, 1, 0.1, 200);
+  camera.position.set(0, 0, 13);
 
-  const world = new THREE.Group();
-  scene.add(world);
-  const R = 2;
+  const system = new THREE.Group();
+  scene.add(system);
+  scene.add(new THREE.AmbientLight(0x8fa3ff, 0.55));
+  const sun = new THREE.PointLight(0xfff1d6, 60, 30, 1.6);
+  system.add(sun);
+  const rimLight = new THREE.DirectionalLight(0x9db7ff, 1.2);
+  rimLight.position.set(-6, 5, 4);
+  scene.add(rimLight);
 
-  // Globe made of dots (Fibonacci sphere) with a soft rim.
-  const N = innerWidth < 700 ? 1400 : 2600;
-  const pos = new Float32Array(N * 3);
-  for (let i = 0; i < N; i++) {
-    const y = 1 - (i / (N - 1)) * 2, r = Math.sqrt(1 - y * y), th = Math.PI * (3 - Math.sqrt(5)) * i;
-    pos.set([Math.cos(th) * r * R, y * R, Math.sin(th) * r * R], i * 3);
-  }
-  const dotGeo = new THREE.BufferGeometry();
-  dotGeo.setAttribute("position", new THREE.BufferAttribute(pos, 3));
-  const dotMat = new THREE.PointsMaterial({ size: 0.05, color: WORLDS.brand, transparent: true, opacity: 0.95, depthWrite: false });
-  world.add(new THREE.Points(dotGeo, dotMat));
-  world.add(new THREE.Mesh(new THREE.SphereGeometry(R * 0.985, 48, 48), new THREE.MeshBasicMaterial({ color: 0x070d24 })));
-
-  const rim = new THREE.Mesh(new THREE.SphereGeometry(R * 1.12, 48, 48), new THREE.ShaderMaterial({
-    transparent: true, side: THREE.BackSide, depthWrite: false, blending: THREE.AdditiveBlending,
-    uniforms: { uColor: { value: new THREE.Color(WORLDS.brand) } },
-    vertexShader: "varying vec3 vN; void main(){ vN = normalize(normalMatrix * normal); gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0); }",
-    fragmentShader: "uniform vec3 uColor; varying vec3 vN; void main(){ float i = pow(max(0.62 - dot(vN, vec3(0.0,0.0,1.0)), 0.0), 2.4) * 0.9; gl_FragColor = vec4(uColor, 1.0) * i; }",
-  }));
-  scene.add(rim);
-
-  // The five worlds as glowing pins around India, linked by animated arcs.
-  const toVec = (lat, lng, r = R) => {
-    const phi = (90 - lat) * Math.PI / 180, th = (lng + 180) * Math.PI / 180;
-    return new THREE.Vector3(-r * Math.sin(phi) * Math.cos(th), r * Math.cos(phi), r * Math.sin(phi) * Math.sin(th));
+  // Soft round glow texture for halos and nebulae.
+  const glowTex = (() => {
+    const c = document.createElement("canvas"); c.width = c.height = 128;
+    const g = c.getContext("2d"), r = g.createRadialGradient(64, 64, 0, 64, 64, 64);
+    r.addColorStop(0, "rgba(255,255,255,1)"); r.addColorStop(0.25, "rgba(255,255,255,.55)"); r.addColorStop(1, "rgba(255,255,255,0)");
+    g.fillStyle = r; g.fillRect(0, 0, 128, 128);
+    const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; return t;
+  })();
+  const halo = (color, size, opacity = 0.8) => {
+    const s = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowTex, color, transparent: true, opacity, depthWrite: false, blending: THREE.AdditiveBlending }));
+    s.scale.setScalar(size); return s;
   };
-  const PINS = [
-    { w: "farm", lat: 30.9, lng: 72.5 }, { w: "ride", lat: 23.5, lng: 87.5 }, { w: "dine", lat: 12.9, lng: 79.5 },
-    { w: "health", lat: 19.1, lng: 72.9 }, { w: "travel", lat: 34.5, lng: 78.5 },
-    { w: "ride", lat: 1.35, lng: 103.8 }, { w: "dine", lat: 25.2, lng: 55.3 }, { w: "travel", lat: 27.7, lng: 85.3 },
-    { w: "farm", lat: 6.9, lng: 79.9 }, { w: "health", lat: 13.75, lng: 100.5 },
+
+  // --- The TriVerse pin (the "sun") ---
+  const pin = new THREE.Group();
+  const shape = new THREE.Shape();
+  shape.moveTo(0, -1.25);
+  shape.bezierCurveTo(-0.35, -0.7, -0.78, -0.35, -0.78, 0.15);
+  shape.absarc(0, 0.15, 0.78, Math.PI, 0, true);
+  shape.bezierCurveTo(0.78, -0.35, 0.35, -0.7, 0, -1.25);
+  const pinBody = new THREE.Mesh(
+    new THREE.ExtrudeGeometry(shape, { depth: 0.32, bevelEnabled: true, bevelThickness: 0.08, bevelSize: 0.06, bevelSegments: 6, curveSegments: 48 }),
+    new THREE.MeshStandardMaterial({ color: 0x2747b8, metalness: 0.45, roughness: 0.28, emissive: 0x112266, emissiveIntensity: 0.6 }),
+  );
+  pinBody.geometry.center();
+  const face = new THREE.Mesh(new THREE.CircleGeometry(0.52, 48), new THREE.MeshBasicMaterial({ color: 0xffffff }));
+  face.position.set(0, 0.32, 0.25);
+  const tri = new THREE.Group();
+  [[0, 0.19, 0x22a35a], [-0.19, -0.13, 0x2f6feb], [0.19, -0.13, 0xf2643d]].forEach(([x, y, c]) => {
+    const b = new THREE.Mesh(new THREE.SphereGeometry(0.11, 24, 24), new THREE.MeshStandardMaterial({ color: c, roughness: 0.3, emissive: c, emissiveIntensity: 0.35 }));
+    b.position.set(x, y, 0.06); tri.add(b);
+  });
+  tri.position.copy(face.position);
+  pin.add(pinBody, face, tri, halo(0x5b8ef5, 6.5, 0.55), halo(0xffffff, 2.2, 0.35));
+  system.add(pin);
+
+  // --- Five world planets ---
+  const PLANETS = [
+    { id: "farm", name: "Farm", emoji: "🌾", color: 0x22a35a, deep: 0x14703d, r: 0.46, orbit: 2.3, speed: 0.32, tilt: 0.15, phase: 0.2, ring: false },
+    { id: "ride", name: "Ride", emoji: "🚗", color: 0x2f6feb, deep: 0x1e4fb8, r: 0.52, orbit: 3.05, speed: 0.24, tilt: -0.12, phase: 1.6, ring: true },
+    { id: "dine", name: "Dine & Stay", emoji: "🍽", color: 0xf2643d, deep: 0xb8401e, r: 0.5, orbit: 3.8, speed: 0.19, tilt: 0.1, phase: 3.1, ring: false },
+    { id: "health", name: "Health", emoji: "🏥", color: 0x0d9488, deep: 0x0f766e, r: 0.42, orbit: 4.5, speed: 0.15, tilt: -0.08, phase: 4.4, ring: true },
+    { id: "travel", name: "Travel", emoji: "✈️", color: 0x7c3aed, deep: 0x5b21b6, r: 0.55, orbit: 5.2, speed: 0.12, tilt: 0.06, phase: 5.5, ring: false },
   ];
-  const pins = PINS.map((p) => {
-    const g = new THREE.Group();
-    const v = toVec(p.lat, p.lng);
-    g.position.copy(v);
-    g.lookAt(v.clone().multiplyScalar(2));
-    const col = new THREE.Color(WORLDS[p.w]);
-    const head = new THREE.Mesh(new THREE.SphereGeometry(0.045, 16, 16), new THREE.MeshBasicMaterial({ color: col }));
-    head.position.z = 0.16;
-    const stem = new THREE.Mesh(new THREE.CylinderGeometry(0.008, 0.008, 0.16, 6), new THREE.MeshBasicMaterial({ color: col }));
-    stem.rotation.x = Math.PI / 2; stem.position.z = 0.08;
-    const pulse = new THREE.Mesh(new THREE.RingGeometry(0.04, 0.052, 32), new THREE.MeshBasicMaterial({ color: col, transparent: true, side: THREE.DoubleSide }));
-    g.add(head, stem, pulse);
-    world.add(g);
-    return { g, pulse, phase: Math.random() * Math.PI * 2, world: p.w };
+  // Banded surface texture so each planet visibly spins.
+  const bandTex = (a, b) => {
+    const c = document.createElement("canvas"); c.width = 256; c.height = 128;
+    const g = c.getContext("2d");
+    const ca = "#" + a.toString(16).padStart(6, "0"), cb = "#" + b.toString(16).padStart(6, "0");
+    g.fillStyle = ca; g.fillRect(0, 0, 256, 128);
+    for (let i = 0; i < 14; i++) {
+      g.fillStyle = i % 2 ? cb : "rgba(255,255,255,.18)"; g.globalAlpha = 0.25 + Math.random() * 0.4;
+      const y = Math.random() * 128, h = 4 + Math.random() * 14;
+      g.beginPath(); g.moveTo(0, y);
+      for (let x = 0; x <= 256; x += 16) g.lineTo(x, y + Math.sin(x / 30 + i) * 4);
+      g.lineTo(256, y + h); g.lineTo(0, y + h); g.fill();
+    }
+    g.globalAlpha = 1;
+    const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; return t;
+  };
+
+  const planets = PLANETS.map((p) => {
+    const orbitPlane = new THREE.Group();
+    orbitPlane.rotation.x = p.tilt;
+    system.add(orbitPlane);
+    const path = new THREE.EllipseCurve(0, 0, p.orbit, p.orbit * 0.92).getPoints(160).map((v) => new THREE.Vector3(v.x, 0, v.y));
+    orbitPlane.add(new THREE.LineLoop(new THREE.BufferGeometry().setFromPoints(path),
+      new THREE.LineBasicMaterial({ color: p.color, transparent: true, opacity: 0.22 })));
+    const body = new THREE.Group();
+    const ball = new THREE.Mesh(new THREE.SphereGeometry(p.r, 48, 48),
+      new THREE.MeshStandardMaterial({ map: bandTex(p.color, p.deep), roughness: 0.55, metalness: 0.1, emissive: p.deep, emissiveIntensity: 0.25 }));
+    ball.rotation.z = 0.35;
+    body.add(ball, halo(p.color, p.r * 5, 0.45));
+    if (p.ring) {
+      const ring = new THREE.Mesh(new THREE.RingGeometry(p.r * 1.4, p.r * 2, 64),
+        new THREE.MeshBasicMaterial({ color: p.color, transparent: true, opacity: 0.45, side: THREE.DoubleSide }));
+      ring.rotation.x = Math.PI / 2.4; body.add(ring);
+    }
+    const moon = new THREE.Mesh(new THREE.SphereGeometry(p.r * 0.22, 16, 16), new THREE.MeshStandardMaterial({ color: 0xe2e8f0, roughness: 0.8 }));
+    body.add(moon);
+    orbitPlane.add(body);
+
+    const label = document.createElement("a");
+    label.className = "planet-label"; label.href = `#${p.id}`;
+    label.style.setProperty("--pc", "#" + p.color.toString(16).padStart(6, "0"));
+    label.innerHTML = `<i></i>${p.emoji} ${p.name}`;
+    labels.appendChild(label);
+    const state = { ...p, body, ball, moon, label, angle: p.phase, scale: 1, hover: false };
+    label.addEventListener("pointerenter", () => setHover(state));
+    label.addEventListener("pointerleave", () => setHover(null));
+    return state;
   });
 
-  const arcs = [];
-  for (let i = 0; i < PINS.length; i++) {
-    const a = PINS[i], b = PINS[(i + 3) % PINS.length];
-    const va = toVec(a.lat, a.lng), vb = toVec(b.lat, b.lng);
-    const mid = va.clone().add(vb).multiplyScalar(0.5).normalize().multiplyScalar(R + 0.35 + va.distanceTo(vb) * 0.35);
-    const curve = new THREE.QuadraticBezierCurve3(va, mid, vb);
-    const line = new THREE.Line(new THREE.BufferGeometry().setFromPoints(curve.getPoints(64)),
-      new THREE.LineBasicMaterial({ color: WORLDS[a.w], transparent: true, opacity: 0.35 }));
-    const spark = new THREE.Mesh(new THREE.SphereGeometry(0.03, 10, 10), new THREE.MeshBasicMaterial({ color: 0xffffff }));
-    world.add(line, spark);
-    arcs.push({ curve, spark, t: Math.random(), speed: 0.12 + Math.random() * 0.1 });
+  let hovered = null;
+  function setHover(p) {
+    if (hovered === p) return;
+    hovered = p;
+    for (const q of planets) { q.hover = q === p; q.label.classList.toggle("on", q.hover); }
+    pointer.setWorld(p ? p.id : currentWorld);
   }
 
-  // Three depth layers of stars for parallax.
-  const starLayers = [0.6, 1, 1.6].map((depth, li) => {
-    const n = 500, p = new Float32Array(n * 3);
-    for (let i = 0; i < n; i++) p.set([(Math.random() - 0.5) * 40, (Math.random() - 0.5) * 24, -6 - Math.random() * 14 + li * 3], i * 3);
-    const geo = new THREE.BufferGeometry(); geo.setAttribute("position", new THREE.BufferAttribute(p, 3));
-    const pts = new THREE.Points(geo, new THREE.PointsMaterial({ size: 0.02 * (li + 1), color: 0xdbe4ff, transparent: true, opacity: 0.4 + li * 0.2, depthWrite: false }));
-    scene.add(pts);
-    return { pts, depth };
+  // --- Stars in three depth layers + soft nebulae ---
+  const starLayers = [0.5, 1, 1.7].map((depth, li) => {
+    const n = 600, pos = new Float32Array(n * 3);
+    for (let i = 0; i < n; i++) pos.set([(Math.random() - 0.5) * 70, (Math.random() - 0.5) * 40, -10 - Math.random() * 30 + li * 6], i * 3);
+    const geo = new THREE.BufferGeometry(); geo.setAttribute("position", new THREE.BufferAttribute(pos, 3));
+    const pts = new THREE.Points(geo, new THREE.PointsMaterial({ size: 0.05 * (li + 1), color: 0xdbe4ff, transparent: true, opacity: 0.35 + li * 0.22, depthWrite: false, sizeAttenuation: true }));
+    scene.add(pts); return { pts, depth };
+  });
+  [[0x2f6feb, -9, 4, 18], [0x7c3aed, 8, -5, 16], [0x22a35a, -4, -8, 12], [0xf2643d, 12, 7, 10]].forEach(([c, x, y, s]) => {
+    const n = halo(c, s, 0.12); n.position.set(x, y, -18); scene.add(n);
   });
 
-  // India faces the viewer at start.
-  world.rotation.y = Math.PI - 0.15; world.rotation.x = 0.35;
+  // --- Layout ---
   const layout = () => {
     const w = canvas.clientWidth, h = canvas.clientHeight;
     renderer.setSize(w, h, false);
     camera.aspect = w / h; camera.updateProjectionMatrix();
-    const shift = w > 960 ? 1.9 : 0; // globe sits to the right of the copy on wide screens
-    world.position.set(shift, w > 960 ? 0 : 1.75, 0); rim.position.copy(world.position);
-    world.scale.setScalar(w > 960 ? 0.82 : 0.6); rim.scale.copy(world.scale);
+    const wide = w > 960;
+    system.position.set(wide ? 3.7 : 0, wide ? -0.2 : 3.2, 0);
+    system.scale.setScalar(wide ? 0.82 : 0.6);
   };
   layout(); addEventListener("resize", layout);
+  system.rotation.x = 0.42;
 
-  // Colour follows the current world.
-  const target = new THREE.Color(WORLDS.brand);
-  onWorld.add((w) => target.set(WORLDS[w] ?? WORLDS.brand));
+  // --- Interaction ---
+  const ray = new THREE.Raycaster(), ndc = new THREE.Vector2(-9, -9);
+  let mx = 0, my = 0, sy = 0, visible = true;
+  addEventListener("pointermove", (e) => {
+    mx = e.clientX / innerWidth - 0.5; my = e.clientY / innerHeight - 0.5;
+    const r = canvas.getBoundingClientRect();
+    ndc.set(((e.clientX - r.left) / r.width) * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1);
+  }, { passive: true });
+  canvas.parentElement.addEventListener("click", (e) => {
+    if (hovered && !e.target.closest("a, button")) document.getElementById(hovered.id)?.scrollIntoView({ behavior: "smooth" });
+  });
+  addEventListener("scroll", () => { sy = scrollY; }, { passive: true });
+  new IntersectionObserver(([e]) => { visible = e.isIntersecting; labels.style.visibility = visible ? "" : "hidden"; }).observe(canvas);
 
-  let mx = 0, my = 0, visible = true, scrollY0 = 0;
-  addEventListener("pointermove", (e) => { mx = e.clientX / innerWidth - 0.5; my = e.clientY / innerHeight - 0.5; }, { passive: true });
-  addEventListener("scroll", () => { scrollY0 = scrollY; }, { passive: true });
-  new IntersectionObserver(([e]) => { visible = e.isIntersecting; }).observe(canvas);
-
+  const tmp = new THREE.Vector3();
   const clock = new THREE.Clock();
   const frame = () => {
     const dt = Math.min(clock.getDelta(), 0.05), t = clock.elapsedTime;
-    if (!reduceMotion) world.rotation.y += dt * 0.08;
-    const sp = Math.min(scrollY0 / innerHeight, 1);
-    world.rotation.x = 0.35 + sp * 0.6;
-    camera.position.x += (mx * 0.8 - camera.position.x) * 0.05;
-    camera.position.y += (-my * 0.6 - camera.position.y) * 0.05;
-    camera.position.z = 7.2 + sp * 2.5;
-    camera.lookAt(0, 0, 0);
-    dotMat.color.lerp(target, 0.04);
-    rim.material.uniforms.uColor.value.lerp(target, 0.04);
-    for (const s of starLayers) { s.pts.position.x = -mx * s.depth; s.pts.position.y = my * s.depth; s.pts.rotation.z = t * 0.004 * s.depth; }
-    for (const p of pins) {
-      const k = ((t * 0.8 + p.phase) % 2) / 2;
-      p.pulse.scale.setScalar(1 + k * 2.2); p.pulse.material.opacity = 1 - k;
+    const sp = Math.min(sy / innerHeight, 1);
+
+    pin.position.y = Math.sin(t * 1.2) * 0.12;
+    pin.rotation.y = Math.sin(t * 0.5) * 0.45 + mx * 0.6;
+    system.rotation.x = 0.42 + sp * 0.5 - my * 0.15;
+    system.rotation.y = mx * 0.25;
+
+    // Raycast for hover (labels also trigger it).
+    if (finePointer) {
+      ray.setFromCamera(ndc, camera);
+      const hit = ray.intersectObjects(planets.map((p) => p.ball), false)[0];
+      const p = hit ? planets.find((q) => q.ball === hit.object) : null;
+      if (p || (hovered && !hovered.label.matches(":hover"))) setHover(p ?? null);
     }
-    for (const a of arcs) { a.t = (a.t + dt * a.speed) % 1; a.spark.position.copy(a.curve.getPoint(a.t)); }
+
+    const r = canvas.getBoundingClientRect();
+    for (const p of planets) {
+      const slow = p.hover ? 0.15 : 1;
+      if (!reduceMotion) p.angle += dt * p.speed * slow;
+      p.body.position.set(Math.cos(p.angle) * p.orbit, 0, Math.sin(p.angle) * p.orbit * 0.92);
+      p.ball.rotation.y += dt * 0.6;
+      p.moon.position.set(Math.cos(t * 1.4 + p.phase) * p.r * 1.9, Math.sin(t * 0.9) * p.r * 0.4, Math.sin(t * 1.4 + p.phase) * p.r * 1.9);
+      p.scale += ((p.hover ? 1.45 : 1) - p.scale) * 0.12;
+      p.body.scale.setScalar(p.scale);
+
+      // Pin the HTML label under the planet.
+      p.body.getWorldPosition(tmp);
+      const depth = tmp.z;
+      tmp.project(camera);
+      const lx = (tmp.x * 0.5 + 0.5) * r.width, ly = (-tmp.y * 0.5 + 0.5) * r.height + 26 + p.r * 40 * p.scale;
+      p.label.style.transform = `translate(-50%, 0) translate3d(${lx}px, ${ly}px, 0)`;
+      p.label.style.opacity = depth < -2.5 ? "0.35" : "1";
+      p.label.style.zIndex = String(Math.round(100 + depth * 10));
+    }
+
+    camera.position.x += (mx * 1.4 - camera.position.x) * 0.04;
+    camera.position.y += (-my * 1 - camera.position.y) * 0.04;
+    camera.position.z = 13 + sp * 4;
+    camera.lookAt(0, 0, 0);
+    for (const s of starLayers) { s.pts.position.x = -mx * s.depth * 2; s.pts.position.y = my * s.depth * 2; s.pts.rotation.z = t * 0.003 * s.depth; }
     renderer.render(scene, camera);
   };
 
