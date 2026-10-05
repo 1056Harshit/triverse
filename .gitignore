@@ -15,3 +15,4 @@ apps/server/.data-old-copy/
 .easignore.bak
 *.tsbuildinfo
 .env.*
+*.local.gs

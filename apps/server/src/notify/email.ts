@@ -35,6 +35,15 @@ const configured: (Provider | false | null | undefined | "")[] = [
     });
     if (!r.ok) throw new Error(`Brevo ${r.status}: ${(await r.text()).slice(0, 200)}`);
   } },
+  env.GMAIL_RELAY_URL && env.GMAIL_RELAY_SECRET && { name: "Gmail relay", send: async (m) => {
+    const r = await fetch(env.GMAIL_RELAY_URL!, {
+      method: "POST", signal: AbortSignal.timeout(15_000), redirect: "follow",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ secret: env.GMAIL_RELAY_SECRET, to: m.to, subject: m.subject, html: m.html, text: m.text, name: sender().name }),
+    });
+    const j = (await r.json().catch(() => ({}))) as { ok?: boolean; error?: string };
+    if (!r.ok || !j.ok) throw new Error(`Gmail relay: ${j.error ?? r.status}`);
+  } },
   smtp && { name: "SMTP", send: async (m) => { await smtp.sendMail({ from: env.EMAIL_FROM, to: m.to, subject: m.subject, html: m.html, text: m.text }); } },
   env.SENDGRID_API_KEY && { name: "SendGrid", send: async (m) => {
     const r = await fetch("https://api.sendgrid.com/v3/mail/send", {
@@ -53,7 +62,7 @@ const configured: (Provider | false | null | undefined | "")[] = [
 ];
 const providers = configured.filter((p): p is Provider => !!p);
 
-/** Tries each configured provider in turn (Resend → Brevo → Gmail/SMTP → SendGrid); dev log when none is set. */
+/** Tries each configured provider in turn (Resend → Brevo → Gmail relay → Gmail/SMTP → SendGrid); dev log when none is set. */
 export async function sendEmail(to: string, email: EmailTemplate, opts: { idempotencyKey?: string } = {}) {
   const { subject, html, text } = await renderEmail(email);
   if (!providers.length) { console.info(`[email:dev] to=${to} subject="${subject}"`); return; }

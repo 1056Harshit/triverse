@@ -35,6 +35,9 @@ const Env = z.object({
   SMTP_PASS: z.string().optional(),
   /** Brevo (free 300/day) and SendGrid; the sender must be verified with the provider. */
   BREVO_API_KEY: z.string().optional(),
+  /** Gmail over HTTPS via your own Google Apps Script web app (for hosts that block SMTP); see docs/gmail-relay.gs. */
+  GMAIL_RELAY_URL: z.string().url().optional(),
+  GMAIL_RELAY_SECRET: z.string().min(24).optional(),
   SENDGRID_API_KEY: z.string().optional(),
   /** MSG91 (DLT-registered) for SMS OTP in India. */
   MSG91_AUTH_KEY: z.string().optional(),
