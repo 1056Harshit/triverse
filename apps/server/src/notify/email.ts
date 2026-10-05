@@ -38,7 +38,8 @@ const configured: (Provider | false | null | undefined | "")[] = [
   env.GMAIL_RELAY_URL && env.GMAIL_RELAY_SECRET && { name: "Gmail relay", send: async (m) => {
     const r = await fetch(env.GMAIL_RELAY_URL!, {
       method: "POST", signal: AbortSignal.timeout(15_000), redirect: "follow",
-      headers: { "content-type": "application/json" },
+      // Apps Script answers in ~3 s for text/plain but stalls ~30 s and returns an HTML error page for application/json.
+      headers: { "content-type": "text/plain;charset=utf-8" },
       body: JSON.stringify({ secret: env.GMAIL_RELAY_SECRET, to: m.to, subject: m.subject, html: m.html, text: m.text, name: sender().name }),
     });
     const j = (await r.json().catch(() => ({}))) as { ok?: boolean; error?: string };
