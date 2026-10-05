@@ -59,7 +59,8 @@ if (!process.argv.includes("--site-only")) {
   // The full TriVerse app for the browser, served at /app.
   execSync(`npx expo export -p web --output-dir ${dist}/app`, {
     cwd: `${root}../mobile`, stdio: "inherit",
-    env: { ...process.env, EXPO_BASE_URL: "/app", EXPO_PUBLIC_API_URL: process.env.EXPO_PUBLIC_API_URL ?? "https://triverse-api.onrender.com" },
+    env: { ...process.env, EXPO_BASE_URL: "/app", EXPO_PUBLIC_API_URL: process.env.EXPO_PUBLIC_API_URL ?? "https://triverse-api.onrender.com",
+      EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID: process.env.EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID ?? "829702507871-r8ivtemv1gsrlpr1h20n5mqd1sqknrd2.apps.googleusercontent.com" },
   });
 }
 console.log(`Built ${dist}`);

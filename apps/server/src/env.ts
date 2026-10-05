@@ -53,7 +53,8 @@ const Env = z.object({
   TWILIO_AUTH_TOKEN: z.string().optional(),
   TWILIO_FROM_NUMBER: z.string().optional(),
 
-  GOOGLE_CLIENT_IDS: z.string().default(""), // comma-separated: web, iOS, Android client IDs
+  /** Google sign-in audiences (comma-separated). The Web client ID is public, so it is the default. */
+  GOOGLE_CLIENT_IDS: z.string().default("829702507871-r8ivtemv1gsrlpr1h20n5mqd1sqknrd2.apps.googleusercontent.com,829702507871-miprdam0motdrkfaj3n32psh2mn9bmo3.apps.googleusercontent.com"),
   APPLE_BUNDLE_ID: z.string().default("com.pvtfrnd.triverse"),
 
   /** Voice messages: Sarvam (hosted, Indian languages) if set, else local Whisper. */

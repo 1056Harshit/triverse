@@ -10,7 +10,8 @@ import { PinMark } from "@/components/Logo";
 import { Button } from "@/components/ui";
 import { AnimatedWordmark, GlobeMark, WelcomeBackdrop } from "@/components/motion/WelcomeHero";
 import { useAuth } from "@/lib/auth";
-import { appleLogin, googleAvailable, googleLogin } from "@/lib/social";
+import { appleLogin, googleAvailable, googleLogin, googleWebAvailable, googleWithToken } from "@/lib/social";
+import { GoogleWebButton } from "@/components/GoogleWebButton";
 
 export default function Welcome() {
   const { signIn } = useAuth();
@@ -33,6 +34,11 @@ export default function Welcome() {
     } catch (e) {
       Alert.alert("Sign-in failed", e instanceof Error ? e.message : "Please try again.");
     } finally { setBusy(null); }
+  };
+
+  const withGoogleToken = async (idToken: string) => {
+    try { await signIn(await googleWithToken(idToken)); }
+    catch (e) { Alert.alert("Sign-in failed", e instanceof Error ? e.message : "Please try again."); }
   };
 
   return (
@@ -73,9 +79,11 @@ export default function Welcome() {
           <View style={{ flex: 1, minHeight: 4 }} />
 
           <Animated.View entering={FadeInDown.delay(1150).springify()} style={{ gap: 10 }}>
+            {/* Google first: one tap to sign back in, no code to wait for */}
+            {googleAvailable && <Button label="Continue with Google" variant="secondary" loading={busy === "google"} onPress={() => social("google")} icon={<GoogleG />} style={{ backgroundColor: "#FFFFFF" }} />}
+            {googleWebAvailable && <GoogleWebButton width={Math.min(width, 520) - 40} onToken={(tok) => withGoogleToken(tok)} />}
             <Button label="Continue with phone" onPress={() => router.push({ pathname: "/login", params: { channel: "sms" } })} />
             <Button label="Continue with email" variant="secondary" onPress={() => router.push({ pathname: "/login", params: { channel: "email" } })} />
-            {googleAvailable && <Button label="Continue with Google" variant="secondary" loading={busy === "google"} onPress={() => social("google")} icon={<Text style={{ fontSize: 18, fontWeight: "800", color: "#4285F4" }}>G</Text>} />}
             {apple && (
               <AppleAuthentication.AppleAuthenticationButton
                 buttonType={AppleAuthentication.AppleAuthenticationButtonType.CONTINUE}
@@ -92,5 +100,14 @@ export default function Welcome() {
         </ScrollView>
       </SafeAreaView>
     </View>
+  );
+}
+
+/** Google's four-colour "G". */
+function GoogleG() {
+  return (
+    <Text style={{ fontSize: 19, fontWeight: "900" }}>
+      <Text style={{ color: "#4285F4" }}>G</Text>
+    </Text>
   );
 }

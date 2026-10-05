@@ -22,6 +22,10 @@ function loadGoogle(): GoogleModule {
   return google;
 }
 
+/** Web app: Google's own button returns an ID token; the server verifies it like the native one. */
+export const googleWebAvailable = Platform.OS === "web" && !!process.env.EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID;
+export const googleWithToken = (idToken: string) => api<any>("/auth/google", { body: { idToken } });
+
 export async function googleLogin() {
   const { GoogleSignin, isSuccessResponse } = loadGoogle();
   if (Platform.OS === "android") await GoogleSignin.hasPlayServices();

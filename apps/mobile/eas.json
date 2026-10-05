@@ -10,7 +10,8 @@
         "buildType": "apk"
       },
       "env": {
-        "EXPO_PUBLIC_API_URL": "http://192.168.31.185:4000"
+        "EXPO_PUBLIC_API_URL": "http://192.168.31.185:4000",
+        "EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID": "829702507871-r8ivtemv1gsrlpr1h20n5mqd1sqknrd2.apps.googleusercontent.com"
       }
     },
     "production": {
@@ -18,7 +19,8 @@
         "buildType": "app-bundle"
       },
       "env": {
-        "EXPO_PUBLIC_API_URL": "https://api.pvtfrnd.com"
+        "EXPO_PUBLIC_API_URL": "https://api.pvtfrnd.com",
+        "EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID": "829702507871-r8ivtemv1gsrlpr1h20n5mqd1sqknrd2.apps.googleusercontent.com"
       }
     },
     "cloud": {
@@ -27,7 +29,8 @@
         "buildType": "apk"
       },
       "env": {
-        "EXPO_PUBLIC_API_URL": "https://triverse-api.onrender.com"
+        "EXPO_PUBLIC_API_URL": "https://triverse-api.onrender.com",
+        "EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID": "829702507871-r8ivtemv1gsrlpr1h20n5mqd1sqknrd2.apps.googleusercontent.com"
       }
     }
   }
