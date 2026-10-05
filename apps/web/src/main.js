@@ -4,7 +4,7 @@ const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
 const finePointer = matchMedia("(hover: hover) and (pointer: fine)").matches;
 
 const WORLDS = {
-  brand: 0x8ea9ff, farm: 0x4fb283, ride: 0x6f93ec, dine: 0xe5885f, health: 0x45b3ad, travel: 0x8e7ee6,
+  brand: 0xc9ced6, farm: 0x4fb283, ride: 0x6f93ec, dine: 0xe5885f, health: 0x45b3ad, travel: 0x8e7ee6,
 };
 
 /* ---------- Split the hero title into letters for the 3D entrance ---------- */
@@ -112,10 +112,10 @@ async function startUniverse() {
 
   const system = new THREE.Group();
   scene.add(system);
-  scene.add(new THREE.AmbientLight(0x8fa3ff, 0.55));
+  scene.add(new THREE.AmbientLight(0xc9ced6, 0.55));
   const sun = new THREE.PointLight(0xfff1d6, 60, 30, 1.6);
   system.add(sun);
-  const rimLight = new THREE.DirectionalLight(0x9db7ff, 1.2);
+  const rimLight = new THREE.DirectionalLight(0xdfe3ea, 1.1);
   rimLight.position.set(-6, 5, 4);
   scene.add(rimLight);
 
@@ -152,7 +152,7 @@ async function startUniverse() {
     b.position.set(x, y, 0.06); tri.add(b);
   });
   tri.position.copy(face.position);
-  pin.add(pinBody, face, tri, halo(0x5b8ef5, 6.5, 0.55), halo(0xffffff, 2.2, 0.35));
+  pin.add(pinBody, face, tri, halo(0x9aa3b2, 5.5, 0.32), halo(0xffffff, 2.2, 0.3));
   system.add(pin);
 
   // --- Five world planets ---
@@ -228,7 +228,7 @@ async function startUniverse() {
     const pts = new THREE.Points(geo, new THREE.PointsMaterial({ size: 0.05 * (li + 1), color: 0xdbe4ff, transparent: true, opacity: 0.35 + li * 0.22, depthWrite: false, sizeAttenuation: true }));
     scene.add(pts); return { pts, depth };
   });
-  [[0x2b5bd7, -9, 4, 18], [0x3a4fb0, 8, -5, 16], [0x1b3a8c, -4, -8, 12], [0x2b5bd7, 12, 7, 10]].forEach(([c, x, y, s]) => {
+  [[0x3a3f48, -9, 4, 18], [0x2e333b, 8, -5, 16], [0x252930, -4, -8, 12], [0x3a3f48, 12, 7, 10]].forEach(([c, x, y, s]) => {
     const n = halo(c, s, 0.12); n.position.set(x, y, -18); scene.add(n);
   });
 

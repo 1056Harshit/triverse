@@ -139,7 +139,7 @@ export async function meRoutes(app: FastifyInstance) {
 
 const SettingsPatch = z.object({
   theme: z.enum(["system", "light", "dark", "auto"]),
-  accent: z.enum(["dynamic", "blue", "purple", "teal", "rose", "amber"]),
+  accent: z.enum(["dynamic", "emerald", "blue", "purple", "teal", "rose", "amber"]),
   motion: z.enum(["full", "reduced", "off"]),
   largeText: z.boolean(), haptics: z.boolean(), autoSpeak: z.boolean(),
   voiceLanguage: z.enum(["hi", "pa", "en"]),

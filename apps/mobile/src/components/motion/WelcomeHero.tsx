@@ -8,7 +8,7 @@ import Animated, {
 import { SERVICES } from "@triverse/shared";
 
 
-const INK = "#060A18";
+const INK = "#0E1013"; // neutral near-black, no blue cast
 const C = { farm: SERVICES.farm.primary, ride: SERVICES.ride.primary, dine: SERVICES.dine.primary };
 
 /** 0→1 once, after `delay` ms. */
@@ -43,8 +43,8 @@ export function WelcomeBackdrop() {
           <Defs>
             {(["farm", "ride", "dine"] as const).map((k) => (
               <RadialGradient key={k} id={`glow-${k}`} cx="50%" cy="50%" r="50%">
-                <Stop offset="0" stopColor={C[k]} stopOpacity={0.5} />
-                <Stop offset="0.45" stopColor={C[k]} stopOpacity={0.16} />
+                <Stop offset="0" stopColor={C[k]} stopOpacity={0.2} />
+                <Stop offset="0.45" stopColor={C[k]} stopOpacity={0.06} />
                 <Stop offset="1" stopColor={C[k]} stopOpacity={0} />
               </RadialGradient>
             ))}
@@ -115,7 +115,7 @@ function Orbit({ cx, cy, rx, ry, spark, size }: { cx: number; cy: number; rx: nu
       <Svg width={size} height={size} style={{ position: "absolute", left: 0, top: 0 }}>
         <Ellipse cx={cx} cy={cy} rx={rx} ry={ry} fill="none" stroke="rgba(157,184,255,0.4)" strokeWidth={1.2} transform={`rotate(${(ORBIT_TILT * 180) / Math.PI} ${cx} ${cy})`} />
       </Svg>
-      <Animated.View style={[{ position: "absolute", left: 0, top: 0, width: 10, height: 10, borderRadius: 5, backgroundColor: "#FFFFFF", shadowColor: "#9DB8FF", shadowOpacity: 1, shadowRadius: 8 }, s]} />
+      <Animated.View style={[{ position: "absolute", left: 0, top: 0, width: 10, height: 10, borderRadius: 5, backgroundColor: "#FFFFFF", shadowColor: "#FFFFFF", shadowOpacity: 1, shadowRadius: 8 }, s]} />
     </>
   );
 }
@@ -146,7 +146,7 @@ export function GlobeMark({ size = 260 }: { size?: number }) {
       <Orbit cx={cx} cy={cy} rx={r * 1.45} ry={r * 0.42} spark={spark} size={size} />
       {GLOBE_DOTS.map((d, i) => <GlobeDot key={i} {...d} spin={spin} r={r} cx={cx} cy={cy} appear={appear} />)}
       {/* landing ripple on the north pole */}
-      <Animated.View style={[{ position: "absolute", left: cx - 40, top: cy - r - 40, width: 80, height: 80, borderRadius: 40, borderWidth: 3, borderColor: "#9DB8FF" }, rippleStyle]} />
+      <Animated.View style={[{ position: "absolute", left: cx - 40, top: cy - r - 40, width: 80, height: 80, borderRadius: 40, borderWidth: 3, borderColor: "rgba(255,255,255,0.5)" }, rippleStyle]} />
       <Animated.View style={[{ position: "absolute", left: cx - pinW / 2, top: cy - r - pinH + 6, zIndex: 60 }, pin]}>
         <Svg width={pinW} height={pinH} viewBox="14 19 112 140">
           <Path d="M70 145 C50 115 28 100 28 75 A42 42 0 1 1 112 75 C112 100 90 115 70 145 Z" fill="#FFFFFF" />

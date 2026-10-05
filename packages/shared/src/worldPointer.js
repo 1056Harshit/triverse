@@ -3,7 +3,7 @@
 // Plain ES module with no dependencies — used by the website and by the web app.
 
 const WORLDS = {
-  brand: { c: "#2B5BD7", trail: ["#8EA9FF", "#2B5BD7", "#6F93EC"], kind: "dots" },
+  brand: { c: "#0E8A5F", trail: ["#8FD9B8", "#0E8A5F", "#C9CED6"], kind: "dots" },
   farm: { c: "#2F9E68", trail: ["🍃", "🌿", "🍂"], kind: "emoji" },
   ride: { c: "#3A6FD8", trail: ["#A9C1F5", "#3A6FD8"], kind: "streak" },
   dine: { c: "#D9693A", trail: ["✨", "⭐"], kind: "emoji" },

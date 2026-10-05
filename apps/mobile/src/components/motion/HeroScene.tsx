@@ -15,8 +15,8 @@ const APath = Animated.createAnimatedComponent(Path);
 import type { ServiceId } from "@triverse/shared";
 import { ParallaxHeader } from "./scroll";
 
-/** Every drawn banner shares one deep brand-navy backdrop, so worlds feel like one app; the world shows in the details. */
-const SCENE_BG: [string, string, string] = ["#0B1530", "#16306E", "#2B4FB3"];
+/** Every drawn banner shares one neutral charcoal backdrop, so worlds feel like one app; the world shows in the details. */
+const SCENE_BG: [string, string, string] = ["#14171C", "#1C2027", "#2A2F38"];
 import { useTilt } from "./useTilt";
 
 const H = 210;

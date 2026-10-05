@@ -59,7 +59,7 @@ export default function Profile() {
         {SERVICE_IDS.map((s) => (
           <Row key={s} style={{ justifyContent: "space-between" }}>
             <View><Text style={{ fontWeight: "700", color: t.text }}>{SERVICES[s].name}</Text><P small muted>{SERVICES[s].tagline}</P></View>
-            <Switch value={user.services.includes(s)} onValueChange={(v) => toggle(s, v)} trackColor={{ true: SERVICES[s].primary }} />
+            <Switch value={user.services.includes(s)} onValueChange={(v) => toggle(s, v)} trackColor={{ true: t.primary }} />
           </Row>
         ))}
       </Card></Stagger>

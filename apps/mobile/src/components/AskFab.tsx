@@ -24,12 +24,12 @@ export function AskFab() {
         onPress={() => { Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium); router.push({ pathname: "/chat/[agent]", params: { agent: "triverse", voice: "1" } }); }}
         onLongPress={() => router.push({ pathname: "/chat/[agent]", params: { agent: "triverse" } })}
         style={({ pressed }) => ({ flexDirection: "row", alignItems: "center", transform: [{ scale: pressed ? 0.94 : 1 }] })}>
-        <View style={{ backgroundColor: "rgba(15,23,42,0.88)", paddingVertical: 8, paddingLeft: 14, paddingRight: 26, borderRadius: 999, marginRight: -18 }}>
+        <View style={{ backgroundColor: "rgba(17,24,39,0.9)", paddingVertical: 8, paddingLeft: 14, paddingRight: 26, borderRadius: 999, marginRight: -18 }}>
           <Text style={{ color: "#fff", fontWeight: "800", fontSize: 14 }}>Ask Frnd</Text>
         </View>
         <View style={{ width: 62, height: 62, alignItems: "center", justifyContent: "center" }}>
-          <Animated.View style={[{ position: "absolute", width: 62, height: 62, borderRadius: 31, backgroundColor: BRAND.blue }, ringStyle]} />
-          <LinearGradient colors={["#22A35A", "#2F6FEB", "#F2643D"]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }}
+          <Animated.View style={[{ position: "absolute", width: 62, height: 62, borderRadius: 31, backgroundColor: BRAND.action }, ringStyle]} />
+          <LinearGradient colors={[BRAND.action, "#0B6B4A"]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }}
             style={{ width: 62, height: 62, borderRadius: 31, alignItems: "center", justifyContent: "center", borderWidth: 3, borderColor: "#fff" }}>
             <Text style={{ fontSize: 26 }}>🎤</Text>
           </LinearGradient>

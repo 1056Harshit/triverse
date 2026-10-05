@@ -58,7 +58,7 @@ export function ServiceSwitcher() {
                   <Pressable onPress={() => setConfirm(null)} style={{ flex: 1, paddingVertical: 14, borderRadius: 999, borderWidth: 1.5, borderColor: t.border, alignItems: "center" }}>
                     <Text style={{ fontWeight: "700", color: t.text }}>No</Text>
                   </Pressable>
-                  <Pressable onPress={() => go(confirm)} style={{ flex: 1, paddingVertical: 14, borderRadius: 999, backgroundColor: SERVICES[confirm].primary, alignItems: "center" }}>
+                  <Pressable onPress={() => go(confirm)} style={{ flex: 1, paddingVertical: 14, borderRadius: 999, backgroundColor: t.primary, alignItems: "center" }}>
                     <Text style={{ fontWeight: "800", color: "#fff" }}>Yes, add it</Text>
                   </Pressable>
                 </View>
@@ -76,13 +76,13 @@ export function ServiceSwitcher() {
               const added = user?.services.includes(s);
               return (
                 <Pressable key={s} onPress={() => pick(s)}
-                  style={({ pressed }) => ({ flexDirection: "row", alignItems: "center", gap: 14, padding: 14, borderRadius: 18, backgroundColor: on ? svc.tint : "transparent", borderWidth: 2, borderColor: on ? svc.primary : t.border, opacity: pressed ? 0.8 : 1 })}>
+                  style={({ pressed }) => ({ flexDirection: "row", alignItems: "center", gap: 14, padding: 14, borderRadius: 18, backgroundColor: t.card, borderWidth: on ? 2 : 1, borderColor: on ? t.primary : t.border, opacity: pressed ? 0.8 : 1 })}>
                   <PinMark size={40} active={s} />
                   <View style={{ flex: 1 }}>
-                    <Text style={{ fontSize: 17, fontWeight: "700", color: on ? svc.deep : t.text }}>{svc.name}</Text>
-                    <Text style={{ fontSize: 13, color: on ? svc.deep : t.muted }}>{added ? svc.tagline : "Not selected · tap to add"}</Text>
+                    <Text style={{ fontSize: 17, fontWeight: "700", color: t.text }}>{svc.name}</Text>
+                    <Text style={{ fontSize: 13, color: t.muted }}>{added ? svc.tagline : "Not selected · tap to add"}</Text>
                   </View>
-                  {on ? <Text style={{ color: svc.deep, fontWeight: "800" }}>✓</Text> : !added && <Text style={{ fontSize: 16 }}>🔒</Text>}
+                  {on ? <Text style={{ color: t.primary, fontWeight: "800" }}>✓</Text> : !added && <Text style={{ fontSize: 16 }}>🔒</Text>}
                 </Pressable>
               );
             })}

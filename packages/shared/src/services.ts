@@ -77,6 +77,10 @@ export const BRAND = {
   blue: "#2B5BD7",
   ink: "#0F172A",
   gold: "#F5B700",
+  /** 10% action colour for buttons and calls (60% neutral surfaces, 30% ink/slate). */
+  action: "#0E8A5F",
+  /** Neutral charcoal for dark banners and splash (no blue cast). */
+  charcoal: "#14171C",
   domain: "pvtfrnd.com",
   /** The 3-colour signature gradient. Reserved for the logo ("Frnd") so it stays special. */
   gradient: ["#2F9E68", "#3A6FD8", "#D9693A"],

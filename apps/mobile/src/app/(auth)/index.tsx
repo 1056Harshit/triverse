@@ -42,7 +42,7 @@ export default function Welcome() {
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: "#060A18" }}>
+    <View style={{ flex: 1, backgroundColor: "#0E1013" }}>
       <StatusBar style="light" />
       <WelcomeBackdrop />
       <SafeAreaView edges={["top"]} style={{ flex: 1 }}>

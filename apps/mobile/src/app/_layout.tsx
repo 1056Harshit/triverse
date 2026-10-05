@@ -37,7 +37,7 @@ function Gate() {
 /** Shown only on a first open after install while a sleeping server wakes up. */
 function Connecting() {
   return (
-    <View style={{ flex: 1, backgroundColor: "#060A18", alignItems: "center", justifyContent: "center", gap: 14, padding: 32 }}>
+    <View style={{ flex: 1, backgroundColor: "#0E1013", alignItems: "center", justifyContent: "center", gap: 14, padding: 32 }}>
       <PinMark size={64} onDark />
       <ActivityIndicator color="#FFFFFF" />
       <Text style={{ color: "#FFFFFF", fontWeight: "700", fontSize: 16 }}>Connecting to PvtFrnd…</Text>

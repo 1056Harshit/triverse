@@ -6,11 +6,12 @@ export const radius = { sm: 10, md: 16, lg: 24, pill: 999 } as const;
 export const space = (n: number) => n * 4;
 
 const light = {
-  bg: "#F6F8FC", card: "#FFFFFF", text: "#0F172A", muted: "#64748B", subtle: "#94A3B8", border: "#E2E8F0",
+  // 60% neutral surfaces with no blue cast; 30% ink/slate text; the 10% action colour comes from the accent.
+  bg: "#F5F6F7", card: "#FFFFFF", text: "#111827", muted: "#6B7280", subtle: "#9CA3AF", border: "#E5E7EB",
   danger: "#DC2626", success: "#16A34A", warning: "#D97706", overlay: "rgba(15,23,42,0.45)",
 };
 const dark: typeof light = {
-  bg: "#0B1220", card: "#131C2E", text: "#E5E7EB", muted: "#94A3B8", subtle: "#64748B", border: "#1F2A40",
+  bg: "#0F1115", card: "#181B21", text: "#E5E7EB", muted: "#9CA3AF", subtle: "#6B7280", border: "#262A31",
   danger: "#F87171", success: "#4ADE80", warning: "#FBBF24", overlay: "rgba(0,0,0,0.6)",
 };
 
@@ -34,7 +35,7 @@ export function usePalette(service?: ServiceId | "brand"): Palette {
   const { settings } = useAuth();
   const base = scheme === "dark" ? dark : light;
   const s = settings.accent !== "dynamic" ? ACCENTS[settings.accent]
-    : !service || service === "brand" ? { primary: BRAND.blue, deep: BRAND.navy, tint: "#EEF3FF" } : SERVICES[service];
+    : !service || service === "brand" ? ACCENTS.emerald : SERVICES[service];
   return { ...base, primary: s.primary, deep: s.deep, tint: scheme === "dark" ? s.deep + "33" : s.tint, onPrimary: "#FFFFFF" };
 }
 

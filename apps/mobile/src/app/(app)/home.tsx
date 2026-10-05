@@ -44,7 +44,7 @@ function Home() {
       {/* Logo + greeting */}
       <ParallaxHeader>
         <View style={{ borderRadius: 28, overflow: "hidden" }}>
-          <LinearGradient colors={["#0B1530", "#16306E", "#2B4FB3"]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={{ padding: 20, paddingBottom: 22 }}>
+          <LinearGradient colors={["#14171C", "#1C2027", "#2A2F38"]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={{ padding: 20, paddingBottom: 22 }}>
             <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
               <Wordmark size={24} onDark />
               <View style={{ flexDirection: "row", gap: 8 }}>

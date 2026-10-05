@@ -77,8 +77,8 @@ export function WorldWarp() {
   const svc = SERVICES[world];
   return (
     <Animated.View key={run} pointerEvents="none" style={[{ position: "absolute", left: 0, top: 0, width, height, zIndex: 1000, overflow: "hidden" }, overlay]}>
-      <Animated.View style={[{ position: "absolute", left: ox - radius, top: oy - radius, width: radius * 2, height: radius * 2, borderRadius: radius, backgroundColor: "#13245C" }, circle]} />
-      <Animated.View style={[{ position: "absolute", left: ox - radius * 0.7, top: oy - radius * 0.7, width: radius * 1.4, height: radius * 1.4, borderRadius: radius, backgroundColor: "#1B3A8C", opacity: 0.6 }, circle]} />
+      <Animated.View style={[{ position: "absolute", left: ox - radius, top: oy - radius, width: radius * 2, height: radius * 2, borderRadius: radius, backgroundColor: "#14171C" }, circle]} />
+      <Animated.View style={[{ position: "absolute", left: ox - radius * 0.7, top: oy - radius * 0.7, width: radius * 1.4, height: radius * 1.4, borderRadius: radius, backgroundColor: "#262B33", opacity: 0.7 }, circle]} />
       <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
         {PARTICLES[world].map((e, i) => <Particle key={i} emoji={e} index={i} total={PARTICLES[world].length} burst={burst} />)}
         <Animated.View style={[{ alignItems: "center", gap: 14 }, pinStyle]}>
