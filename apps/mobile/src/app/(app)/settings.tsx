@@ -146,7 +146,7 @@ export default function Settings() {
         <Link label="Help & support" url={`mailto:${LEGAL_CONTACT}`} />
         <PhotoCredits />
         <P small muted>Maps data © OpenStreetMap contributors. Prices shown in the app are estimates and not confirmed.</P>
-        <P small muted>TriVerse 1.0.4 · by PvtFrnd</P>
+        <P small muted>TriVerse 1.0.5 · by PvtFrnd</P>
       </Section>
 
       <Button label="Sign out" variant="secondary" onPress={signOut} />

@@ -1,7 +1,6 @@
 import { Redirect } from "expo-router";
-import { useAuth } from "@/lib/auth";
 
-export default function Home() {
-  const { user } = useAuth();
-  return <Redirect href={`/${user?.activeService ?? "farm"}`} />;
+/** The app opens on the TriVerse home (logo + all your worlds). */
+export default function Index() {
+  return <Redirect href="/home" />;
 }

@@ -3,6 +3,7 @@ import { router, Stack } from "expo-router";
 import { ServiceSwitcher } from "@/components/ServiceSwitcher";
 import { WorldWarp } from "@/components/motion/WorldWarp";
 import { useMotion } from "@/lib/theme";
+import { goHome } from "@/lib/nav";
 import { useTheme } from "@/components/ui";
 import { useAuth } from "@/lib/auth";
 
@@ -20,11 +21,14 @@ function Avatar() {
   );
 }
 
-/** "☀️ Your day" brief + profile, top-right on every dashboard. */
+/** 🏠 Home, "☀️ Your day" brief and profile, top-right on every dashboard. */
 function HeaderActions() {
   const t = useTheme();
   return (
     <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
+      <Pressable accessibilityLabel="Home" onPress={() => goHome()} style={{ width: 34, height: 34, borderRadius: 17, backgroundColor: t.tint, alignItems: "center", justifyContent: "center" }}>
+        <Text style={{ fontSize: 16 }}>🏠</Text>
+      </Pressable>
       <Pressable accessibilityLabel="Your day" onPress={() => router.push("/today")} style={{ width: 34, height: 34, borderRadius: 17, backgroundColor: t.tint, alignItems: "center", justifyContent: "center" }}>
         <Text style={{ fontSize: 17 }}>☀️</Text>
       </Pressable>
@@ -43,6 +47,7 @@ export default function AppLayout() {
     <View style={{ flex: 1 }}>
       <Stack screenOptions={{ headerStyle: { backgroundColor: t.bg }, headerShadowVisible: false, headerTintColor: t.text, headerBackButtonDisplayMode: "minimal", animation: anim("ios_from_right"), animationDuration: 320 }}>
         <Stack.Screen name="index" options={{ headerShown: false, animation: "none" }} />
+        <Stack.Screen name="home" options={{ headerShown: false, animation: anim("fade") }} />
         <Stack.Screen name="farm/index" options={home} />
         <Stack.Screen name="ride/index" options={home} />
         <Stack.Screen name="dine/index" options={home} />

@@ -13,6 +13,7 @@ import Animated, {
 
 const APath = Animated.createAnimatedComponent(Path);
 import type { ServiceId } from "@triverse/shared";
+import { ParallaxHeader } from "./scroll";
 import { useTilt } from "./useTilt";
 
 const H = 210;
@@ -518,7 +519,11 @@ function StillHero({ service, title, subtitle }: { service: ServiceId; title: st
   );
 }
 
-export function HeroScene({ service, title, subtitle }: { service: ServiceId; title: string; subtitle: string }) {
+export function HeroScene(props: { service: ServiceId; title: string; subtitle: string }) {
+  return <ParallaxHeader><HeroBody {...props} /></ParallaxHeader>;
+}
+
+function HeroBody({ service, title, subtitle }: { service: ServiceId; title: string; subtitle: string }) {
   const { settings } = useAuth();
   const motion = useMotion();
   const custom = settings.banners[service];

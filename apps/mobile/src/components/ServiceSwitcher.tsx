@@ -7,6 +7,7 @@ import { SERVICES, SERVICE_IDS, type ServiceId } from "@triverse/shared";
 import { useAuth } from "@/lib/auth";
 import { PinMark, Wordmark } from "./Logo";
 import { warpTo } from "./motion/WorldWarp";
+import { goHome } from "@/lib/nav";
 import { useTheme } from "./ui";
 
 /** The pin in the header: tap to switch between Farm, Ride and Dine. */
@@ -63,7 +64,12 @@ export function ServiceSwitcher() {
                 </View>
               </View>
             ) : <>
-            <Text style={{ fontSize: 20, fontWeight: "800", color: t.text }}>Switch your world</Text>
+            <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
+              <Text style={{ fontSize: 20, fontWeight: "800", color: t.text }}>Switch your world</Text>
+              <Pressable onPress={() => { close(); goHome(); }} style={{ flexDirection: "row", alignItems: "center", gap: 6, paddingVertical: 8, paddingHorizontal: 14, borderRadius: 999, backgroundColor: t.tint }}>
+                <Text style={{ fontSize: 14 }}>🏠</Text><Text style={{ color: t.deep, fontWeight: "800" }}>Home</Text>
+              </Pressable>
+            </View>
             {SERVICE_IDS.map((s) => {
               const svc = SERVICES[s];
               const on = s === active;

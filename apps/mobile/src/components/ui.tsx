@@ -1,10 +1,12 @@
 import type { ReactNode } from "react";
-import { ActivityIndicator, Pressable, ScrollView, Text, TextInput, View, type TextInputProps, type ViewStyle } from "react-native";
+import Animated, { useAnimatedScrollHandler, useSharedValue } from "react-native-reanimated";
+import { ActivityIndicator, Pressable, Text, TextInput, View, type TextInputProps, type ViewStyle } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Haptics } from "@/lib/haptics";
 import { radius, space, type, usePalette, useTextScale, type Palette } from "@/lib/theme";
 import { useActiveService } from "@/lib/auth";
 import { Tilt3D } from "./motion/Tilt3D";
+import { ScrollProvider } from "./motion/scroll";
 
 export function useTheme(): Palette {
   return usePalette(useActiveService());
@@ -12,10 +14,16 @@ export function useTheme(): Palette {
 
 export function Screen({ children, scroll = true, padded = true, edges = ["bottom"], fab = false }: { children: ReactNode; scroll?: boolean; padded?: boolean; edges?: ("top" | "bottom")[]; fab?: boolean }) {
   const t = useTheme();
+  const y = useSharedValue(0);
+  const onScroll = useAnimatedScrollHandler((e) => { y.set(e.contentOffset.y); });
   const inner = <View style={{ padding: padded ? space(4) : 0, paddingBottom: fab ? 110 : padded ? space(4) : 0, gap: space(4) }}>{children}</View>;
   return (
     <SafeAreaView edges={edges} style={{ flex: 1, backgroundColor: t.bg }}>
-      {scroll ? <ScrollView contentInsetAdjustmentBehavior="automatic" keyboardShouldPersistTaps="handled">{inner}</ScrollView> : <View style={{ flex: 1 }}>{inner}</View>}
+      <ScrollProvider value={scroll ? y : null}>
+        {scroll
+          ? <Animated.ScrollView onScroll={onScroll} scrollEventThrottle={16} contentInsetAdjustmentBehavior="automatic" keyboardShouldPersistTaps="handled">{inner}</Animated.ScrollView>
+          : <View style={{ flex: 1 }}>{inner}</View>}
+      </ScrollProvider>
     </SafeAreaView>
   );
 }
