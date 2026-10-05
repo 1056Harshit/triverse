@@ -4,6 +4,8 @@ const Env = z.object({
   NODE_ENV: z.enum(["development", "production", "test"]).default("development"),
   PORT: z.coerce.number().default(4000),
   APP_URL: z.string().url().default("https://pvtfrnd.com"),
+  /** Browser origins allowed to call the API (the website and the web app). */
+  WEB_ORIGINS: z.string().default("https://pvtfrnd.com,https://www.pvtfrnd.com,https://triverse-web.onrender.com"),
   /** Supabase Postgres (Session pooler URI). Tests use "pglite:memory" (in-memory, never on disk). */
   DATABASE_URL: z.string().default("postgres://triverse:triverse@localhost:5432/triverse"),
   /** Supabase Storage for avatars, banners and posters. */

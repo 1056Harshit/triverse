@@ -1,0 +1,11 @@
+{
+  "name": "@triverse/web",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node --experimental-strip-types build.ts",
+    "build:site": "node --experimental-strip-types build.ts --site-only",
+    "serve": "node serve.mjs"
+  },
+  "dependencies": { "@triverse/shared": "*" }
+}

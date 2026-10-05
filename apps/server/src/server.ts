@@ -21,7 +21,7 @@ export async function buildServer() {
     bodyLimit: 1024 * 1024,
     trustProxy: true,
   });
-  await app.register(cors, { origin: isProd ? [env.APP_URL] : true, methods: ["GET", "POST", "PUT", "PATCH", "DELETE"] });
+  await app.register(cors, { origin: isProd ? [env.APP_URL, ...env.WEB_ORIGINS.split(",").map((o) => o.trim()).filter(Boolean)] : true, methods: ["GET", "POST", "PUT", "PATCH", "DELETE"] });
   await app.register(jwt, { secret: env.JWT_SECRET });
   // Tests run many logins from one address; rate limits are exercised separately.
   await app.register(rateLimit, { max: 120, timeWindow: "1 minute", allowList: env.NODE_ENV === "test" ? () => true : undefined });

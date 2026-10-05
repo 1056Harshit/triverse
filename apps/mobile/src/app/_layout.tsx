@@ -7,11 +7,13 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { PinMark } from "@/components/Logo";
 import { AuthProvider, useAuth } from "@/lib/auth";
 import { useScheme } from "@/lib/theme";
+import { useWorldCursor } from "@/lib/cursor";
 
 SplashScreen.preventAutoHideAsync();
 
 function Gate() {
   const { ready, booted, user } = useAuth();
+  useWorldCursor();
   useEffect(() => { if (booted) SplashScreen.hideAsync(); }, [booted]);
   if (!booted) return null;
   if (!ready) return <Connecting />;

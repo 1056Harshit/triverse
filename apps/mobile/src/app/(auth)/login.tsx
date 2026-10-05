@@ -5,6 +5,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { PinMark } from "@/components/Logo";
 import { Button, Field, H, P, useTheme } from "@/components/ui";
 import { api, ApiError } from "@/lib/api";
+import { CallNote } from "@/components/CallNote";
 
 export default function Login() {
   const t = useTheme();
@@ -28,7 +29,7 @@ export default function Login() {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: t.bg }}>
-      <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined} style={{ flex: 1, padding: 24, gap: 20 }}>
+      <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined} style={{ flex: 1, padding: 24, gap: 20, width: "100%", maxWidth: 560, alignSelf: "center" }}>
         <Pressable onPress={() => router.back()}><Text style={{ fontSize: 26, color: t.text }}>←</Text></Pressable>
         <PinMark size={56} />
         <H level="hero">{channel === "sms" ? "What's your number?" : "What's your email?"}</H>
@@ -42,6 +43,8 @@ export default function Login() {
             </Pressable>
           ))}
         </View>
+
+        {channel === "sms" && <CallNote />}
 
         {channel === "sms" ? (
           <View style={{ flexDirection: "row", gap: 10, alignItems: "flex-end" }}>
@@ -61,3 +64,4 @@ export default function Login() {
     </SafeAreaView>
   );
 }
+

@@ -16,3 +16,4 @@ apps/server/.data-old-copy/
 *.tsbuildinfo
 .env.*
 *.local.gs
+apps/web/dist/

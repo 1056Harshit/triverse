@@ -6,6 +6,7 @@ import { Haptics } from "@/lib/haptics";
 import { Button, H, P, useTheme } from "@/components/ui";
 import { api, ApiError } from "@/lib/api";
 import { useAuth } from "@/lib/auth";
+import { CallNote } from "@/components/CallNote";
 
 const LEN = 6;
 
@@ -48,10 +49,12 @@ export default function Otp() {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: t.bg, padding: 24, gap: 20 }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: t.bg }}>
+      <View style={{ flex: 1, padding: 24, gap: 20, width: "100%", maxWidth: 560, alignSelf: "center" }}>
       <Pressable onPress={() => router.back()}><Text style={{ fontSize: 26, color: t.text }}>←</Text></Pressable>
       <H level="hero">Enter the code</H>
       <P muted>Sent to {target}. {channel === "email" ? "Check your inbox (and spam)." : "It may take a few seconds."}</P>
+      {channel === "sms" && <CallNote />}
 
       <Pressable onPress={() => input.current?.focus()} style={{ flexDirection: "row", justifyContent: "space-between" }}>
         {Array.from({ length: LEN }, (_, i) => {
@@ -72,8 +75,9 @@ export default function Otp() {
         <Text style={{ color: wait > 0 ? t.subtle : t.primary, fontWeight: "700" }}>{wait > 0 ? `Resend code in ${wait}s` : "Resend code"}</Text>
       </Pressable>
       <View style={{ flex: 1 }} />
-      <P small muted center>🛡 TriVerse will never call you to ask for this code.</P>
+      <P small muted center>🛡 Only the automated call reads out your code. A real person from TriVerse will never ask you for it.</P>
       <Button label="Verify" onPress={() => verify()} loading={busy} disabled={code.length !== LEN} />
+      </View>
     </SafeAreaView>
   );
 }
