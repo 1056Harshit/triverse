@@ -14,7 +14,9 @@ import Animated, {
 const APath = Animated.createAnimatedComponent(Path);
 import type { ServiceId } from "@triverse/shared";
 import { ParallaxHeader } from "./scroll";
-import { GradientBar } from "@/components/BrandGradient";
+
+/** Every drawn banner shares one deep brand-navy backdrop, so worlds feel like one app; the world shows in the details. */
+const SCENE_BG: [string, string, string] = ["#0B1530", "#16306E", "#2B4FB3"];
 import { useTilt } from "./useTilt";
 
 const H = 210;
@@ -102,7 +104,7 @@ function RainDrop({ x, delay }: { x: number; delay: number }) {
 
 function FarmHero({ title, subtitle }: { title: string; subtitle: string }) {
   return (
-    <Scene colors={["#38BDF8", "#A7F3D0", "#86EFAC"]} title={title} subtitle={subtitle}>
+    <Scene colors={SCENE_BG} title={title} subtitle={subtitle}>
       {(tilt, w) => (
         <>
           <Layer depth={5} tilt={tilt}><SunRays x={w - 40} y={70} /></Layer>
@@ -166,7 +168,7 @@ function RideHero({ title, subtitle }: { title: string; subtitle: string }) {
   const sway = useLoop(2600, { bounce: true, easing: Easing.inOut(Easing.sin) });
   const car = useAnimatedStyle(() => ({ transform: [{ translateX: interpolate(sway.get(), [0, 1], [-10, 10]) }, { rotate: `${interpolate(sway.get(), [0, 1], [-2, 2])}deg` }] }));
   return (
-    <Scene colors={["#312E81", "#7C3AED", "#F97316"]} title={title} subtitle={subtitle}>
+    <Scene colors={SCENE_BG} title={title} subtitle={subtitle}>
       {(tilt, w) => {
         const cx = w / 2;
         return (
@@ -236,7 +238,7 @@ function Bulb({ x, y, delay, color }: { x: number; y: number; delay: number; col
 function DineHero({ title, subtitle }: { title: string; subtitle: string }) {
   const spin = useLoop(12000);
   return (
-    <Scene colors={["#431407", "#C2410C", "#FB923C"]} title={title} subtitle={subtitle}>
+    <Scene colors={SCENE_BG} title={title} subtitle={subtitle}>
       {(tilt, w) => {
         const cx = w * 0.62, cy = 92;
         // Fairy lights hang along a sagging curve.
@@ -282,7 +284,7 @@ function HealthHero({ title, subtitle }: { title: string; subtitle: string }) {
   const beat = useLoop(1200, { easing: Easing.out(Easing.quad) });
   const heart = useAnimatedStyle(() => ({ transform: [{ scale: interpolate(beat.get(), [0, 0.15, 0.3, 0.45, 1], [1, 1.25, 1, 1.15, 1]) }] }));
   return (
-    <Scene colors={["#042F2E", "#0F766E", "#14B8A6"]} title={title} subtitle={subtitle}>
+    <Scene colors={SCENE_BG} title={title} subtitle={subtitle}>
       {(tilt, w) => {
         const len = (w + 120) * 1.6;
         return (
@@ -354,7 +356,7 @@ function TravelHero({ title, subtitle }: { title: string; subtitle: string }) {
   const spin = useLoop(30000);
   const compass = useAnimatedStyle(() => ({ transform: [{ rotate: `${spin.get() * 360}deg` }] }));
   return (
-    <Scene colors={["#2E1065", "#6D28D9", "#C4B5FD"]} title={title} subtitle={subtitle}>
+    <Scene colors={SCENE_BG} title={title} subtitle={subtitle}>
       {(tilt, w) => (
         <>
           <Layer depth={5} tilt={tilt}>
@@ -524,8 +526,6 @@ export function HeroScene(props: { service: ServiceId; title: string; subtitle: 
   return (
     <ParallaxHeader>
       <HeroBody {...props} />
-      {/* Brand underline: the 3-colour gradient beneath every world banner */}
-      <View style={{ alignItems: "center", marginTop: 10 }}><GradientBar height={4} style={{ width: "34%" }} /></View>
     </ParallaxHeader>
   );
 }

@@ -44,7 +44,7 @@ function Home() {
       {/* Logo + greeting */}
       <ParallaxHeader>
         <View style={{ borderRadius: 28, overflow: "hidden" }}>
-          <LinearGradient colors={["#0B3D23", "#14306E", "#6E2612"]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={{ padding: 20, paddingBottom: 22 }}>
+          <LinearGradient colors={["#0B1530", "#16306E", "#2B4FB3"]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={{ padding: 20, paddingBottom: 22 }}>
             <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
               <Wordmark size={24} onDark />
               <View style={{ flexDirection: "row", gap: 8 }}>
@@ -68,22 +68,22 @@ function Home() {
         const current = s === user.activeService;
         return (
           <Stagger key={s} index={i + 1}>
-            <Tilt3D onPress={() => open(s)} depth={8}>
-              <LinearGradient colors={[svc.primary, svc.deep]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }}
-                style={{ borderRadius: 24, padding: 18, flexDirection: "row", alignItems: "center", gap: 16, minHeight: 104, overflow: "hidden" }}>
-                <Text style={{ position: "absolute", right: -8, bottom: -18, fontSize: 96, opacity: 0.18 }}>{ART[s]}</Text>
-                <View style={{ width: 58, height: 58, borderRadius: 18, backgroundColor: "rgba(255,255,255,0.95)", alignItems: "center", justifyContent: "center" }}>
-                  <Text style={{ fontSize: 30 }}>{ART[s]}</Text>
+            <Tilt3D onPress={() => open(s)} depth={6}>
+              {/* Neutral card; the world shows only in its icon chip and a thin marker */}
+              <View style={{ borderRadius: 20, padding: 16, flexDirection: "row", alignItems: "center", gap: 14, backgroundColor: t.card, borderWidth: 1, borderColor: current ? t.primary : t.border, overflow: "hidden" }}>
+                <View style={{ position: "absolute", left: 0, top: 18, bottom: 18, width: 3, borderRadius: 3, backgroundColor: svc.primary }} />
+                <View style={{ width: 52, height: 52, borderRadius: 16, backgroundColor: svc.tint, alignItems: "center", justifyContent: "center" }}>
+                  <Text style={{ fontSize: 26 }}>{ART[s]}</Text>
                 </View>
                 <View style={{ flex: 1, gap: 2 }}>
                   <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
-                    <Text style={{ color: "#FFFFFF", fontSize: 20, fontWeight: "800" }}>{svc.name}</Text>
-                    {current && <Text style={{ color: svc.deep, backgroundColor: "#FFFFFF", fontSize: 11, fontWeight: "800", paddingHorizontal: 8, paddingVertical: 2, borderRadius: 999, overflow: "hidden" }}>LAST USED</Text>}
+                    <Text style={{ color: t.text, fontSize: 17, fontWeight: "800" }}>{svc.name}</Text>
+                    {current && <Text style={{ color: t.primary, backgroundColor: t.tint, fontSize: 10, fontWeight: "800", letterSpacing: 0.5, paddingHorizontal: 8, paddingVertical: 2, borderRadius: 999, overflow: "hidden" }}>LAST USED</Text>}
                   </View>
-                  <Text style={{ color: "rgba(255,255,255,0.88)", fontSize: 13 }} numberOfLines={2}>{svc.tagline}</Text>
+                  <Text style={{ color: t.muted, fontSize: 13 }} numberOfLines={2}>{svc.tagline}</Text>
                 </View>
-                <Text style={{ color: "#FFFFFF", fontSize: 26, fontWeight: "300" }}>›</Text>
-              </LinearGradient>
+                <Text style={{ color: t.subtle, fontSize: 24, fontWeight: "300" }}>›</Text>
+              </View>
             </Tilt3D>
           </Stagger>
         );
@@ -106,10 +106,10 @@ function Home() {
             <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 10 }}>
               {others.map((s) => (
                 <Pressable key={s} onPress={() => add(s)}
-                  style={({ pressed }) => ({ flexBasis: "46%", flexGrow: 1, borderRadius: 18, padding: 14, gap: 4, borderWidth: 1.5, borderStyle: "dashed", borderColor: SERVICES[s].primary, backgroundColor: t.card, opacity: pressed ? 0.8 : 1 })}>
+                  style={({ pressed }) => ({ flexBasis: "46%", flexGrow: 1, borderRadius: 18, padding: 14, gap: 4, borderWidth: 1.5, borderStyle: "dashed", borderColor: t.border, backgroundColor: t.card, opacity: pressed ? 0.8 : 1 })}>
                   <Text style={{ fontSize: 24 }}>{ART[s]}</Text>
                   <Text style={{ color: t.text, fontWeight: "800" }}>{SERVICES[s].name}</Text>
-                  <Text style={{ color: SERVICES[s].deep, fontWeight: "700", fontSize: 12 }}>＋ Add</Text>
+                  <Text style={{ color: t.primary, fontWeight: "700", fontSize: 12 }}>＋ Add</Text>
                 </Pressable>
               ))}
             </View>

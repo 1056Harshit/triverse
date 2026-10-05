@@ -4,7 +4,7 @@ const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
 const finePointer = matchMedia("(hover: hover) and (pointer: fine)").matches;
 
 const WORLDS = {
-  brand: 0x5b8ef5, farm: 0x22a35a, ride: 0x2f6feb, dine: 0xf2643d, health: 0x0d9488, travel: 0x7c3aed,
+  brand: 0x8ea9ff, farm: 0x4fb283, ride: 0x6f93ec, dine: 0xe5885f, health: 0x45b3ad, travel: 0x8e7ee6,
 };
 
 /* ---------- Split the hero title into letters for the 3D entrance ---------- */
@@ -157,11 +157,11 @@ async function startUniverse() {
 
   // --- Five world planets ---
   const PLANETS = [
-    { id: "farm", name: "Farm", emoji: "🌾", color: 0x22a35a, deep: 0x14703d, r: 0.46, orbit: 2.3, speed: 0.32, tilt: 0.15, phase: 0.2, ring: false },
-    { id: "ride", name: "Ride", emoji: "🚗", color: 0x2f6feb, deep: 0x1e4fb8, r: 0.52, orbit: 3.05, speed: 0.24, tilt: -0.12, phase: 1.6, ring: true },
-    { id: "dine", name: "Dine & Stay", emoji: "🍽", color: 0xf2643d, deep: 0xb8401e, r: 0.5, orbit: 3.8, speed: 0.19, tilt: 0.1, phase: 3.1, ring: false },
-    { id: "health", name: "Health", emoji: "🏥", color: 0x0d9488, deep: 0x0f766e, r: 0.42, orbit: 4.5, speed: 0.15, tilt: -0.08, phase: 4.4, ring: true },
-    { id: "travel", name: "Travel", emoji: "✈️", color: 0x7c3aed, deep: 0x5b21b6, r: 0.55, orbit: 5.2, speed: 0.12, tilt: 0.06, phase: 5.5, ring: false },
+    { id: "farm", name: "Farm", emoji: "🌾", color: 0x4fb283, deep: 0x1f6b47, r: 0.46, orbit: 2.3, speed: 0.32, tilt: 0.15, phase: 0.2, ring: false },
+    { id: "ride", name: "Ride", emoji: "🚗", color: 0x6f93ec, deep: 0x26489c, r: 0.52, orbit: 3.05, speed: 0.24, tilt: -0.12, phase: 1.6, ring: true },
+    { id: "dine", name: "Dine & Stay", emoji: "🍽", color: 0xe5885f, deep: 0x9a4522, r: 0.5, orbit: 3.8, speed: 0.19, tilt: 0.1, phase: 3.1, ring: false },
+    { id: "health", name: "Health", emoji: "🏥", color: 0x45b3ad, deep: 0x136b67, r: 0.42, orbit: 4.5, speed: 0.15, tilt: -0.08, phase: 4.4, ring: true },
+    { id: "travel", name: "Travel", emoji: "✈️", color: 0x8e7ee6, deep: 0x4a3ba0, r: 0.55, orbit: 5.2, speed: 0.12, tilt: 0.06, phase: 5.5, ring: false },
   ];
   // Banded surface texture so each planet visibly spins.
   const bandTex = (a, b) => {
@@ -228,7 +228,7 @@ async function startUniverse() {
     const pts = new THREE.Points(geo, new THREE.PointsMaterial({ size: 0.05 * (li + 1), color: 0xdbe4ff, transparent: true, opacity: 0.35 + li * 0.22, depthWrite: false, sizeAttenuation: true }));
     scene.add(pts); return { pts, depth };
   });
-  [[0x2f6feb, -9, 4, 18], [0x7c3aed, 8, -5, 16], [0x22a35a, -4, -8, 12], [0xf2643d, 12, 7, 10]].forEach(([c, x, y, s]) => {
+  [[0x2b5bd7, -9, 4, 18], [0x3a4fb0, 8, -5, 16], [0x1b3a8c, -4, -8, 12], [0x2b5bd7, 12, 7, 10]].forEach(([c, x, y, s]) => {
     const n = halo(c, s, 0.12); n.position.set(x, y, -18); scene.add(n);
   });
 

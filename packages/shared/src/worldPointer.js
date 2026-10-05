@@ -3,12 +3,12 @@
 // Plain ES module with no dependencies — used by the website and by the web app.
 
 const WORLDS = {
-  brand: { c: "#5B8EF5", trail: ["#22A35A", "#2F6FEB", "#F2643D"], kind: "dots" },
-  farm: { c: "#22A35A", trail: ["🍃", "🌿", "🍂"], kind: "emoji" },
-  ride: { c: "#2F6FEB", trail: ["#93C5FD", "#2F6FEB"], kind: "streak" },
-  dine: { c: "#F2643D", trail: ["✨", "⭐"], kind: "emoji" },
-  health: { c: "#0D9488", trail: ["❤", "✚"], kind: "glyph" },
-  travel: { c: "#7C3AED", trail: ["☁️"], kind: "emoji" },
+  brand: { c: "#2B5BD7", trail: ["#8EA9FF", "#2B5BD7", "#6F93EC"], kind: "dots" },
+  farm: { c: "#2F9E68", trail: ["🍃", "🌿", "🍂"], kind: "emoji" },
+  ride: { c: "#3A6FD8", trail: ["#A9C1F5", "#3A6FD8"], kind: "streak" },
+  dine: { c: "#D9693A", trail: ["✨", "⭐"], kind: "emoji" },
+  health: { c: "#1C9A94", trail: ["❤", "✚"], kind: "glyph" },
+  travel: { c: "#6E5BD6", trail: ["☁️"], kind: "emoji" },
 };
 
 // White glyphs drawn in a 24×24 box; the car and plane point right (0°) so they can face the motion.

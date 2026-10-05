@@ -10,7 +10,7 @@ export type MotionLevel = "full" | "reduced" | "off";
 export interface UserSettings {
   /** system = follow phone; auto = dark from 7 PM to 6 AM. */
   theme: ThemeMode;
-  /** dynamic = each world uses its own colour; otherwise one accent everywhere. */
+  /** One accent across the app (default: PvtFrnd blue), or "dynamic" = each world uses its own colour. */
   accent: AccentMode;
   motion: MotionLevel;
   /** Larger text and buttons for easier reading. */
@@ -24,11 +24,11 @@ export interface UserSettings {
 }
 
 export const DEFAULT_SETTINGS: UserSettings = {
-  theme: "system", accent: "dynamic", motion: "full", largeText: false, haptics: true, autoSpeak: false, voiceLanguage: "hi", banners: {},
+  theme: "system", accent: "blue", motion: "full", largeText: false, haptics: true, autoSpeak: false, voiceLanguage: "hi", banners: {},
 };
 
 export const ACCENTS: Record<Exclude<AccentMode, "dynamic">, { primary: string; deep: string; tint: string; label: string }> = {
-  blue: { primary: "#2F6FEB", deep: "#1E3A8A", tint: "#EEF3FF", label: "Ocean" },
+  blue: { primary: "#2B5BD7", deep: "#1B3A8C", tint: "#EEF2FD", label: "PvtFrnd blue" },
   purple: { primary: "#7C3AED", deep: "#5B21B6", tint: "#F1EBFE", label: "Royal" },
   teal: { primary: "#0D9488", deep: "#0F766E", tint: "#E6F6F4", label: "Mint" },
   rose: { primary: "#E11D48", deep: "#9F1239", tint: "#FFE4EA", label: "Rose" },

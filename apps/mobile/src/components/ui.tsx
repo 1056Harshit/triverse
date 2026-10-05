@@ -7,7 +7,6 @@ import { radius, space, type, usePalette, useTextScale, type Palette } from "@/l
 import { useActiveService } from "@/lib/auth";
 import { Tilt3D } from "./motion/Tilt3D";
 import { ScrollProvider } from "./motion/scroll";
-import { GradientFill } from "./BrandGradient";
 
 export function useTheme(): Palette {
   return usePalette(useActiveService());
@@ -47,15 +46,13 @@ export function Button({ label, onPress, variant = "primary", loading, disabled,
   label: string; onPress: () => void; variant?: "primary" | "secondary" | "ghost" | "danger"; loading?: boolean; disabled?: boolean; icon?: ReactNode; style?: ViewStyle;
 }) {
   const t = useTheme();
-  // Primary buttons wear the 3-colour brand gradient; the others stay flat.
-  const bg = variant === "primary" ? "transparent" : variant === "danger" ? t.danger : variant === "secondary" ? t.tint : "transparent";
+  const bg = variant === "primary" ? t.primary : variant === "danger" ? t.danger : variant === "secondary" ? t.tint : "transparent";
   const fg = variant === "primary" || variant === "danger" ? "#FFFFFF" : t.deep;
   return (
     <Pressable
       accessibilityRole="button" disabled={disabled || loading}
       onPress={() => { Haptics.selectionAsync(); onPress(); }}
       style={({ pressed }) => [{ backgroundColor: bg, borderRadius: radius.pill, paddingVertical: 15, paddingHorizontal: 22, flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 8, overflow: "hidden", opacity: disabled ? 0.45 : pressed ? 0.85 : 1, transform: [{ scale: pressed ? 0.98 : 1 }] }, style]}>
-      {variant === "primary" && <GradientFill style={{ position: "absolute", left: 0, right: 0, top: 0, bottom: 0 }} />}
       {loading ? <ActivityIndicator color={fg} /> : <>{icon}<ScaledText style={{ color: fg, fontSize: 16, fontWeight: "700" }}>{label}</ScaledText></>}
     </Pressable>
   );

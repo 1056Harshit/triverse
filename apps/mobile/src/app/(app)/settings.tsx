@@ -65,16 +65,16 @@ export default function Settings() {
 
         <Label>Colours</Label>
         <Row gap={2} style={{ flexWrap: "wrap" }}>
-          <Swatch label="Dynamic" selected={settings.accent === "dynamic"} onPress={() => pick("accent", "dynamic" as AccentMode)}>
-            <LinearGradient colors={[SERVICES.farm.primary, SERVICES.ride.primary, SERVICES.dine.primary, SERVICES.health.primary, SERVICES.travel.primary]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={{ flex: 1 }} />
-          </Swatch>
           {(Object.keys(ACCENTS) as Array<keyof typeof ACCENTS>).map((k) => (
             <Swatch key={k} label={ACCENTS[k].label} selected={settings.accent === k} onPress={() => pick("accent", k)}>
               <View style={{ flex: 1, backgroundColor: ACCENTS[k].primary }} />
             </Swatch>
           ))}
+          <Swatch label="Per world" selected={settings.accent === "dynamic"} onPress={() => pick("accent", "dynamic" as AccentMode)}>
+            <LinearGradient colors={[SERVICES.farm.primary, SERVICES.ride.primary, SERVICES.dine.primary, SERVICES.health.primary, SERVICES.travel.primary]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={{ flex: 1 }} />
+          </Swatch>
         </Row>
-        <P small muted>{settings.accent === "dynamic" ? "Each world uses its own colour: green Farm, blue Ride, coral Dine, teal Health, purple Travel." : "One colour across the whole app."}</P>
+        <P small muted>{settings.accent === "dynamic" ? "Buttons take each world's colour (green Farm, blue Ride, coral Dine…)." : "One calm colour across the whole app (recommended)."}</P>
       </Section>
 
       {/* Motion */}
