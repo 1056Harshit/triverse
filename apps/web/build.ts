@@ -9,7 +9,7 @@ const dist = `${root}dist`;
 rmSync(dist, { recursive: true, force: true });
 cpSync(`${root}src`, dist, { recursive: true });
 
-const API_URL = process.env.EXPO_PUBLIC_API_URL ?? "https://triverse-api.onrender.com";
+const API_URL = process.env.EXPO_PUBLIC_API_URL ?? "https://api.pvtfrnd.com";
 
 // Privacy, terms, safety and delete-account pages from the same text the app shows.
 const esc = (x: string) => x.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
@@ -52,6 +52,9 @@ ${(s.bullets ?? []).length ? `      <ul>${s.bullets!.map((b) => `<li>${rich(b)}<
 `;
 for (const id of LEGAL_ORDER) writeFileSync(`${dist}/${id}.html`, legalPage(LEGAL_DOCS[id]));
 
+// Brand images used by the sign-in emails (EMAIL_ASSET_BASE = https://pvtfrnd.com/brand).
+cpSync(`${root}../../brand/png`, `${dist}/brand`, { recursive: true });
+
 // The animated world pointer (replaces the mouse arrow) — same module the web app uses.
 cpSync(`${root}../../packages/shared/src/worldPointer.js`, `${dist}/world-pointer.js`);
 
@@ -59,7 +62,7 @@ if (!process.argv.includes("--site-only")) {
   // The full TriVerse app for the browser, served at /app.
   execSync(`npx expo export -p web --output-dir ${dist}/app`, {
     cwd: `${root}../mobile`, stdio: "inherit",
-    env: { ...process.env, EXPO_BASE_URL: "/app", EXPO_PUBLIC_API_URL: process.env.EXPO_PUBLIC_API_URL ?? "https://triverse-api.onrender.com",
+    env: { ...process.env, EXPO_BASE_URL: "/app", EXPO_PUBLIC_API_URL: process.env.EXPO_PUBLIC_API_URL ?? "https://api.pvtfrnd.com",
       EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID: process.env.EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID ?? "829702507871-r8ivtemv1gsrlpr1h20n5mqd1sqknrd2.apps.googleusercontent.com" },
   });
 }

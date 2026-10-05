@@ -29,7 +29,7 @@
         "buildType": "apk"
       },
       "env": {
-        "EXPO_PUBLIC_API_URL": "https://triverse-api.onrender.com",
+        "EXPO_PUBLIC_API_URL": "https://api.pvtfrnd.com",
         "EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID": "829702507871-r8ivtemv1gsrlpr1h20n5mqd1sqknrd2.apps.googleusercontent.com"
       }
     }

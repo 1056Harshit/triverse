@@ -34,7 +34,7 @@ services:
       - key: NODE_VERSION
         value: "22"
       - key: EXPO_PUBLIC_API_URL
-        value: https://triverse-api.onrender.com
+        value: https://api.pvtfrnd.com
     routes:
       - type: rewrite
         source: /app/*
